@@ -12,6 +12,7 @@ app.get('/', function (req, res) {
 
 
 
-var server = app.listen(22000);
-logger.trace('server listening to port 22000');
+var server = app.listen(28000);
+console.log('Server is listening at', 28000)
+
 server.timeout = 300000;
