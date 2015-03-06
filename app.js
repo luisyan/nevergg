@@ -16,7 +16,9 @@ app.get('/', function (req, res) {
     LolApi.getChampions(true, function(err, champs) {
         champs.forEach(function(champ) {
             LolApi.Static.getChampionById(champ.id,'na',function(err, result) {
-                if(champ.freeToPlay) freeChamps.push(result.name);
+                if(champ.freeToPlay) {
+                    freeChamps.push(result.name);
+                }
                 if (freeChamps.length == 10) {res.send(freeChamps);}
             });
         });
