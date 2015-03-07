@@ -4,7 +4,7 @@
 $(document).ready(function(){
 
     $('#btn_hello' ).click(function(){
-        var url = 'http://localhost:22000';
+        var url = 'http://nevergg.info:22000';
         $.ajax({
             type: 'GET',
             url: url ,
