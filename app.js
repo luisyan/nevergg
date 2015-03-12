@@ -51,7 +51,7 @@ app.get('/summoner/currentgame', function (req, res) {
             logger.trace('get current game error, result is: ', result);
             if ( result == undefined ) {
                 logger.trace('result is undefined');
-                res.json( {ret: 1, result : 'The match is unavailable, player is probably not in game, search another player'} );
+                res.json( {ret: 1, result : 'The match is unavailable, player is probably not in game, try a different player'} );
             }
             //outPutErr(res , 500, err);
         }
@@ -73,16 +73,17 @@ app.get('/summoner/solo_record', function (req, res) {
         if (err) {
             logger.trace('error getting rank info', err);
             outPutErr(res , 500, err);
-        };
-        logger.trace('555555555555', result);
-        var soloRecord = {};
-        for (var i in result[id]) {
-            if (result[id][i].queue == 'RANKED_SOLO_5x5') {
-                soloRecord = result[id][i]
+        } else {
+            logger.trace( '555555555555' , result );
+            var soloRecord = {};
+            for ( var i in result[id] ) {
+                if ( result[id][i].queue == 'RANKED_SOLO_5x5' ) {
+                    soloRecord = result[id][i]
+                }
             }
+            logger.trace( 'rank solo info: ' , soloRecord );
+            res.json( soloRecord );
         }
-        logger.trace('rank solo info: ', soloRecord);
-        res.json(soloRecord);
     });
 })
 
@@ -144,6 +145,34 @@ app.get('/mmr', function (req, res) {
     });
 })
 
+app.get('/rank/stats', function (req, res) {
+    var id = req.param('summonerId');
+    id = Number(id);
+    leagueAPI.Stats.getRanked(id, null, function(err, result) {
+        if (err) {outPutErr(res , 500, err)};
+        res.json(result);
+    });
+})
+
+app.get('/summoner/summary', function (req, res) {
+    var id = req.param('summonerId');
+    id = Number(id);
+    leagueAPI.Stats.getPlayerSummary(id, null, 'na', function(err, result) {
+        if (err) {outPutErr(res , 500, err)};
+        res.json(result);
+    });
+})
+
+var matchHistoryOpt = {rankedQueues: ['RANKED_SOLO_5x5'], beginIndex: 1, endIndex: 10};
+app.get('/summoner/matchHistory', function (req, res) {
+    var id = req.param('summonerId');
+    id = Number(id);
+    leagueAPI.getMatchHistory(id, matchHistoryOpt, 'na', function(err, result) {
+        if (err) {outPutErr(res , 500, err)};
+        logger.trace('--------------------',result);
+        res.json(result);
+    });
+})
 
 
 

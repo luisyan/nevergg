@@ -2,7 +2,6 @@
  * Created by admin on 15-03-05.
  */
 
-
 $(document).ready(function(){
     var count_load_rank = 0;
     var opts = {
@@ -35,6 +34,8 @@ $(document).ready(function(){
         obj.mmr = '#p_s_t'+team+'_p'+player+'_mmr';
         obj.league = '#p_s_t'+team+'_p'+player+'_league';
         obj.winLoss = '#p_s_t'+team+'_p'+player+'_winLoss';
+        obj.KDA = '#p_s_t'+team+'_p'+player+'_KDA';
+        obj.last10matches = '#p_s_t'+team+'_p'+player+'_last10matches';
 
         return obj;
     }
@@ -122,51 +123,71 @@ $(document).ready(function(){
                         getMMR( {summonerName : team1[0].summonerName} , grid_team1_player1 );
                         getChampionById( {championId : team1[0].championId} , grid_team1_player1 );
                         getSoloRecord( {summonerId : team1[0].summonerId} , grid_team1_player1 );
+                        getRankStats({summonerId : team1[0].summonerId}, team1[0].championId, grid_team1_player1);
+                        getMatchHistory({summonerId: team1[0].summonerId}, grid_team1_player1);
 
                         $( grid_team1_player2.name ).html( team1[1].summonerName );
                         getMMR( {summonerName : team1[1].summonerName} , grid_team1_player2 );
                         getChampionById( {championId : team1[1].championId} , grid_team1_player2 );
                         getSoloRecord( {summonerId : team1[1].summonerId} , grid_team1_player2 );
+                        getRankStats({summonerId : team1[1].summonerId}, team1[1].championId, grid_team1_player2);
+                        getMatchHistory({summonerId: team1[1].summonerId}, grid_team1_player2);
 
                         $( grid_team1_player3.name ).html( team1[2].summonerName );
                         getMMR( {summonerName : team1[2].summonerName} , grid_team1_player3 );
                         getChampionById( {championId : team1[2].championId} , grid_team1_player3 );
                         getSoloRecord( {summonerId : team1[2].summonerId} , grid_team1_player3 );
+                        getRankStats({summonerId : team1[2].summonerId}, team1[2].championId, grid_team1_player3);
+                        getMatchHistory({summonerId: team1[2].summonerId}, grid_team1_player3);
 
                         $( grid_team1_player4.name ).html( team1[3].summonerName );
                         getMMR( {summonerName : team1[3].summonerName} , grid_team1_player4 );
                         getChampionById( {championId : team1[3].championId} , grid_team1_player4 );
                         getSoloRecord( {summonerId : team1[3].summonerId} , grid_team1_player4 );
+                        getRankStats({summonerId : team1[3].summonerId}, team1[3].championId, grid_team1_player4);
+                        getMatchHistory({summonerId: team1[3].summonerId}, grid_team1_player4);
 
                         $( grid_team1_player5.name ).html( team1[4].summonerName );
                         getMMR( {summonerName : team1[4].summonerName} , grid_team1_player5 );
                         getChampionById( {championId : team1[4].championId} , grid_team1_player5 );
                         getSoloRecord( {summonerId : team1[4].summonerId} , grid_team1_player5 );
+                        getRankStats({summonerId : team1[4].summonerId}, team1[4].championId, grid_team1_player5);
+                        getMatchHistory({summonerId: team1[4].summonerId}, grid_team1_player5);
 
                         $( grid_team2_player1.name ).html( team2[0].summonerName );
                         getMMR( {summonerName : team2[0].summonerName} , grid_team2_player1 );
                         getChampionById( {championId : team2[0].championId} , grid_team2_player1 );
                         getSoloRecord( {summonerId : team2[0].summonerId} , grid_team2_player1 );
+                        getRankStats({summonerId : team2[0].summonerId}, team2[0].championId, grid_team2_player1);
+                        getMatchHistory({summonerId: team2[0].summonerId}, grid_team2_player1);
 
                         $( grid_team2_player2.name ).html( team2[1].summonerName );
                         getMMR( {summonerName : team2[1].summonerName} , grid_team2_player2 );
                         getChampionById( {championId : team2[1].championId} , grid_team2_player2 );
                         getSoloRecord( {summonerId : team2[1].summonerId} , grid_team2_player2 );
+                        getRankStats({summonerId : team2[1].summonerId}, team2[1].championId, grid_team2_player2);
+                        getMatchHistory({summonerId: team2[1].summonerId}, grid_team2_player2);
 
                         $( grid_team2_player3.name ).html( team2[2].summonerName );
                         getMMR( {summonerName : team2[2].summonerName} , grid_team2_player3 );
                         getChampionById( {championId : team2[2].championId} , grid_team2_player3 );
                         getSoloRecord( {summonerId : team2[2].summonerId} , grid_team2_player3 );
+                        getRankStats({summonerId : team2[2].summonerId}, team2[2].championId, grid_team2_player3);
+                        getMatchHistory({summonerId: team2[2].summonerId}, grid_team2_player3);
 
                         $( grid_team2_player4.name ).html( team2[3].summonerName );
                         getMMR( {summonerName : team2[3].summonerName} , grid_team2_player4 );
                         getChampionById( {championId : team2[3].championId} , grid_team2_player4 );
                         getSoloRecord( {summonerId : team2[3].summonerId} , grid_team2_player4 );
+                        getRankStats({summonerId : team2[3].summonerId}, team2[3].championId, grid_team2_player4);
+                        getMatchHistory({summonerId: team2[3].summonerId}, grid_team2_player4);
 
                         $( grid_team2_player5.name ).html( team2[4].summonerName );
                         getMMR( {summonerName : team2[4].summonerName} , grid_team2_player5 );
                         getChampionById( {championId : team2[4].championId} , grid_team2_player5 );
                         getSoloRecord( {summonerId : team2[4].summonerId} , grid_team2_player5 );
+                        getRankStats({summonerId : team2[4].summonerId}, team2[4].championId, grid_team2_player5);
+                        getMatchHistory({summonerId: team2[4].summonerId}, grid_team2_player5);
 
                         //getTeamBySummonerId({summonerId: team1[0].summonerId})
                     } );
@@ -255,10 +276,30 @@ $(document).ready(function(){
             url: localUrl + '/champion/by_id' ,
             data: idObj,
             success: function(result) {
-                $( table.champion ).html(JSON.stringify(result.name));
+                $( table.champion ).html(result.name.toString());
             },
             error: function(jqXHR, status, error){
                 $('#p_s_logs' ).append('get champion info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+            }
+        });
+    }
+
+    function getRankStats(idObj, championId, table) {
+
+        $.ajax({
+            type: 'GET',
+            url: localUrl + '/rank/stats' ,
+            data: idObj,
+            success: function(result) {
+
+                calculateKDA(championId, result, function(averageKDA, seasonStats) {
+                    $( table.KDA ).html(averageKDA);
+                    $( table.champion ).append(seasonStats.toString());
+                })
+
+            },
+            error: function(jqXHR, status, error){
+                $('#p_s_logs' ).append('get rank info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
             }
         });
     }
@@ -277,6 +318,39 @@ $(document).ready(function(){
         });
     }
 
+    function getPlayerSummary(idObj) {
+
+        $.ajax({
+            type: 'GET',
+            url: localUrl + '/summoner/summary' ,
+            data: idObj,
+            success: function(result) {
+                $( '#p_s_showData' ).html(JSON.stringify(result));
+            },
+            error: function(jqXHR, status, error){
+                $('#p_s_logs' ).append('get player summary failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+            }
+        });
+    }
+
+    function getMatchHistory(idObj, table) {
+
+        $.ajax({
+            type: 'GET',
+            url: localUrl + '/summoner/matchHistory' ,
+            data: idObj,
+            success: function(result) {
+                analysisMatchHistory(result, function(winner_count, loser_count) {
+                    var output = winner_count + "/" + loser_count;
+                    $(table.last10matches ).html(output);
+                })
+            },
+            error: function(jqXHR, status, error){
+                $('#p_s_logs' ).append('get match history failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+            }
+        });
+    }
+
     function check_load_rank() {
         if (count_load_rank == 10) {
             spinner.stop();
@@ -287,6 +361,44 @@ $(document).ready(function(){
                check_load_rank();
             },2000)
         }
+    }
+
+    function calculateKDA(championId, data, callback) {
+        var thisChampion = {};
+        var gamePlayed = 0;
+        var totalKill = 0;
+        var totalDeath = 0;
+        var totalAssist = 0;
+        var averageKDA = '';
+
+        for (var i in data) {
+            if (championId == data[i].id) {
+                thisChampion = data[i];
+            }
+        }
+        gamePlayed = Number(thisChampion.stats.totalSessionsPlayed);
+        totalKill = Number(thisChampion.stats.totalChampionKills);
+        totalDeath = Number(thisChampion.stats.totalDeathsPerSession);
+        totalAssist = Number(thisChampion.stats.totalAssists);
+        averageKDA = (totalKill/gamePlayed).toFixed(1) + "/" + (totalDeath/gamePlayed).toFixed(1) + "/" + (totalAssist/gamePlayed).toFixed(1);
+
+        var seasonWon = Number(thisChampion.stats.totalSessionsWon);
+        var seasonLoss = Number(thisChampion.stats.totalSessionsLost);
+        var seasonStats = "(" + seasonWon + "/" + seasonLoss + ")";
+
+        callback(averageKDA, seasonStats);
+    }
+
+    function analysisMatchHistory(data, callback) {
+        var winner_count = 0;
+        var loser_count = 0;
+        for (var i in data.matches) {
+            if (data.matches[i].participants[0].stats.winner) {
+                winner_count++;
+            }
+            else {loser_count++;};
+        }
+        callback(winner_count, loser_count);
     }
 
 
@@ -303,7 +415,7 @@ $(document).ready(function(){
         $('#p_s_summoner_league' ).html('League');
         $('#p_s_summoner_winLoss' ).html('W/L');
         $('#p_s_champion_kda' ).html('KDA');
-        $('#p_s_last20matches' ).html('Last 20 games');
+        $('#p_s_last10matches' ).html('Last 10 games');
 
         var inObj = {
             summonerName: $('#ipt_summonerName' ).val()
@@ -311,6 +423,36 @@ $(document).ready(function(){
 
         // Retrieve summoner info
         getSummonerInfo(inObj);
+    });
+
+    $('#btn_getMMR' ).click(function(){
+        var inObj = {
+            summonerName: $('#ipt_MMR' ).val()
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: localUrl + '/mmr',
+            data: inObj ,
+            success: function(result) {
+
+                $( '#p_s_showMMR' ).html("Your MMR is: " + "<b>"+result.mmr+"</b>");
+            },
+            error: function(jqXHR, status, error){
+                $('#p_s_logs' ).append('get mmr failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+            }
+        });
+    });
+
+    $("#ipt_summonerName").keydown(function() {
+        if (event.keyCode == "13") {
+            $('#btn_getGame').click();
+        }
+    });
+    $("#ipt_MMR").keydown(function() {
+        if (event.keyCode == "13") {
+            $('#btn_getMMR').click();
+        }
     });
 
     function clearFiled() {
