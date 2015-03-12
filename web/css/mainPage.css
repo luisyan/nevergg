@@ -3,20 +3,22 @@ div#champRotationShow {
   position: relative;
   top: 0; left: 0; bottom: 0; right: 0;
 }
-/*
-html {
-width: 100%;
-height: 100%;
+
+table
+{
+  border-collapse:collapse;
 }
-body {
-background-image: url(../backgroundPic/bgPic.jpg);
-background-repeat: no-repeat;
-background-size: cover;
+
+table,th, td
+{
+  border: 0px solid black;
 }
-*/
-/*
-p#freeChampBtn,p#lolDataBtn,div#champRotationShow,h1#ggHeader {
-position: absolute;
-z-index:10;
+
+td
+{
+  padding: 11px;
+  line-height: 5px;
+  vertical-align: middle;
+  text-align: center;
 }
-*/
+
