@@ -3,12 +3,13 @@
  */
 
 $(document).ready(function(){
+    $('#msg' ).hide();
     var count_load_rank = 0;
     var opts = {
-        lines: 10, // 花瓣数目
-        length: 15, // 花瓣长度
-        width: 6, // 花瓣宽度
-        radius: 15, // 花瓣距中心半径
+        lines: 11, // 花瓣数目
+        length: 8, // 花瓣长度
+        width: 2, // 花瓣宽度
+        radius: 10, // 花瓣距中心半径
         corners: 1, // 花瓣圆滑度 (0-1)
         rotate: 0, // 花瓣旋转角度
         direction: 1, // 花瓣旋转方向 1: 顺时针, -1: 逆时针
@@ -19,7 +20,7 @@ $(document).ready(function(){
         hwaccel: false, //spinner 是否启用硬件加速及高速旋转
         className: 'spinner', // spinner css 样式名称
         zIndex: 2e9, // spinner的z轴 (默认是2000000000)
-        top: '35%', // spinner 相对父容器Top定位 单位 px
+        top: '40%', // spinner 相对父容器Top定位 单位 px
         left: '50%'// spinner 相对父容器Left定位 单位 px
     };
 
@@ -29,6 +30,8 @@ $(document).ready(function(){
 
     function setTable(team, player, obj) {
         if (obj == undefined) {obj = {}};
+        obj.championIcon = '#p_s_t'+team+'_p'+player+'_championIcon';
+        obj.spell = '#p_s_t'+team+'_p'+player+'_spell';
         obj.champion = '#p_s_t'+team+'_p'+player+'_champion';
         obj.name = '#p_s_t'+team+'_p'+player+'_name';
         obj.mmr = '#p_s_t'+team+'_p'+player+'_mmr';
@@ -36,6 +39,7 @@ $(document).ready(function(){
         obj.winLoss = '#p_s_t'+team+'_p'+player+'_winLoss';
         obj.KDA = '#p_s_t'+team+'_p'+player+'_KDA';
         obj.last10matches = '#p_s_t'+team+'_p'+player+'_last10matches';
+        obj.mastery = '#p_s_t'+team+'_p'+player+'_mastery';
 
         return obj;
     }
@@ -85,18 +89,12 @@ $(document).ready(function(){
             url: localUrl + '/summoner/id',
             data: inObj,
             success: function(result) {
-                //$( '#p_s_outputData' ).html("<b> summoner info: </b>" + JSON.stringify(result));
-                //for (var i in result.summonerName) {
-                //    if (result.summonerName[i].id) {
-                //        $( '#p_s_idData' ).html(JSON.stringify(result[i].id));
-                //    }
-                //}
-                var name = inObj.summonerName;
-                //$( '#p_s_idData' ).html("<b> summoner id: </b>" + JSON.stringify(result[name].id));
+                var name = fixName(inObj.summonerName);
+                name = name.toLowerCase();
                 idObj.summonerId = result[name].id;
-
                 // Retrieve summoner current game
                 getSummonerCurrentGame(idObj);
+                //getSummonerCurrentGame_2(idObj);
             },
             error: function(jqXHR, status, error){
                 // On fail
@@ -107,9 +105,6 @@ $(document).ready(function(){
     }
 
     function getSummonerCurrentGame(idObj) {
-
-        count_load_rank = 0;
-
         $.ajax({
             type: 'GET',
             url: localUrl + '/summoner/currentgame' ,
@@ -117,93 +112,22 @@ $(document).ready(function(){
             success: function(result) {
                 if (result.ret == 1) {spinner.stop();$('#p_s_logs' ).html(JSON.stringify(result.result));}
                 else {
-                    //$( '#p_s_idData' ).html(JSON.stringify(result));
-                    getSummonersByTeam( result.participants , function (team1 , team2) {
-                        $( grid_team1_player1.name ).html( team1[0].summonerName );
-                        getMMR( {summonerName : team1[0].summonerName} , grid_team1_player1 );
-                        getChampionById( {championId : team1[0].championId} , grid_team1_player1 );
-                        getSoloRecord( {summonerId : team1[0].summonerId} , grid_team1_player1 );
-                        getRankStats({summonerId : team1[0].summonerId}, team1[0].championId, grid_team1_player1);
-                        getMatchHistory({summonerId: team1[0].summonerId}, grid_team1_player1);
+                    getSummonersByTeam( result.participants, function (team1, team2) {
 
-                        $( grid_team1_player2.name ).html( team1[1].summonerName );
-                        getMMR( {summonerName : team1[1].summonerName} , grid_team1_player2 );
-                        getChampionById( {championId : team1[1].championId} , grid_team1_player2 );
-                        getSoloRecord( {summonerId : team1[1].summonerId} , grid_team1_player2 );
-                        getRankStats({summonerId : team1[1].summonerId}, team1[1].championId, grid_team1_player2);
-                        getMatchHistory({summonerId: team1[1].summonerId}, grid_team1_player2);
+                        getTheRestData(team1 ,  team2);
 
-                        $( grid_team1_player3.name ).html( team1[2].summonerName );
-                        getMMR( {summonerName : team1[2].summonerName} , grid_team1_player3 );
-                        getChampionById( {championId : team1[2].championId} , grid_team1_player3 );
-                        getSoloRecord( {summonerId : team1[2].summonerId} , grid_team1_player3 );
-                        getRankStats({summonerId : team1[2].summonerId}, team1[2].championId, grid_team1_player3);
-                        getMatchHistory({summonerId: team1[2].summonerId}, grid_team1_player3);
-
-                        $( grid_team1_player4.name ).html( team1[3].summonerName );
-                        getMMR( {summonerName : team1[3].summonerName} , grid_team1_player4 );
-                        getChampionById( {championId : team1[3].championId} , grid_team1_player4 );
-                        getSoloRecord( {summonerId : team1[3].summonerId} , grid_team1_player4 );
-                        getRankStats({summonerId : team1[3].summonerId}, team1[3].championId, grid_team1_player4);
-                        getMatchHistory({summonerId: team1[3].summonerId}, grid_team1_player4);
-
-                        $( grid_team1_player5.name ).html( team1[4].summonerName );
-                        getMMR( {summonerName : team1[4].summonerName} , grid_team1_player5 );
-                        getChampionById( {championId : team1[4].championId} , grid_team1_player5 );
-                        getSoloRecord( {summonerId : team1[4].summonerId} , grid_team1_player5 );
-                        getRankStats({summonerId : team1[4].summonerId}, team1[4].championId, grid_team1_player5);
-                        getMatchHistory({summonerId: team1[4].summonerId}, grid_team1_player5);
-
-                        $( grid_team2_player1.name ).html( team2[0].summonerName );
-                        getMMR( {summonerName : team2[0].summonerName} , grid_team2_player1 );
-                        getChampionById( {championId : team2[0].championId} , grid_team2_player1 );
-                        getSoloRecord( {summonerId : team2[0].summonerId} , grid_team2_player1 );
-                        getRankStats({summonerId : team2[0].summonerId}, team2[0].championId, grid_team2_player1);
-                        getMatchHistory({summonerId: team2[0].summonerId}, grid_team2_player1);
-
-                        $( grid_team2_player2.name ).html( team2[1].summonerName );
-                        getMMR( {summonerName : team2[1].summonerName} , grid_team2_player2 );
-                        getChampionById( {championId : team2[1].championId} , grid_team2_player2 );
-                        getSoloRecord( {summonerId : team2[1].summonerId} , grid_team2_player2 );
-                        getRankStats({summonerId : team2[1].summonerId}, team2[1].championId, grid_team2_player2);
-                        getMatchHistory({summonerId: team2[1].summonerId}, grid_team2_player2);
-
-                        $( grid_team2_player3.name ).html( team2[2].summonerName );
-                        getMMR( {summonerName : team2[2].summonerName} , grid_team2_player3 );
-                        getChampionById( {championId : team2[2].championId} , grid_team2_player3 );
-                        getSoloRecord( {summonerId : team2[2].summonerId} , grid_team2_player3 );
-                        getRankStats({summonerId : team2[2].summonerId}, team2[2].championId, grid_team2_player3);
-                        getMatchHistory({summonerId: team2[2].summonerId}, grid_team2_player3);
-
-                        $( grid_team2_player4.name ).html( team2[3].summonerName );
-                        getMMR( {summonerName : team2[3].summonerName} , grid_team2_player4 );
-                        getChampionById( {championId : team2[3].championId} , grid_team2_player4 );
-                        getSoloRecord( {summonerId : team2[3].summonerId} , grid_team2_player4 );
-                        getRankStats({summonerId : team2[3].summonerId}, team2[3].championId, grid_team2_player4);
-                        getMatchHistory({summonerId: team2[3].summonerId}, grid_team2_player4);
-
-                        $( grid_team2_player5.name ).html( team2[4].summonerName );
-                        getMMR( {summonerName : team2[4].summonerName} , grid_team2_player5 );
-                        getChampionById( {championId : team2[4].championId} , grid_team2_player5 );
-                        getSoloRecord( {summonerId : team2[4].summonerId} , grid_team2_player5 );
-                        getRankStats({summonerId : team2[4].summonerId}, team2[4].championId, grid_team2_player5);
-                        getMatchHistory({summonerId: team2[4].summonerId}, grid_team2_player5);
-
-                        //getTeamBySummonerId({summonerId: team1[0].summonerId})
-                    } );
-
-                    //getMatch({matchId:result.gameId});
-
+                    });
                 }
 
 
             },
             error: function(jqXHR, status, error){
                 spinner.stop();
-                $('#p_s_logs' ).append('get summoner info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>'+'Try to refresh and check again');
+                $('#p_s_logs' ).append('from 1st key..get summoner info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>'+'Try to refresh and check again');
             }
         });
     }
+
 
     function getSoloRecord(idObj, table) {
 
@@ -212,16 +136,46 @@ $(document).ready(function(){
             url: localUrl + '/summoner/solo_record' ,
             data: idObj,
             success: function(result) {
-                count_load_rank++;
-                $( table.league ).html(result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
+                var tierPath = "../tier/";
+                var fileName = result.tier + "_" + result.entries[0].division+".png";
+                var tierFile = tierPath+fileName;
+                $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
                 $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
-                check_load_rank();
             },
             error: function(jqXHR, status, error){
                 spinner.stop();
                 $('#p_s_logs' ).append('get ranked solo failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>'+'Try to refresh and check again');
             }
         });
+    }
+
+    function getSoloRecord_2(idObj, table) {
+
+        $.ajax({
+            type: 'GET',
+            url: localUrl + '/summoner/solo_record_2' ,
+            data: idObj,
+            success: function(result) {
+                var tierPath = "../tier/";
+                var fileName = result.tier + "_" + result.entries[0].division+".png";
+                var tierFile = tierPath+fileName;
+                $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
+                $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
+            },
+            error: function(jqXHR, status, error){
+                spinner.stop();
+                $('#p_s_logs' ).append('get ranked solo failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>'+'Try to refresh and check again');
+            }
+        });
+    }
+
+    function getRank(idObj, table, team) {
+        if (team == 'team1') {
+            getSoloRecord(idObj, table);
+        }
+        if (team == 'team2') {
+            getSoloRecord_2(idObj, table);
+        }
     }
 
     function getTeamRecord(idObj) {
@@ -271,18 +225,50 @@ $(document).ready(function(){
 
     function getChampionById(idObj, table) {
 
-        $.ajax({
-            type: 'GET',
-            url: localUrl + '/champion/by_id' ,
-            data: idObj,
-            success: function(result) {
-                $( table.champion ).html(result.name.toString());
-            },
-            error: function(jqXHR, status, error){
-                $('#p_s_logs' ).append('get champion info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
-            }
+        getChampionFromFile(idObj.championId, function(champion) {
+            var nameToFix = champion.name.toString();
+            if (nameToFix == 'Wukong') {nameToFix = 'MonkeyKing'} //wukong's icon file name
+            var championName = fixName(nameToFix);
+            $( table.champion ).html(championName);
+            var championIconPath = "'../resources/5.4.1/img/champion/";
+            var fileName = championName + ".png'";
+            var iconUrl = championIconPath + fileName;
+            var htmlCode = "<img src="+iconUrl+" width='40' height='40'/>";
+
+            $( table.championIcon ).html(htmlCode);
+            count_load_rank++;
+            check_load_rank();
         });
     }
+
+    function drawSpellIcon(spell1Id, spell2Id, table) {
+
+        getSpellFromFile(spell1Id, function(spell) {
+            var nameToFix = spell.id.toString();
+            var spellName = fixName(nameToFix);
+            var championIconPath = "'../resources/5.4.1/img/spell/";
+            var fileName = spellName + ".png'";
+            var iconUrl = championIconPath + fileName;
+            var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
+
+            $( table.spell ).append(htmlCode);
+
+            getSpellFromFile(spell2Id, function(spell) {
+                var nameToFix = spell.id.toString();
+                var spellName = fixName(nameToFix);
+                var championIconPath = "'../resources/5.4.1/img/spell/";
+                var fileName = spellName + ".png'";
+                var iconUrl = championIconPath + fileName;
+                var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
+
+                $( table.spell ).append(htmlCode);
+
+            });
+
+        });
+    }
+
+
 
     function getRankStats(idObj, championId, table) {
 
@@ -342,7 +328,7 @@ $(document).ready(function(){
             success: function(result) {
                 analysisMatchHistory(result, function(winner_count, loser_count) {
                     var output = winner_count + "/" + loser_count;
-                    $(table.last10matches ).html(output);
+                    $(table.last10matches ).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+output);
                 })
             },
             error: function(jqXHR, status, error){
@@ -352,8 +338,9 @@ $(document).ready(function(){
     }
 
     function check_load_rank() {
-        if (count_load_rank == 10) {
+        if (count_load_rank == 1) {
             spinner.stop();
+            $('#msg' ).show();
             $('#rankTable' ).show();
         }
         else {
@@ -384,7 +371,12 @@ $(document).ready(function(){
 
         var seasonWon = Number(thisChampion.stats.totalSessionsWon);
         var seasonLoss = Number(thisChampion.stats.totalSessionsLost);
-        var seasonStats = "(" + seasonWon + "/" + seasonLoss + ")";
+        var wonPlusLoss = seasonWon+seasonLoss;
+        var winRate = (seasonWon/(seasonWon+seasonLoss)).toFixed(2);
+        var winRateOut = '';
+        if (winRate > 0) {winRateOut = winRate.slice(2,4);}
+        else {winRateOut = '0'}
+        var seasonStats = " " + winRateOut + "% ("+wonPlusLoss+")";
 
         callback(averageKDA, seasonStats);
     }
@@ -405,6 +397,7 @@ $(document).ready(function(){
     var idObj = {};
     $('#btn_getGame' ).click(function() {
         clearFiled();
+        clearTable();
         $('#rankTable' ).hide();
         var target = document.getElementById('p_s_spinner');
         spinner.spin(target);
@@ -416,6 +409,7 @@ $(document).ready(function(){
         $('#p_s_summoner_winLoss' ).html('W/L');
         $('#p_s_champion_kda' ).html('KDA');
         $('#p_s_last10matches' ).html('Last 10 games');
+        $('#p_s_mastery' ).html('Mastery');
 
         var inObj = {
             summonerName: $('#ipt_summonerName' ).val()
@@ -444,6 +438,11 @@ $(document).ready(function(){
         });
     });
 
+    $('#btn_show' ).click(function(){
+        $('#rankTable').toggle();
+
+    });
+
     $("#ipt_summonerName").keydown(function() {
         if (event.keyCode == "13") {
             $('#btn_getGame').click();
@@ -456,12 +455,190 @@ $(document).ready(function(){
     });
 
     function clearFiled() {
+        count_load_rank = 0;
         $('#p_s_logs' ).html('');
         $('#p_s_showData' ).html('');
         $('#p_s_mmr' ).html('');
         $('#p_s_idData' ).html('');
         $('#p_s_outputData' ).html('');
+        $('#msg' ).hide();
     }
+
+    function getChampionFromFile(championId, callback) {
+        var champion = {};
+        $.getJSON('../resources/5.4.1/data/en_US/champion.json', function(result){
+            var championList = result.data;
+            for (var i in championList) {
+                if (championList[i].key == championId) {
+                    champion = championList[i];
+                    break;
+                }
+            }
+            callback(champion);
+        });
+    }
+
+    function getSpellFromFile(spellId, callback) {
+        var spell = {};
+        $.getJSON('../resources/5.4.1/data/en_US/summoner.json', function(result){
+            var spellList = result.data;
+            for (var i in spellList) {
+                if (spellList[i].key == spellId) {
+                    spell = spellList[i];
+                    break;
+                }
+            }
+            callback(spell);
+        });
+    }
+
+    function fixName(name){
+        var removeSpace = name.replace(/\s+/g,"");
+        var removeUpperDot= removeSpace.replace("'","");
+        return removeUpperDot;
+    }
+
+    function getMastery(playerMasteryList, table) {
+        var mastery = classifyMastery(playerMasteryList);
+        $( table.mastery ).html(mastery);
+    }
+
+    function classifyMastery(playerMasteryList) {
+        var offense = 0;
+        var defense = 0;
+        var util = 0;
+        for (var i in playerMasteryList) {
+            var masteryId = playerMasteryList[i].masteryId;
+            var masteryIdNumber = Number(masteryId);
+            if (masteryIdNumber > 4100 && masteryIdNumber < 4200) {offense = offense + Number(playerMasteryList[i].rank);}
+            if (masteryIdNumber > 4200 && masteryIdNumber < 4300) {defense = defense + Number(playerMasteryList[i].rank);}
+            if (masteryIdNumber > 4300) {util = util + Number(playerMasteryList[i].rank);}
+        }
+        var output = offense+'/'+defense+'/'+util;
+        return output;
+    }
+
+    function getTheRestData(team1, team2){
+        $( grid_team1_player1.name ).html( team1[0].summonerName );
+        getMMR( {summonerName : team1[0].summonerName} , grid_team1_player1 );
+        getChampionById( {championId : team1[0].championId} , grid_team1_player1 );
+        drawSpellIcon(team1[0].spell1Id ,team1[0].spell2Id,  grid_team1_player1 );
+        getMastery(team1[0].masteries, grid_team1_player1);
+        getRank( {summonerId : team1[0].summonerId} , grid_team1_player1 , 'team1');
+        getRankStats({summonerId : team1[0].summonerId}, team1[0].championId, grid_team1_player1);
+        getMatchHistory({summonerId: team1[0].summonerId}, grid_team1_player1);
+
+        $( grid_team1_player2.name ).html( team1[1].summonerName );
+        getMMR( {summonerName : team1[1].summonerName} , grid_team1_player2 );
+        getChampionById( {championId : team1[1].championId} , grid_team1_player2 );
+        drawSpellIcon(team1[1].spell1Id ,team1[1].spell2Id,  grid_team1_player2 );
+        getMastery(team1[1].masteries, grid_team1_player2);
+        getRank( {summonerId : team1[1].summonerId} , grid_team1_player2 , 'team1');
+        getRankStats({summonerId : team1[1].summonerId}, team1[1].championId, grid_team1_player2);
+        getMatchHistory({summonerId: team1[1].summonerId}, grid_team1_player2);
+
+        $( grid_team1_player3.name ).html( team1[2].summonerName );
+        getMMR( {summonerName : team1[2].summonerName} , grid_team1_player3 );
+        getChampionById( {championId : team1[2].championId} , grid_team1_player3 );
+        drawSpellIcon(team1[2].spell1Id ,team1[2].spell2Id,  grid_team1_player3 );
+        getMastery(team1[2].masteries, grid_team1_player3);
+        getRank( {summonerId : team1[2].summonerId} , grid_team1_player3 , 'team1');
+        getRankStats({summonerId : team1[2].summonerId}, team1[2].championId, grid_team1_player3);
+        getMatchHistory({summonerId: team1[2].summonerId}, grid_team1_player3);
+
+        $( grid_team1_player4.name ).html( team1[3].summonerName );
+        getMMR( {summonerName : team1[3].summonerName} , grid_team1_player4 );
+        getChampionById( {championId : team1[3].championId} , grid_team1_player4 );
+        drawSpellIcon(team1[3].spell1Id ,team1[3].spell2Id,  grid_team1_player4 );
+        getMastery(team1[3].masteries, grid_team1_player4);
+        getRank( {summonerId : team1[3].summonerId} , grid_team1_player4 , 'team1');
+        getRankStats({summonerId : team1[3].summonerId}, team1[3].championId, grid_team1_player4);
+        getMatchHistory({summonerId: team1[3].summonerId}, grid_team1_player4);
+
+        $( grid_team1_player5.name ).html( team1[4].summonerName );
+        getMMR( {summonerName : team1[4].summonerName} , grid_team1_player5 );
+        getChampionById( {championId : team1[4].championId} , grid_team1_player5 );
+        drawSpellIcon(team1[4].spell1Id ,team1[4].spell2Id,  grid_team1_player5 );
+        getMastery(team1[4].masteries, grid_team1_player5);
+        getRank( {summonerId : team1[4].summonerId} , grid_team1_player5 , 'team1');
+        getRankStats({summonerId : team1[4].summonerId}, team1[4].championId, grid_team1_player5);
+        getMatchHistory({summonerId: team1[4].summonerId}, grid_team1_player5);
+
+
+
+        $( grid_team2_player1.name ).html( team2[0].summonerName );
+        getMMR( {summonerName : team2[0].summonerName} , grid_team2_player1 );
+        getChampionById( {championId : team2[0].championId} , grid_team2_player1 );
+        drawSpellIcon(team2[0].spell1Id ,team2[0].spell2Id,  grid_team2_player1 );
+        getMastery(team2[0].masteries, grid_team2_player1);
+        getRank( {summonerId : team2[0].summonerId} , grid_team2_player1 , 'team2');
+        getRankStats({summonerId : team2[0].summonerId}, team2[0].championId, grid_team2_player1);
+        getMatchHistory({summonerId: team2[0].summonerId}, grid_team2_player1);
+
+        $( grid_team2_player2.name ).html( team2[1].summonerName );
+        getMMR( {summonerName : team2[1].summonerName} , grid_team2_player2 );
+        getChampionById( {championId : team2[1].championId} , grid_team2_player2 );
+        drawSpellIcon(team2[1].spell1Id ,team2[1].spell2Id,  grid_team2_player2 );
+        getMastery(team2[1].masteries, grid_team2_player2);
+        getRank( {summonerId : team2[1].summonerId} , grid_team2_player2 , 'team2');
+        getRankStats({summonerId : team2[1].summonerId}, team2[1].championId, grid_team2_player2);
+        getMatchHistory({summonerId: team2[1].summonerId}, grid_team2_player2);
+
+        $( grid_team2_player3.name ).html( team2[2].summonerName );
+        getMMR( {summonerName : team2[2].summonerName} , grid_team2_player3 );
+        getChampionById( {championId : team2[2].championId} , grid_team2_player3 );
+        drawSpellIcon(team2[2].spell1Id ,team2[2].spell2Id,  grid_team2_player3 );
+        getMastery(team2[2].masteries, grid_team2_player3);
+        getRank( {summonerId : team2[2].summonerId} , grid_team2_player3 , 'team2');
+        getRankStats({summonerId : team2[2].summonerId}, team2[2].championId, grid_team2_player3);
+        getMatchHistory({summonerId: team2[2].summonerId}, grid_team2_player3);
+
+        $( grid_team2_player4.name ).html( team2[3].summonerName );
+        getMMR( {summonerName : team2[3].summonerName} , grid_team2_player4 );
+        getChampionById( {championId : team2[3].championId} , grid_team2_player4 );
+        drawSpellIcon(team2[3].spell1Id ,team2[3].spell2Id,  grid_team2_player4 );
+        getMastery(team2[3].masteries, grid_team2_player4);
+        getRank( {summonerId : team2[3].summonerId} , grid_team2_player4 , 'team2');
+        getRankStats({summonerId : team2[3].summonerId}, team2[3].championId, grid_team2_player4);
+        getMatchHistory({summonerId: team2[3].summonerId}, grid_team2_player4);
+
+        $( grid_team2_player5.name ).html( team2[4].summonerName );
+        getMMR( {summonerName : team2[4].summonerName} , grid_team2_player5 );
+        getChampionById( {championId : team2[4].championId} , grid_team2_player5 );
+        drawSpellIcon(team2[4].spell1Id ,team2[4].spell2Id,  grid_team2_player5 );
+        getMastery(team2[4].masteries, grid_team2_player5);
+        getRank( {summonerId : team2[4].summonerId} , grid_team2_player5 , 'team2');
+        getRankStats({summonerId : team2[4].summonerId}, team2[4].championId, grid_team2_player5);
+        getMatchHistory({summonerId: team2[4].summonerId}, grid_team2_player5);
+    }
+
+    function clearTable() {
+        clearRows( grid_team1_player1);
+        clearRows( grid_team1_player2);
+        clearRows( grid_team1_player3);
+        clearRows( grid_team1_player4);
+        clearRows( grid_team1_player5);
+
+        clearRows( grid_team2_player1);
+        clearRows( grid_team2_player2);
+        clearRows( grid_team2_player3);
+        clearRows( grid_team2_player4);
+        clearRows( grid_team2_player5);
+    }
+
+    function clearRows(obj) {
+        $(obj.championIcon).html('');
+        $(obj.spell).html('');
+        $(obj.champion).html('');
+        $(obj.name).html('');
+        $(obj.mmr).html('');
+        $(obj.league).html('');
+        $(obj.winLoss).html('');
+        $(obj.KDA).html('');
+        $(obj.last10matches).html('');
+        $(obj.mastery).html('');
+    }
+
 });
 
 function getSummonersByTeam(participants, next) {
@@ -475,5 +652,5 @@ function getSummonersByTeam(participants, next) {
             team2.push(participants[i]);
         }
     }
-    next(team1 ,  team2);
+    next(team1, team2);
 }

@@ -16,9 +16,21 @@ table,th, td
 
 td
 {
-  padding: 11px;
-  line-height: 5px;
+  padding: 5px;
+  line-height: 0px;
+  cellspacing: 10px;
   vertical-align: middle;
-  text-align: center;
+  text-align: left;
 }
 
+tr
+{
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+p#msg
+{
+  font-size:13px;
+  line-height: 15px;
+}

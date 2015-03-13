@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2a24efd7-c346-4f41-847d-5e175073076a" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/.htaccess" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/data/.htaccess" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/data/bg_BG/champion.json" afterPath="" />
@@ -4943,265 +4944,10 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SeismicShard.png" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SejuaniArcticAssault.png" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SejuaniGlacialPrisonStart.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SejuaniNorthernWinds.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SejuaniWintersClaw.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/Shatter.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ShenFeint.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ShenShadowDash.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ShenStandUnited.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ShenVorpalStar.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ShyvanaDoubleAttack.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ShyvanaFireball.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ShyvanaImmolationAura.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ShyvanaTransformCast.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SivirE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SivirQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SivirR.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SivirW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SkarnerExoskeleton.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SkarnerFracture.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SkarnerImpale.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SkarnerVirulentSlash.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SonaAriaofPerseverance.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SonaCrescendo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SonaHymnofValor.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SonaSongofDiscord.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SoulShackles.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SowTheWind.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SpellFlux.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/Starcall.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/StaticField.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerBarrier.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerBoost.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerClairvoyance.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerDot.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerExhaust.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerFlash.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerHaste.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerHeal.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerMana.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerOdinGarrison.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerRevive.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerSmite.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SummonerTeleport.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SwainDecrepify.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SwainMetamorphism.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SwainShadowGrasp.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SwainTorment.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SyndraE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SyndraQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SyndraR.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/SyndraW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TalonCutthroat.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TalonNoxianDiplomacy.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TalonRake.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TalonShadowAssault.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/Tantrum.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TaricHammerSmash.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/Terrify.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ThreshE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ThreshQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ThreshRPenta.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ThreshW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TimeBomb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TimeWarp.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TormentedSoil.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ToxicShot.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/Tremors2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TriumphantRoar.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TrundleCircle.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TrundlePain.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TrundleTrollSmash.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TwitchVenomCask.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/TwoShivPoison.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UFSlash.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UdyrBearStance.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UdyrPhoenixStance.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UdyrTigerStance.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UdyrTurtleStance.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UndyingRage.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UrgotHeatseekingMissile.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UrgotPlasmaGrenade.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UrgotSwap2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/UrgotTerrorCapacitorActive2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VarusE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VarusQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VarusR.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VarusW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VayneCondemn.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VayneInquisition.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VayneSilveredBolts.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VayneTumble.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VeigarBalefulStrike.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VeigarDarkMatter.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VeigarEventHorizon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VeigarPrimordialBurst.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VelkozE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VelkozQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VelkozR.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VelkozW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ViE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ViQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ViR.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ViW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ViktorChaosStorm.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ViktorDeathRay.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ViktorGravitonField.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ViktorPowerTransfer.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VladimirHemoplague.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VladimirSanguinePool.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VladimirTidesofBlood.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VladimirTransfusion.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VolibearE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VolibearQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VolibearR.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VolibearW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/Volley.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/VorpalSpikes.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/WallOfPain.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/WildCards.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/Wish.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/WujuStyle.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/XenZhaoBattleCry.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/XenZhaoComboTarget.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/XenZhaoParry.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/XenZhaoSweep.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/XerathArcaneBarrage2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/XerathArcanopulseChargeUp.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/XerathLocusOfPower2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/XerathMageSpear.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/YasuoDashWrapper.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/YasuoQW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/YasuoRKnockUpComboW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/YasuoWMovingWall.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/YorickDecayed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/YorickRavenous.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/YorickReviveAlly.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/YorickSpectral.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZacE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZacQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZacR.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZacW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZedPBAOEDummy.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZedShadowDash.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZedShuriken.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZedUlt.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZiggsE.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZiggsQ.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZiggsR.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZiggsW.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZyraBrambleZone.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZyraGraspingRoots.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZyraQFissure.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/ZyraSeed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/slashCast.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/spell/trundledesecrate.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/champion0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/champion1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/champion2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/champion3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/gray_mastery0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/item0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/item1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/item2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/mastery0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/passive0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/passive1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/passive2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/passive3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/passive4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/profileicon0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/rune0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_champion0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_champion1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_champion2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_champion3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_item0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_item1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_item2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_mastery0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_passive0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_passive1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_passive2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_passive3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_passive4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_profileicon0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_rune0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell10.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell11.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell12.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell13.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell6.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell7.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell8.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/small_spell9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell10.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell11.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell12.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell13.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell6.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell7.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell8.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/spell9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_champion0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_champion1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_champion2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_champion3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_item0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_item1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_item2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_mastery0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_passive0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_passive1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_passive2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_passive3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_passive4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_profileicon0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_rune0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell10.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell11.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell12.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell13.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell4.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell6.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell7.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell8.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/img/sprite/tiny_spell9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/js/dragonmagic.pure.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/manifest.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/4.4.3/manifest.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/dragontail-4.4.3.tgz" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/loading/Ashe_6.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/loading/Heimerdinger_0.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/loading/Varus_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/loading/Velkoz_0.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/loading/Velkoz_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/splash/Heimerdinger_0.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/splash/Varus_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/splash/Velkoz_0.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/img/champion/splash/Velkoz_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/lolpatch_4.4/manifest.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/resources/lolpatch_4.4/manifest.json" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/index.html" afterPath="$PROJECT_DIR$/web/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/lol.js" afterPath="$PROJECT_DIR$/web/js/lol.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/css/mainPage.css" afterPath="$PROJECT_DIR$/web/css/mainPage.css" />
     </list>
     <ignored path="myProject.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -5228,8 +4974,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3030">
-              <caret line="159" column="45" selection-start-line="159" selection-start-column="45" selection-end-line="159" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="567" max-vertical-offset="3765">
+              <caret line="59" column="79" selection-start-line="59" selection-start-column="79" selection-end-line="59" selection-end-column="79" />
               <folding>
                 <element signature="e#0#40#0" expanded="false" />
               </folding>
@@ -5240,28 +4986,28 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.25" vertical-offset="0" max-vertical-offset="2955">
-              <caret line="26" column="106" selection-start-line="26" selection-start-column="90" selection-end-line="26" selection-end-column="106" />
+            <state vertical-scroll-proportion="-23.5" vertical-offset="2691" max-vertical-offset="3525">
+              <caret line="217" column="36" selection-start-line="217" selection-start-column="36" selection-end-line="217" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lol.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lol.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/lol.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.54022986" vertical-offset="6372" max-vertical-offset="7275">
-              <caret line="453" column="26" selection-start-line="453" selection-start-column="26" selection-end-line="453" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="4587" max-vertical-offset="9930">
+              <caret line="342" column="27" selection-start-line="342" selection-start-column="27" selection-end-line="342" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mainPage.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mainPage.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/css/mainPage.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
-              <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
+            <state vertical-scroll-proportion="0.651341" vertical-offset="0" max-vertical-offset="783">
+              <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -5277,10 +5023,10 @@
       <list>
         <option value="$PROJECT_DIR$/logger.js" />
         <option value="$PROJECT_DIR$/web/index.css" />
-        <option value="$PROJECT_DIR$/web/css/mainPage.css" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/web/index.html" />
         <option value="$PROJECT_DIR$/web/js/lol.js" />
+        <option value="$PROJECT_DIR$/web/index.html" />
+        <option value="$PROJECT_DIR$/web/css/mainPage.css" />
       </list>
     </option>
   </component>
@@ -5363,7 +5109,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -5381,7 +5127,85 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="5.4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="myProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="myProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="5.4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="img" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="myProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="myProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="5.4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="img" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="champion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="myProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="myProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -5575,14 +5399,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/css/mainPage.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
-          <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/leagueapi/lib/lolapi.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="2889" max-vertical-offset="8715">
@@ -5593,26 +5409,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3030">
-          <caret line="159" column="45" selection-start-line="159" selection-start-column="45" selection-end-line="159" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="567" max-vertical-offset="3765">
+          <caret line="59" column="79" selection-start-line="59" selection-start-column="79" selection-end-line="59" selection-end-column="79" />
           <folding>
             <element signature="e#0#40#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/index.html">
+    <entry file="file://$PROJECT_DIR$/web/js/lol.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.25" vertical-offset="0" max-vertical-offset="2955">
-          <caret line="26" column="106" selection-start-line="26" selection-start-column="90" selection-end-line="26" selection-end-column="106" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4587" max-vertical-offset="9930">
+          <caret line="342" column="27" selection-start-line="342" selection-start-column="27" selection-end-line="342" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/lol.js">
+    <entry file="file://$PROJECT_DIR$/web/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54022986" vertical-offset="6372" max-vertical-offset="7275">
-          <caret line="453" column="26" selection-start-line="453" selection-start-column="26" selection-end-line="453" selection-end-column="26" />
+        <state vertical-scroll-proportion="-23.5" vertical-offset="2691" max-vertical-offset="3525">
+          <caret line="217" column="36" selection-start-line="217" selection-start-column="36" selection-end-line="217" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/css/mainPage.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.651341" vertical-offset="0" max-vertical-offset="783">
+          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
           <folding />
         </state>
       </provider>
