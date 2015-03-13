@@ -110,7 +110,6 @@ $(document).ready(function(){
             url: localUrl + '/summoner/currentgame' ,
             data: idObj,
             success: function(result) {
-                alert(JSON.stringify(result));
                 if (result.ret == 1) {spinner.stop();$('#p_s_logs' ).html(JSON.stringify(result.result));}
                 else {
                     getSummonersByTeam( result.participants, function (team1, team2) {
@@ -247,6 +246,7 @@ $(document).ready(function(){
         if (name == 'Fiddlesticks') {name = 'FiddleSticks';} //fiddle's icon file name
         if (name == 'LeBlanc') {name = 'Leblanc';} //Leblanc's icon file name
         if (name == 'Dr. Mundo') {name = 'DrMundo';}
+        if (name == 'ChoGath') {name = 'Chogath';}
         return name;
     }
 
@@ -369,7 +369,6 @@ $(document).ready(function(){
         var totalAssist = 0;
         var averageKDA = '';
 
-        alert(''+championId);
         for (var i in data) {
             if (championId == data[i].id) {
                 exsist = true;

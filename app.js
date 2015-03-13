@@ -57,7 +57,7 @@ app.get('/summoner/currentgame', function (req, res) {
         }
         else
         {
-            logger.trace( 'Got current game.', result.participants[0].masteries);
+            logger.trace( 'Got current game.');
             res.json( result );
         }
     });
@@ -132,13 +132,6 @@ app.get('/team/rank_record', function (req, res) {
     id = Number(id);
     lolAPI.League.getEntriesByTeamId(id, function(err, result) {
         if (err) {outPutErr(res , 500, err)};
-        //var soloRecord = {};
-        //logger.trace(result);
-        //for (var i in result[id]) {
-        //    if (result[id][i].queue == 'RANKED_SOLO_5x5') {
-        //        soloRecord = result[id][i]
-        //    }
-        //}
         logger.trace('team rank info: ', result);
         res.json(result);
     });
