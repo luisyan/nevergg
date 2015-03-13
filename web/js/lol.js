@@ -26,7 +26,7 @@ $(document).ready(function(){
 
     var spinner = new Spinner(opts);
 
-    var localUrl = 'http://localhost:22000';
+    var localUrl = 'http://nevergg.info:22000';
 
     function setTable(team, player, obj) {
         if (obj == undefined) {obj = {}};
@@ -228,7 +228,9 @@ $(document).ready(function(){
         getChampionFromFile(idObj.championId, function(champion) {
             var nameToFix = champion.name.toString();
             if (nameToFix == 'Wukong') {nameToFix = 'MonkeyKing'} //wukong's icon file name
-            var championName = fixName(nameToFix);
+            if (nameToFix == 'Fiddlesticks') {nameToFix = 'FiddleSticks'} //fiddle's icon file name
+	    if (nameToFix == 'LeBlanc') {nameToFix = 'Leblanc'} //Leblanc's icon file name
+	    var championName = fixName(nameToFix);
             $( table.champion ).html(championName);
             var championIconPath = "'../resources/5.4.1/img/champion/";
             var fileName = championName + ".png'";
@@ -328,7 +330,7 @@ $(document).ready(function(){
             success: function(result) {
                 analysisMatchHistory(result, function(winner_count, loser_count) {
                     var output = winner_count + "/" + loser_count;
-                    $(table.last10matches ).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+output);
+                    $(table.last10matches ).html("&nbsp;&nbsp;"+output);
                 })
             },
             error: function(jqXHR, status, error){
@@ -374,8 +376,9 @@ $(document).ready(function(){
         var wonPlusLoss = seasonWon+seasonLoss;
         var winRate = (seasonWon/(seasonWon+seasonLoss)).toFixed(2);
         var winRateOut = '';
-        if (winRate > 0) {winRateOut = winRate.slice(2,4);}
-        else {winRateOut = '0'}
+        if (winRate > 0 && winRate < 1) {winRateOut = winRate.slice(2,4);}
+	if (winRate == 1) {winRateOut = '100';}
+        if (seasonWon == 0) {winRateOut = '0';}
         var seasonStats = " " + winRateOut + "% ("+wonPlusLoss+")";
 
         callback(averageKDA, seasonStats);
