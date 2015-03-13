@@ -26,7 +26,7 @@ $(document).ready(function(){
 
     var spinner = new Spinner(opts);
 
-    var localUrl = 'http://nevergg.info:22000';
+    var localUrl = 'http://localhost:22000';
 
     function setTable(team, player, obj) {
         if (obj == undefined) {obj = {}};
@@ -110,6 +110,7 @@ $(document).ready(function(){
             url: localUrl + '/summoner/currentgame' ,
             data: idObj,
             success: function(result) {
+                alert(JSON.stringify(result));
                 if (result.ret == 1) {spinner.stop();$('#p_s_logs' ).html(JSON.stringify(result.result));}
                 else {
                     getSummonersByTeam( result.participants, function (team1, team2) {
@@ -227,12 +228,10 @@ $(document).ready(function(){
 
         getChampionFromFile(idObj.championId, function(champion) {
             var nameToFix = champion.name.toString();
-            if (nameToFix == 'Wukong') {nameToFix = 'MonkeyKing'} //wukong's icon file name
-            if (nameToFix == 'Fiddlesticks') {nameToFix = 'FiddleSticks'} //fiddle's icon file name
-	    if (nameToFix == 'LeBlanc') {nameToFix = 'Leblanc'} //Leblanc's icon file name
-	    var championName = fixName(nameToFix);
+            nameToFix = fixChampionName(nameToFix);
+	        var championName = fixName(nameToFix);
             $( table.champion ).html(championName);
-            var championIconPath = "'../resources/5.4.1/img/champion/";
+            var championIconPath = "'../resources/5.5.2/img/champion/";
             var fileName = championName + ".png'";
             var iconUrl = championIconPath + fileName;
             var htmlCode = "<img src="+iconUrl+" width='40' height='40'/>";
@@ -243,12 +242,20 @@ $(document).ready(function(){
         });
     }
 
+    function fixChampionName(name) {
+        if (name == 'Wukong') {name = 'MonkeyKing';} //wukong's icon file name
+        if (name == 'Fiddlesticks') {name = 'FiddleSticks';} //fiddle's icon file name
+        if (name == 'LeBlanc') {name = 'Leblanc';} //Leblanc's icon file name
+        if (name == 'Dr. Mundo') {name = 'DrMundo';}
+        return name;
+    }
+
     function drawSpellIcon(spell1Id, spell2Id, table) {
 
         getSpellFromFile(spell1Id, function(spell) {
             var nameToFix = spell.id.toString();
             var spellName = fixName(nameToFix);
-            var championIconPath = "'../resources/5.4.1/img/spell/";
+            var championIconPath = "'../resources/5.5.2/img/spell/";
             var fileName = spellName + ".png'";
             var iconUrl = championIconPath + fileName;
             var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
@@ -258,7 +265,7 @@ $(document).ready(function(){
             getSpellFromFile(spell2Id, function(spell) {
                 var nameToFix = spell.id.toString();
                 var spellName = fixName(nameToFix);
-                var championIconPath = "'../resources/5.4.1/img/spell/";
+                var championIconPath = "'../resources/5.5.2/img/spell/";
                 var fileName = spellName + ".png'";
                 var iconUrl = championIconPath + fileName;
                 var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
@@ -273,6 +280,7 @@ $(document).ready(function(){
 
 
     function getRankStats(idObj, championId, table) {
+
 
         $.ajax({
             type: 'GET',
@@ -353,6 +361,7 @@ $(document).ready(function(){
     }
 
     function calculateKDA(championId, data, callback) {
+        var exsist = false;
         var thisChampion = {};
         var gamePlayed = 0;
         var totalKill = 0;
@@ -360,8 +369,10 @@ $(document).ready(function(){
         var totalAssist = 0;
         var averageKDA = '';
 
+        alert(''+championId);
         for (var i in data) {
             if (championId == data[i].id) {
+                exsist = true;
                 thisChampion = data[i];
             }
         }
@@ -377,10 +388,11 @@ $(document).ready(function(){
         var winRate = (seasonWon/(seasonWon+seasonLoss)).toFixed(2);
         var winRateOut = '';
         if (winRate > 0 && winRate < 1) {winRateOut = winRate.slice(2,4);}
-	if (winRate == 1) {winRateOut = '100';}
+	    if (winRate == 1) {winRateOut = '100';}
         if (seasonWon == 0) {winRateOut = '0';}
         var seasonStats = " " + winRateOut + "% ("+wonPlusLoss+")";
 
+        if (exsist == false) {averageKDA = '0/0/0'; seasonStats = '0% (0)'};
         callback(averageKDA, seasonStats);
     }
 
@@ -432,8 +444,8 @@ $(document).ready(function(){
             url: localUrl + '/mmr',
             data: inObj ,
             success: function(result) {
-
-                $( '#p_s_showMMR' ).html("Your MMR is: " + "<b>"+result.mmr+"</b>");
+                if (result.error == true) {$( '#p_s_showMMR' ).html("Your MMR is undetermined, you may not have played enough rank games recently");}
+                else {$( '#p_s_showMMR' ).html("Your MMR is: " + "<b>"+result.mmr+"</b>");}
             },
             error: function(jqXHR, status, error){
                 $('#p_s_logs' ).append('get mmr failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
@@ -469,7 +481,7 @@ $(document).ready(function(){
 
     function getChampionFromFile(championId, callback) {
         var champion = {};
-        $.getJSON('../resources/5.4.1/data/en_US/champion.json', function(result){
+        $.getJSON('../resources/5.5.2/data/en_US/champion.json', function(result){
             var championList = result.data;
             for (var i in championList) {
                 if (championList[i].key == championId) {
@@ -483,7 +495,7 @@ $(document).ready(function(){
 
     function getSpellFromFile(spellId, callback) {
         var spell = {};
-        $.getJSON('../resources/5.4.1/data/en_US/summoner.json', function(result){
+        $.getJSON('../resources/5.5.2/data/en_US/summoner.json', function(result){
             var spellList = result.data;
             for (var i in spellList) {
                 if (spellList[i].key == spellId) {
@@ -498,7 +510,8 @@ $(document).ready(function(){
     function fixName(name){
         var removeSpace = name.replace(/\s+/g,"");
         var removeUpperDot= removeSpace.replace("'","");
-        return removeUpperDot;
+        var removeDot= removeUpperDot.replace("'","");
+        return removeDot;
     }
 
     function getMastery(playerMasteryList, table) {
