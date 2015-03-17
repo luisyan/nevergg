@@ -15,19 +15,22 @@
 
 <div id="champRotationShow" align="center"><span id="p_s_champs"></span></div>
 
-<p id="checkMMR" align="center">Check MMR: <input id="ipt_MMR" value=""/>
-	<input id="btn_getMMR" type="button" value="Check"/></p>
+<div id="checkMMR" align="center">
+	<input id="ipt_MMR" placeholder="Summoner name"/>
+	<input id="btn_getMMR" type="button" value="Check"/>
+</div>
 
 <div id="showMMR" align="center"><span id="p_s_showMMR"></span></div>
 
-<p id="lolDataBtn" align="center"><a href="http://ddragon.leagueoflegends.com/tool/">lol data</a></p>
+<!-- <p id="lolDataBtn" align="center"><a href="http://ddragon.leagueoflegends.com/tool/">lol data</a></p> -->
 <!--<p id="show_table" align="center"><input id="btn_show" type="button" value="show"/></p>-->
 
 <!-- <p id ="fireworks" align="center"><a href="beatrice.jpg" download="beatrice.jpg">Hello Beatrice! Click here</a><p> -->
+<div id="statsSearch">
+	<input type="text" id="ipt_gameStatsSearch" placeholder="Summoner name in game"/>
+	<input id="btn_getGame" type="submit" value="Search"/>
+</div>
 <div id="table" align="center" >
-	<p id="summonerName_input" align="center">summoner name: <input id="ipt_summonerName" value=""/>
-		<input id="btn_getGame" type="button" value="Search"/></p>
-
 	<br>
 	<br>
 	<p><span id="p_s_spinner" align="center"></span></p>
@@ -50,7 +53,7 @@
 			<td><span id="p_s_t1_p1_champion"></span></td>
 			<td><span id="p_s_t1_p1_name"></span></td>
 			<td><span id="p_s_t1_p1_mmr"></span></td>
-			<td><span id="p_s_t1_p1_league"></span></td>
+			<td class="league"><span id="p_s_t1_p1_league"></span></td>
 			<td><span id="p_s_t1_p1_winLoss"></span></td>
 			<td><span id="p_s_t1_p1_KDA"></span></td>
 			<td><span id="p_s_t1_p1_last10matches"></span></td>
@@ -63,7 +66,7 @@
 			<td><span id="p_s_t1_p2_champion"></span></td>
 			<td><span id="p_s_t1_p2_name"></span></td>
 			<td><span id="p_s_t1_p2_mmr"></span></td>
-			<td><span id="p_s_t1_p2_league"></span></td>
+			<td class="league"><span id="p_s_t1_p2_league"></span></td>
 			<td><span id="p_s_t1_p2_winLoss"></span></td>
 			<td><span id="p_s_t1_p2_KDA"></span></td>
 			<td><span id="p_s_t1_p2_last10matches"></span></td>
@@ -77,7 +80,7 @@
 			<td><span id="p_s_t1_p3_champion"></span></td>
 			<td><span id="p_s_t1_p3_name"></span></td>
 			<td><span id="p_s_t1_p3_mmr"></span></td>
-			<td><span id="p_s_t1_p3_league"></span></td>
+			<td class="league"><span id="p_s_t1_p3_league"></span></td>
 			<td><span id="p_s_t1_p3_winLoss"></span></td>
 			<td><span id="p_s_t1_p3_KDA"></span></td>
 			<td><span id="p_s_t1_p3_last10matches"></span></td>
@@ -91,7 +94,7 @@
 			<td><span id="p_s_t1_p4_champion"></span></td>
 			<td><span id="p_s_t1_p4_name"></span></td>
 			<td><span id="p_s_t1_p4_mmr"></span></td>
-			<td><span id="p_s_t1_p4_league"></span></td>
+			<td class="league"><span id="p_s_t1_p4_league"></span></td>
 			<td><span id="p_s_t1_p4_winLoss"></span></td>
 			<td><span id="p_s_t1_p4_KDA"></span></td>
 			<td><span id="p_s_t1_p4_last10matches"></span></td>
@@ -105,7 +108,7 @@
 			<td><span id="p_s_t1_p5_champion"></span></td>
 			<td><span id="p_s_t1_p5_name"></span></td>
 			<td><span id="p_s_t1_p5_mmr"></span></td>
-			<td><span id="p_s_t1_p5_league"></span></td>
+			<td class="league"><span id="p_s_t1_p5_league"></span></td>
 			<td><span id="p_s_t1_p5_winLoss"></span></td>
 			<td><span id="p_s_t1_p5_KDA"></span></td>
 			<td><span id="p_s_t1_p5_last10matches"></span></td>
@@ -146,7 +149,7 @@
 			<td><span id="p_s_t2_p1_champion"></span></td>
 			<td><span id="p_s_t2_p1_name"></span></td>
 			<td><span id="p_s_t2_p1_mmr"></span></td>
-			<td><span id="p_s_t2_p1_league"></span></td>
+			<td class="league"><span id="p_s_t2_p1_league"></span></td>
 			<td><span id="p_s_t2_p1_winLoss"></span></td>
 			<td><span id="p_s_t2_p1_KDA"></span></td>
 			<td><span id="p_s_t2_p1_last10matches"></span></td>
@@ -160,7 +163,7 @@
 			<td><span id="p_s_t2_p2_champion"></span></td>
 			<td><span id="p_s_t2_p2_name"></span></td>
 			<td><span id="p_s_t2_p2_mmr"></span></td>
-			<td><span id="p_s_t2_p2_league"></span></td>
+			<td class="league"><span id="p_s_t2_p2_league"></span></td>
 			<td><span id="p_s_t2_p2_winLoss"></span></td>
 			<td><span id="p_s_t2_p2_KDA"></span></td>
 			<td><span id="p_s_t2_p2_last10matches"></span></td>
@@ -174,7 +177,7 @@
 			<td><span id="p_s_t2_p3_champion"></span></td>
 			<td><span id="p_s_t2_p3_name"></span></td>
 			<td><span id="p_s_t2_p3_mmr"></span></td>
-			<td><span id="p_s_t2_p3_league"></span></td>
+			<td class="league"><span id="p_s_t2_p3_league"></span></td>
 			<td><span id="p_s_t2_p3_winLoss"></span></td>
 			<td><span id="p_s_t2_p3_KDA"></span></td>
 			<td><span id="p_s_t2_p3_last10matches"></span></td>
@@ -188,7 +191,7 @@
 			<td><span id="p_s_t2_p4_champion"></span></td>
 			<td><span id="p_s_t2_p4_name"></span></td>
 			<td><span id="p_s_t2_p4_mmr"></span></td>
-			<td><span id="p_s_t2_p4_league"></span></td>
+			<td class="league"><span id="p_s_t2_p4_league"></span></td>
 			<td><span id="p_s_t2_p4_winLoss"></span></td>
 			<td><span id="p_s_t2_p4_KDA"></span></td>
 			<td><span id="p_s_t2_p4_last10matches"></span></td>
@@ -202,7 +205,7 @@
 			<td><span id="p_s_t2_p5_champion"></span></td>
 			<td><span id="p_s_t2_p5_name"></span></td>
 			<td><span id="p_s_t2_p5_mmr"></span></td>
-			<td><span id="p_s_t2_p5_league"></span></td>
+			<td class="league"><span id="p_s_t2_p5_league"></span></td>
 			<td><span id="p_s_t2_p5_winLoss"></span></td>
 			<td><span id="p_s_t2_p5_KDA"></span></td>
 			<td><span id="p_s_t2_p5_last10matches"></span></td>

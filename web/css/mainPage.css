@@ -1,7 +1,52 @@
-div#champRotationShow {
+html {
+}
+
+
+body {
+  font-family: Helvetica, Arial;
+  background: #F3F3F3 repeat;
+}
+
+div#statsSearch {
+  width: 260px;
+  height: 2rem;
   margin: auto;
-  position: relative;
-  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+div#checkMMR {
+  width: 260px;
+  height: 2rem;
+  margin: auto;
+}
+div#showMMR {
+  width: 260px;
+  height: 2rem;
+  margin: auto;
+}
+
+input#ipt_gameStatsSearch {
+  border: 0px;
+  width: 200px;
+  height: 1rem;
+  float: left;
+}
+input#ipt_MMR {
+  border: 0px;
+  width: 200px;
+  height: 1rem;
+  float: left;
+}
+
+input#btn_getGame {
+  background: #DCDCDC;
+  border: 0;
+  float: left;
+}
+
+input#btn_getMMR {
+  background: #DCDCDC;
+  border: 0;
+  float: left;
 }
 
 table
@@ -29,8 +74,23 @@ tr
   border-collapse: collapse;
 }
 
+
 p#msg
 {
   font-size:13px;
   line-height: 15px;
+}
+
+div#champRotationShow {
+  margin: auto;
+  position: relative;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.league {
+  position: relative; top: 0px
+}
+
+img{
+  vertical-align:middle;
 }

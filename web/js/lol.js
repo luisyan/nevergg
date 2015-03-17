@@ -137,14 +137,23 @@ $(document).ready(function(){
             data: idObj,
             success: function(result) {
                 var tierPath = "../tier/";
-                var fileName = result.tier + "_" + result.entries[0].division+".png";
+                if (result.ret == 1) {
+                    var fileName = "unknown.png";
+                } else {
+                    var fileName = result.tier + "_" + result.entries[0].division+".png";
+                }
                 var tierFile = tierPath+fileName;
-                $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
-                $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
+                if (result.ret != 1) {
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
+                    $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
+                } else {
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+"UNRANKED");
+                    $( table.winLoss ).html("0/0");
+                }
             },
             error: function(jqXHR, status, error){
                 spinner.stop();
-                $('#p_s_logs' ).append('get ranked solo failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>'+'Try to refresh and check again');
+                $('#p_s_logs' ).append('get ranked solo failed, '+ jqXHR +'/'+ status +'/'+ error);
             }
         });
     }
@@ -157,14 +166,23 @@ $(document).ready(function(){
             data: idObj,
             success: function(result) {
                 var tierPath = "../tier/";
-                var fileName = result.tier + "_" + result.entries[0].division+".png";
+                if (result.ret == 1) {
+                    var fileName = "unknown.png";
+                } else {
+                    var fileName = result.tier + "_" + result.entries[0].division+".png";
+                }
                 var tierFile = tierPath+fileName;
-                $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
-                $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
+                if (result.ret != 1) {
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='35' height='35'/> "+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
+                    $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
+                } else {
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='35' height='35'/> "+"UNRANKED");
+                    $( table.winLoss ).html("0/0");
+                }
             },
             error: function(jqXHR, status, error){
                 spinner.stop();
-                $('#p_s_logs' ).append('get ranked solo failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>'+'Try to refresh and check again');
+                $('#p_s_logs' ).append('get ranked solo failed, '+ jqXHR +'/'+ status +'/'+ error);
             }
         });
     }
@@ -280,19 +298,20 @@ $(document).ready(function(){
 
 
     function getRankStats(idObj, championId, table) {
-
-
         $.ajax({
             type: 'GET',
             url: localUrl + '/rank/stats' ,
             data: idObj,
             success: function(result) {
-
-                calculateKDA(championId, result, function(averageKDA, seasonStats) {
-                    $( table.KDA ).html(averageKDA);
-                    $( table.champion ).append(seasonStats.toString());
-                })
-
+                if (result.ret == 1) {
+                    $( table.KDA ).html("unknown");
+                    $( table.champion ).append(" (0)");
+                } else {
+                    calculateKDA(championId, result, function(averageKDA, seasonStats) {
+                        $( table.KDA ).html(averageKDA);
+                        $( table.champion ).append(seasonStats.toString());
+                    })
+                }
             },
             error: function(jqXHR, status, error){
                 $('#p_s_logs' ).append('get rank info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
@@ -306,7 +325,11 @@ $(document).ready(function(){
             url: localUrl + '/mmr' ,
             data: nameObj,
             success: function(result) {
-                $( table.mmr ).html(result.mmr);
+                if (result.error != true) {
+                    $( table.mmr ).html(result.mmr);
+                } else {
+                    $( table.mmr ).html("unknown");
+                }
             },
             error: function(jqXHR, status, error){
                 $('#p_s_logs' ).append('get mmr failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
@@ -361,7 +384,7 @@ $(document).ready(function(){
     }
 
     function calculateKDA(championId, data, callback) {
-        var exsist = false;
+        var exist = false;
         var thisChampion = {};
         var gamePlayed = 0;
         var totalKill = 0;
@@ -371,10 +394,17 @@ $(document).ready(function(){
 
         for (var i in data) {
             if (championId == data[i].id) {
-                exsist = true;
+                exist = true;
                 thisChampion = data[i];
             }
         }
+        if (exist == false) {
+            var averageKDA = 'unknown';
+            var seasonStats = ' (0)';
+            callback(averageKDA, seasonStats);
+            return;
+        };
+
         gamePlayed = Number(thisChampion.stats.totalSessionsPlayed);
         totalKill = Number(thisChampion.stats.totalChampionKills);
         totalDeath = Number(thisChampion.stats.totalDeathsPerSession);
@@ -391,7 +421,6 @@ $(document).ready(function(){
         if (seasonWon == 0) {winRateOut = '0';}
         var seasonStats = " " + winRateOut + "% ("+wonPlusLoss+")";
 
-        if (exsist == false) {averageKDA = '0/0/0'; seasonStats = '0% (0)'};
         callback(averageKDA, seasonStats);
     }
 
@@ -426,7 +455,7 @@ $(document).ready(function(){
         $('#p_s_mastery' ).html('Mastery');
 
         var inObj = {
-            summonerName: $('#ipt_summonerName' ).val()
+            summonerName: $('#ipt_gameStatsSearch' ).val()
         }
 
         // Retrieve summoner info
@@ -457,7 +486,7 @@ $(document).ready(function(){
 
     });
 
-    $("#ipt_summonerName").keydown(function() {
+    $("#ipt_gameStatsSearch").keydown(function() {
         if (event.keyCode == "13") {
             $('#btn_getGame').click();
         }

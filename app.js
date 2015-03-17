@@ -57,7 +57,7 @@ app.get('/summoner/currentgame', function (req, res) {
         }
         else
         {
-            logger.trace( 'Got current game.');
+            logger.trace( 'Got current game.', result);
             res.json( result );
         }
     });
@@ -89,18 +89,28 @@ app.get('/summoner/solo_record', function (req, res) {
     id = Number(id);
     logger.trace('getting solo rank record of summoner %d', id);
     leagueAPI.getLeagueEntryData(id, 'na',function(err, result) {
+        var soloRecord = {
+            ret: 1,
+            tier: 'unknown',
+            queue: 'RANKED_SOLO_5x5'
+        };
         if (err) {
-            logger.trace('error getting rank info', err);
-            outPutErr(res , 500, err);
+            logger.trace('Error occurs, This summoner has no rank information');
+            res.json(soloRecord);
         } else {
-            var soloRecord = {};
-            for ( var i in result[id] ) {
-                if ( result[id][i].queue == 'RANKED_SOLO_5x5' ) {
-                    soloRecord = result[id][i]
+            if (result != null) {
+                for ( var i in result[id] ) {
+                    if ( result[id][i].queue == 'RANKED_SOLO_5x5' ) {
+                        soloRecord = result[id][i]
+                    }
                 }
+                logger.trace( 'Got solo rank record. using 2nd key' );
+                res.json( soloRecord );
             }
-            logger.trace( 'Got solo rank record.' );
-            res.json( soloRecord );
+            else {
+                logger.trace('No error, This summoner has no rank information');
+                res.json(soloRecord);
+            }
         }
     });
 })
@@ -110,18 +120,28 @@ app.get('/summoner/solo_record_2', function (req, res) {
     id = Number(id);
     logger.trace('getting solo rank record of summoner %d, using 2nd key', id);
     lolAPI.League.getEntriesBySummonerId(id, function(err, result) {
+        var soloRecord = {
+            ret: 1,
+            tier: 'unknown',
+            queue: 'RANKED_SOLO_5x5'
+        };
         if (err) {
-            logger.trace('error getting rank info, using 2nd key', err);
-            outPutErr(res , 500, err);
+            logger.trace('Error occurs, This summoner has no rank information');
+            res.json(soloRecord);
         } else {
-            var soloRecord = {};
-            for ( var i in result[id] ) {
-                if ( result[id][i].queue == 'RANKED_SOLO_5x5' ) {
-                    soloRecord = result[id][i]
+            if (result != null) {
+                for ( var i in result[id] ) {
+                    if ( result[id][i].queue == 'RANKED_SOLO_5x5' ) {
+                        soloRecord = result[id][i]
+                    }
                 }
+                logger.trace( 'Got solo rank record. using 2nd key' );
+                res.json( soloRecord );
             }
-            logger.trace( 'Got solo rank record. using 2nd key' );
-            res.json( soloRecord );
+            else {
+                logger.trace('This summoner has no rank information');
+                res.json(soloRecord);
+            }
         }
     });
 })
@@ -183,10 +203,13 @@ app.get('/rank/stats', function (req, res) {
     id = Number(id);
     logger.trace('getting rank stats...');
     leagueAPI.Stats.getRanked(id, null, function(err, result) {
-        if (err) {outPutErr(res , 500, err);}
+        if (err) {
+            logger.trace('Summoner %d has no rank stats', id);
+            res.json({ret:1});
+        }
         else
         {
-            logger.trace('Got rank stats.');
+            logger.trace('Got rank stats.', result);
             res.json( result );
         }
     });
