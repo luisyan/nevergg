@@ -8,45 +8,52 @@ body {
 }
 
 div#statsSearch {
+ /*
   width: 260px;
   height: 2rem;
   margin: auto;
+  */
 }
 
 div#checkMMR {
+/*
   width: 260px;
   height: 2rem;
   margin: auto;
+  */
 }
 div#showMMR {
+  /*
   width: 260px;
   height: 2rem;
   margin: auto;
+  */
 }
 
 input#ipt_gameStatsSearch {
   border: 0px;
   width: 200px;
   height: 1rem;
-  float: left;
+  /*float: left;*/
 }
 input#ipt_MMR {
+  position: relative;left:-2px;
   border: 0px;
   width: 200px;
   height: 1rem;
-  float: left;
+  /*float: left;*/
 }
 
 input#btn_getGame {
   background: #DCDCDC;
   border: 0;
-  float: left;
+  /*float: left;*/
 }
 
 input#btn_getMMR {
   background: #DCDCDC;
   border: 0;
-  float: left;
+  /*float: left;*/
 }
 
 table
