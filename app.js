@@ -34,7 +34,10 @@ app.get('/summoner/id', function (req, res) {
     var name = req.param('summonerName');
     logger.trace('getting data of summoner %s...', name);
     leagueAPI.Summoner.getByName(name, 'na', function(err, result) {
-        if (err) {outPutErr(res , 500, err)}
+        if (err) {
+            logger.trace('error getting summoner by id');
+            res.json({ret:1});
+        }
         else {
             logger.trace('Got summoner data...', result);
             res.json(result);
@@ -57,7 +60,7 @@ app.get('/summoner/currentgame', function (req, res) {
         }
         else
         {
-            logger.trace( 'Got current game.', result);
+            logger.trace( 'Got current game.', result.participants[3].runes);
             res.json( result );
         }
     });
@@ -193,7 +196,7 @@ app.get('/mmr', function (req, res) {
     logger.trace('getting mmr of %s ...', name);
     mmr(name, function(err, result) {
         if (err) {outPutErr(res , 500, err)};
-        logger.trace('%s\'s mmr is: ', name , result);
+        logger.trace('Got %s\'s mmr is: ', name);
         res.json(result);
     });
 })
@@ -209,7 +212,7 @@ app.get('/rank/stats', function (req, res) {
         }
         else
         {
-            logger.trace('Got rank stats.', result);
+            logger.trace('Got rank stats.');
             res.json( result );
         }
     });

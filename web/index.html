@@ -38,16 +38,19 @@
 	<p><span id="p_s_spinner" align="center"></span></p>
 	<table id="rankTable">
 		<div>
-			<tr><th><span id="p_s_champion_icon"></span></th>
-				<th><span id="p_s_summoner_spell"></span></th>
-				<th><span id="p_s_champion_name"></span></th>
-				<th><span id="p_s_summoner_name"></span></th>
-				<th><span id="p_s_summoner_mmr"></span></th>
-				<th><span id="p_s_summoner_league"></span></th>
-				<th><span id="p_s_summoner_winLoss"></span></th>
-				<th><span id="p_s_champion_kda"></span></th>
-				<th><span id="p_s_last10matches"></span></th>
-				<th><span id="p_s_mastery"></span></th>
+			<tr>
+				<th class="tableHeader" colspan="3"><span id="p_s_champion_name"></span></th>
+				<th class="tableHeader"><span id="p_s_summoner_name"></span></th>
+				<th class="tableHeader"><span id="p_s_summoner_mmr"></span></th>
+				<th class="tableHeader"><span id="p_s_summoner_league"></span></th>
+				<th class="tableHeader"><span id="p_s_summoner_winLoss"></span></th>
+				<th class="tableHeader"><span id="p_s_champion_kda"></span></th>
+				<th class="tableHeader"><span id="p_s_runes"></span></th>
+				<th class="tableHeader"><span id="p_s_mastery"></span></th>
+				<th class="tableHeader"><span id="p_s_last10matches"></span></th>
+			</tr>
+			<tr>
+				<td class="separateLine" id="lineTop" colspan="11"></td>
 			</tr>
 		<tr>
 			<td><span id="p_s_t1_p1_championIcon"></span></td>
@@ -58,8 +61,9 @@
 			<td class="league"><span id="p_s_t1_p1_league"></span></td>
 			<td><span id="p_s_t1_p1_winLoss"></span></td>
 			<td><span id="p_s_t1_p1_KDA"></span></td>
-			<td><span id="p_s_t1_p1_last10matches"></span></td>
+			<td><span id="p_s_t1_p1_runes"></span></td>
 			<td><span id="p_s_t1_p1_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t1_p1_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr><tr>
@@ -71,8 +75,9 @@
 			<td class="league"><span id="p_s_t1_p2_league"></span></td>
 			<td><span id="p_s_t1_p2_winLoss"></span></td>
 			<td><span id="p_s_t1_p2_KDA"></span></td>
-			<td><span id="p_s_t1_p2_last10matches"></span></td>
+			<td><span id="p_s_t1_p2_runes"></span></td>
 			<td><span id="p_s_t1_p2_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t1_p2_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -85,8 +90,9 @@
 			<td class="league"><span id="p_s_t1_p3_league"></span></td>
 			<td><span id="p_s_t1_p3_winLoss"></span></td>
 			<td><span id="p_s_t1_p3_KDA"></span></td>
-			<td><span id="p_s_t1_p3_last10matches"></span></td>
+			<td><span id="p_s_t1_p3_runes"></span></td>
 			<td><span id="p_s_t1_p3_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t1_p3_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -99,8 +105,9 @@
 			<td class="league"><span id="p_s_t1_p4_league"></span></td>
 			<td><span id="p_s_t1_p4_winLoss"></span></td>
 			<td><span id="p_s_t1_p4_KDA"></span></td>
-			<td><span id="p_s_t1_p4_last10matches"></span></td>
+			<td><span id="p_s_t1_p4_runes"></span></td>
 			<td><span id="p_s_t1_p4_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t1_p4_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -113,35 +120,19 @@
 			<td class="league"><span id="p_s_t1_p5_league"></span></td>
 			<td><span id="p_s_t1_p5_winLoss"></span></td>
 			<td><span id="p_s_t1_p5_KDA"></span></td>
-			<td><span id="p_s_t1_p5_last10matches"></span></td>
+			<td><span id="p_s_t1_p5_runes"></span></td>
 			<td><span id="p_s_t1_p5_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t1_p5_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
 		</div>
 
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td colspan="11"></td>
 		</tr>
-
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td colspan="11"></td>
 		</tr>
 
 		<div>
@@ -154,8 +145,9 @@
 			<td class="league"><span id="p_s_t2_p1_league"></span></td>
 			<td><span id="p_s_t2_p1_winLoss"></span></td>
 			<td><span id="p_s_t2_p1_KDA"></span></td>
-			<td><span id="p_s_t2_p1_last10matches"></span></td>
+			<td><span id="p_s_t2_p1_runes"></span></td>
 			<td><span id="p_s_t2_p1_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t2_p1_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -168,8 +160,9 @@
 			<td class="league"><span id="p_s_t2_p2_league"></span></td>
 			<td><span id="p_s_t2_p2_winLoss"></span></td>
 			<td><span id="p_s_t2_p2_KDA"></span></td>
-			<td><span id="p_s_t2_p2_last10matches"></span></td>
+			<td><span id="p_s_t2_p2_runes"></span></td>
 			<td><span id="p_s_t2_p2_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t2_p2_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -182,8 +175,9 @@
 			<td class="league"><span id="p_s_t2_p3_league"></span></td>
 			<td><span id="p_s_t2_p3_winLoss"></span></td>
 			<td><span id="p_s_t2_p3_KDA"></span></td>
-			<td><span id="p_s_t2_p3_last10matches"></span></td>
+			<td><span id="p_s_t2_p3_runes"></span></td>
 			<td><span id="p_s_t2_p3_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t2_p3_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -196,8 +190,9 @@
 			<td class="league"><span id="p_s_t2_p4_league"></span></td>
 			<td><span id="p_s_t2_p4_winLoss"></span></td>
 			<td><span id="p_s_t2_p4_KDA"></span></td>
-			<td><span id="p_s_t2_p4_last10matches"></span></td>
+			<td><span id="p_s_t2_p4_runes"></span></td>
 			<td><span id="p_s_t2_p4_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t2_p4_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -210,12 +205,16 @@
 			<td class="league"><span id="p_s_t2_p5_league"></span></td>
 			<td><span id="p_s_t2_p5_winLoss"></span></td>
 			<td><span id="p_s_t2_p5_KDA"></span></td>
-			<td><span id="p_s_t2_p5_last10matches"></span></td>
+			<td><span id="p_s_t2_p5_runes"></span></td>
 			<td><span id="p_s_t2_p5_mastery"></span></td>
+			<td class="tenGames"><span id="p_s_t2_p5_last10matches"></span></td>
 			<td></td>
 			<td></td>
 		</tr>
 		</div>
+		<tr>
+			<td class="separateLine" id="lineBottom" colspan="11"></td>
+		</tr>
 	</table>
 
 	<p id="msg">Ashe 50% (6) = 6 games, 50% win rate using Ashe
@@ -224,7 +223,7 @@
 	</p>
 </div>
 
-<p align="center"><span id="p_s_logs"></span></p>
+<p align="center"><span id="p_s_feedbackInfo"></span></p>
 <p align="center"><span id="p_s_showData"></span></p>
 <p align="center"><span id="p_s_mmr"></span></p>
 <p align="center"><span id="p_s_idData"></span></p>

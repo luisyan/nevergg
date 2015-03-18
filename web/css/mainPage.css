@@ -101,3 +101,33 @@ div#champRotationShow {
 img{
   vertical-align:middle;
 }
+
+td#lineTop {
+  font-size: 1px;
+  height: 1px;
+  line-height: 1px;
+  padding: 1px;
+  cellspacing: 1px;
+  background: #00bbff;
+}
+
+td#lineBottom {
+  font-size: 1px;
+  height: 1px;
+  line-height: 1px;
+  padding: 1px;
+  cellspacing: 1px;
+  background: #9955ff;
+}
+
+.tableHeader {
+  position: relative; bottom: 5px
+}
+
+span#p_s_last10matches {
+  position: relative; left: 5px
+}
+
+.tenGames {
+  position: relative; left: 30px
+}
