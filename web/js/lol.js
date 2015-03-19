@@ -645,8 +645,8 @@ $(document).ready(function(){
                         playerRuneStorage.push(outputStr+"<br>");
                     }
                 }
-                integrateRunes(playerRuneStorage);
             }
+            integrateRunes(playerRuneStorage);
         });
     }
 
@@ -663,6 +663,7 @@ $(document).ready(function(){
         var prefix = '+';
         if (description.indexOf('-') != -1) {prefix = '-'}
         runeTotalValue = Number(runeTotalValue).toFixed(2);
+        if (description.indexOf('regen') != -1) {runeTotalValue = (runeTotalValue * 5).toFixed(2)}
         if (description.indexOf('per level') == -1) {
             if (description.indexOf('Armor Penetration') != -1 && description.indexOf('Magic Penetration') != -1) {
                 var midPoint = description.indexOf('/');
@@ -671,8 +672,9 @@ $(document).ready(function(){
                 var firstNumber = description.substring(0, description.indexOf(' Armor Penetration'));
                 var secondNumber = description.substring(midPoint+2, description.indexOf(' Magic Penetration'));
                 firstNumber = Number(firstNumber) * count;
-                var firstPiece = prefix+firstNumber+description.substring(description.indexOf(' '), midPoint+1);
+                var firstPiece = prefix+firstNumber+description.substring(description.indexOf(' '), midPoint+2);
                 secondNumber = Number(secondNumber) * count;
+                secondNumber = secondNumber.toFixed(2);
                 var secondPiece = secondNumber+' Magic Penetration';
                 var output = firstPiece+secondPiece;
                 return output;
@@ -698,10 +700,10 @@ $(document).ready(function(){
                 prefix = '';
             }
             if (percentage == true) {
-                var valueAt18 = Number(description.substring(firstBracket+1, secondPoint-1)) * count;
+                var valueAt18 = (Number(description.substring(firstBracket+1, secondPoint-1)) * count).toFixed(2);
                 var outputScale = prefix+runeTotalValue+' '+firstPiece+'('+valueAt18+'%'+secondPiece;
             } else {
-                var valueAt18 = Number(description.substring(firstBracket+1, secondPoint)) * count;
+                var valueAt18 = (Number(description.substring(firstBracket+1, secondPoint)) * count).toFixed(2);
                 var outputScale = prefix+runeTotalValue+' '+firstPiece+'('+valueAt18+secondPiece;
             }
             return outputScale;
@@ -722,7 +724,7 @@ $(document).ready(function(){
             for (var j in runeArray) {
                 if (i != j) {
                     var point1 = runeArray[i].indexOf(' ');
-                    var point2 = runeArray[j].indexOf(' ');;
+                    var point2 = runeArray[j].indexOf(' ');
                     var one = runeArray[i].substr(point1);
                     var two = runeArray[j].substr(point2)
                     if (one == two) {
@@ -760,9 +762,9 @@ $(document).ready(function(){
                                 newVal = newVal+'%';
                             }
                             if (plus == true) {
-                                var newStr = '+'+newVal+two;
+                                var newStr = '+'+newVal+one;
                             } else {
-                                var newStr = '-'+newVal+two;
+                                var newStr = '-'+newVal+one;
                             }
                             runeArray[j] = newStr;
                             runeArray.splice(i , 1);
@@ -770,6 +772,56 @@ $(document).ready(function(){
 
                     }
                 }
+            }
+        }
+        for (var i in runeArray) {
+            for (var j in runeArray) {
+                if (i != j && runeArray[i].indexOf('Armor') != -1 && runeArray[i].indexOf('Magic') != -1 && runeArray[j].indexOf('Armor') != -1 && runeArray[j].indexOf('Magic') != -1) {
+                    alert('special case 1');
+                    if (i<j) {var S = i; var L = j;}
+                    else {var S = j; var L = i;}
+                    alert('S: '+runeArray[S]);
+                    alert('L: '+runeArray[L]);
+                    var P1 = runeArray[S].substring(0, runeArray[S].indexOf('/')+2);
+                    var P2 = runeArray[S].substring(runeArray[S].indexOf('/')+2);
+                    var N1 = P1.substring(0, P1.indexOf(' '));
+                    var N2 = P2.substring(0, P2.indexOf(' '));
+                    var P3 = runeArray[L].substring(0, runeArray[L].indexOf('/')+2);
+                    var P4 = runeArray[L].substring(runeArray[L].indexOf('/')+2);
+                    var N3 = P3.substring(0, P3.indexOf(' '));
+                    var N4 = P4.substring(0, P4.indexOf(' '));
+                    var V1 = (Number(N1)+Number(N3)).toFixed(2);
+                    var V2 = (Number(N2)+Number(N4)).toFixed(2);
+                    P1.replace(N1 , V1.toString());
+                    P2.replace(N2 , V2.toString());
+                    var output = P1+P2;
+                    alert('***'+output);
+                }
+            }
+        }
+        for (var i in runeArray) {
+            for (var j in runeArray) {
+                    if (i != j && runeArray[i].indexOf('level 18') != -1 && runeArray[i].substring(runeArray[i].indexOf(' '), runeArray[i].indexOf( 'per level' ) ) == runeArray[j].substring(runeArray[j].indexOf(' ') , runeArray[j].indexOf( 'per level' ) ) ) {
+                        var val1 = runeArray[i].substring(0, runeArray[i].indexOf(' '));
+                        var val2 = runeArray[j].substring(0, runeArray[j].indexOf(' '));
+                        var val3 = runeArray[i].substring(runeArray[i].indexOf('(')+1,runeArray[i].indexOf(' at champion level 18'));
+                        var val4 = runeArray[j].substring(runeArray[j].indexOf('(')+1,runeArray[j].indexOf(' at champion level 18'));
+                        alert('special case 2');
+                        var newVal1 = Number(val1)+Number(val2);
+                        var newVal2 = Number(val3)+Number(val4);
+                        newVal1 = newVal1.toFixed(2);
+                        newVal2 = newVal2.toFixed(2);
+                        var midPiece = runeArray[i].substring(runeArray[i].indexOf(' '), runeArray[i].indexOf('(')+1);
+                        var newStr = '+'+newVal1+midPiece+newVal2+' at champion level 18)<br>';
+                        if (j>i) {
+                            runeArray[i] = newStr;
+                            runeArray.splice(j , 1);
+                        } else {
+                            runeArray[j] = newStr;
+                            runeArray.splice(i , 1);
+                        }
+                    }
+
             }
         }
     }
