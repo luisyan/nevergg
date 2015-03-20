@@ -6,6 +6,7 @@ $(document).ready(function(){
     $('#msg' ).hide();
     $('.separateLine' ).hide();
     var count_load_rank = 0;
+    var count_disable_sumbit = 0;
     var opts = {
         lines: 11, // 花瓣数目
         length: 8, // 花瓣长度
@@ -202,6 +203,8 @@ $(document).ready(function(){
         });
     }
 
+
+
     function getRank(idObj, table, team) {
         if (team == 'team1') {
             getSoloRecord(idObj, table);
@@ -327,6 +330,8 @@ $(document).ready(function(){
                         $( table.champion ).append(seasonStats.toString());
                     })
                 }
+                count_disable_sumbit++;
+                check_disable_submit();
             },
             error: function(jqXHR, status, error){
                 $('#p_s_feedbackInfo' ).append('get rank info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
@@ -399,6 +404,14 @@ $(document).ready(function(){
         }
     }
 
+    function check_disable_submit() {
+        if (count_disable_sumbit == 10) {
+            $('#btn_getGame').val('Search');
+            $('#btn_getGame').removeAttr('disabled');;
+            count_disable_sumbit = 0;
+        }
+    }
+
     function calculateKDA(championId, data, callback) {
         var exist = false;
         var thisChampion = {};
@@ -455,6 +468,8 @@ $(document).ready(function(){
 
     var idObj = {};
     $('#btn_getGame' ).click(function() {
+        $('#btn_getGame').val( 'searching..' );
+        $('#btn_getGame').attr('disabled' , 'disabled' );
         clearFiled();
         clearTable();
         $('#rankTable' ).hide();
@@ -471,17 +486,12 @@ $(document).ready(function(){
         $('#p_s_last10matches' ).html('Last-10-games');
         $('#p_s_mastery' ).html('Mastery');
 
-        $('#p_s_t1_p1_runes' ).html('Runes');
-        $('#p_s_t1_p2_runes' ).html('Runes');
-        $('#p_s_t1_p3_runes' ).html('Runes');
-        $('#p_s_t1_p4_runes' ).html('Runes');
-        $('#p_s_t1_p5_runes' ).html('Runes');
-        $('#p_s_t2_p1_runes' ).html('Runes');
-        $('#p_s_t2_p2_runes' ).html('Runes');
-        $('#p_s_t2_p3_runes' ).html('Runes');
-        $('#p_s_t2_p4_runes' ).html('Runes');
-        $('#p_s_t2_p5_runes' ).html('Runes');
-
+        for (var i=1;i<3;i++) {
+            for (var j=1;j<6;j++) {
+                var fieldName = '#p_s_t'+i+'_p'+j+'_runes';
+                $(fieldName ).html('<img style="position: relative; left: 2px" src="http://ddragon.leagueoflegends.com/cdn/5.2.2/img/rune/8001.png" align="middle" width="30" height="30"/>');
+            }
+        }
         var inObj = {
             summonerName: $('#ipt_gameStatsSearch' ).val()
         }
@@ -489,6 +499,8 @@ $(document).ready(function(){
         // Retrieve summoner info
         getSummonerInfo(inObj);
     });
+
+
 
     $('#btn_getMMR' ).click(function(){
         var inObj = {
@@ -516,7 +528,9 @@ $(document).ready(function(){
 
     $("#ipt_gameStatsSearch").keydown(function() {
         if (event.keyCode == "13") {
-            $('#btn_getGame').click();
+            if ($('#btn_getGame' ).attr('disabled') != 'disabled') {
+                $('#btn_getGame').click();
+            }
         }
     });
     $("#ipt_MMR").keydown(function() {
@@ -787,17 +801,22 @@ $(document).ready(function(){
                     alert('L: '+runeArray[L]);
                     var P1 = runeArray[S].substring(0, runeArray[S].indexOf('/')+2);
                     var P2 = runeArray[S].substring(runeArray[S].indexOf('/')+2);
+                    alert('P1: '+P1+' P2: '+P2);
                     var N1 = P1.substring(0, P1.indexOf(' '));
                     var N2 = P2.substring(0, P2.indexOf(' '));
                     var P3 = runeArray[L].substring(0, runeArray[L].indexOf('/')+2);
                     var P4 = runeArray[L].substring(runeArray[L].indexOf('/')+2);
+                    alert('P3: '+P3+' P4: '+P4);
                     var N3 = P3.substring(0, P3.indexOf(' '));
                     var N4 = P4.substring(0, P4.indexOf(' '));
+                    alert('N1: '+N1+' N2: '+N2+' N3: '+N3+' N4: '+N4);
                     var V1 = (Number(N1)+Number(N3)).toFixed(2);
                     var V2 = (Number(N2)+Number(N4)).toFixed(2);
-                    P1.replace(N1 , V1.toString());
-                    P2.replace(N2 , V2.toString());
-                    var case1output = P1+P2;
+                    alert('v1: '+V1+' v2: '+V2);
+                    var P1_withoutNumber = P1.substring(P1.indexOf(' '), P1.indexOf('/')+2);
+                    var P2_withoutNumber = P2.substring(P2.indexOf(' '));
+                    alert('after, P1: '+P1+' P2: '+P2);
+                    var case1output = '+'+V1+P1_withoutNumber+V2+P2_withoutNumber;
                     if (j>i) {
                         runeArray[i] = case1output;
                         runeArray.splice(j , 1);

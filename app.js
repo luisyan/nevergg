@@ -60,7 +60,7 @@ app.get('/summoner/currentgame', function (req, res) {
         }
         else
         {
-            logger.trace( 'Got current game.', result.participants[3].runes);
+            logger.trace( 'Got current game.');
             res.json( result );
         }
     });
