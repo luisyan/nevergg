@@ -800,28 +800,20 @@ $(document).ready(function(){
         for (var i in runeArray) {
             for (var j in runeArray) {
                 if (i != j && runeArray[i].indexOf('Armor') != -1 && runeArray[i].indexOf('Magic') != -1 && runeArray[j].indexOf('Armor') != -1 && runeArray[j].indexOf('Magic') != -1) {
-                    alert('special case 1');
                     if (i<j) {var S = i; var L = j;}
                     else {var S = j; var L = i;}
-                    alert('S: '+runeArray[S]);
-                    alert('L: '+runeArray[L]);
                     var P1 = runeArray[S].substring(0, runeArray[S].indexOf('/')+2);
                     var P2 = runeArray[S].substring(runeArray[S].indexOf('/')+2);
-                    alert('P1: '+P1+' P2: '+P2);
                     var N1 = P1.substring(0, P1.indexOf(' '));
                     var N2 = P2.substring(0, P2.indexOf(' '));
                     var P3 = runeArray[L].substring(0, runeArray[L].indexOf('/')+2);
                     var P4 = runeArray[L].substring(runeArray[L].indexOf('/')+2);
-                    alert('P3: '+P3+' P4: '+P4);
                     var N3 = P3.substring(0, P3.indexOf(' '));
                     var N4 = P4.substring(0, P4.indexOf(' '));
-                    alert('N1: '+N1+' N2: '+N2+' N3: '+N3+' N4: '+N4);
                     var V1 = (Number(N1)+Number(N3)).toFixed(2);
                     var V2 = (Number(N2)+Number(N4)).toFixed(2);
-                    alert('v1: '+V1+' v2: '+V2);
                     var P1_withoutNumber = P1.substring(P1.indexOf(' '), P1.indexOf('/')+2);
                     var P2_withoutNumber = P2.substring(P2.indexOf(' '));
-                    alert('after, P1: '+P1+' P2: '+P2);
                     var case1output = '+'+V1+P1_withoutNumber+V2+P2_withoutNumber;
                     if (j>i) {
                         runeArray[i] = case1output;
@@ -830,7 +822,6 @@ $(document).ready(function(){
                         runeArray[j] = case1output;
                         runeArray.splice(i , 1);
                     }
-                    alert('***'+case1output);
                 }
             }
         }
