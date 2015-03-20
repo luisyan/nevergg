@@ -126,7 +126,8 @@ $(document).ready(function(){
             url: localUrl + '/summoner/currentgame' ,
             data: idObj,
             success: function(result) {
-                if (result.ret == 1) {spinner.stop();$('#p_s_feedbackInfo' ).html(result.result);}
+                if (result.ret == 1) {spinner.stop();$('#p_s_feedbackInfo' ).html(result.result);recover();}
+
                 else {
                     getSummonersByTeam( result.participants, function (team1, team2) {
 
@@ -266,9 +267,15 @@ $(document).ready(function(){
             nameToFix = fixChampionName(nameToFix);
 	        var championName = fixName(nameToFix);
             $( table.champion ).html(championName);
-            var championIconPath = "'../resources/5.5.2/img/champion/";
-            var fileName = championName + ".png'";
-            var iconUrl = championIconPath + fileName;
+            var getFromFile = true; // not getting from local file
+            if (getFromFile == true) {
+                var championIconPath = "'../resources/5.5.2/img/champion/";
+                var fileName = championName + ".png'";
+                var iconUrl = championIconPath + fileName;
+            } else {
+                championName = championName.charAt(0)+championName.substr(1 ).toLowerCase();
+                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.2.2/img/champion/'+championName+'.png';
+            }
             var htmlCode = "<img src="+iconUrl+" width='40' height='40'/>";
 
             $( table.championIcon ).html(htmlCode);
@@ -406,8 +413,7 @@ $(document).ready(function(){
 
     function check_disable_submit() {
         if (count_disable_sumbit == 10) {
-            $('#btn_getGame').val('Search');
-            $('#btn_getGame').removeAttr('disabled');;
+            recover();
             count_disable_sumbit = 0;
         }
     }
@@ -854,6 +860,10 @@ $(document).ready(function(){
         }
     }
 
+    function recover() {
+        $('#btn_getGame').val('Search');
+        $('#btn_getGame').removeAttr('disabled');
+    }
 
     $('#p_s_t1_p1_runes').mouseover(function(e) {
 
