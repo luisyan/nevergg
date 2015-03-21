@@ -233,10 +233,13 @@ app.get('/summoner/matchHistory', function (req, res) {
     id = Number(id);
     logger.trace('getting match history...');
     lolAPI.MatchHistory.getBySummonerId(id, matchHistoryOpt, function(err, result) {
-        if (err) {outPutErr(res , 500, err);}
+        if (err) {
+            res.json({ret:1});
+        }
         else
         {
-            logger.trace( 'Got match history.');
+            logger.trace( 'Got match history.')
+            logger.info('participants: ', result.matches[0].participants[0].stats);
             res.json( result );
         }
     });

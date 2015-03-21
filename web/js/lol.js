@@ -3,6 +3,18 @@
  */
 
 $(document).ready(function(){
+    var statsX = 10;
+    var statsY1 = -150;
+    var statsY2 = -150;
+    var statsY3 = -150;
+    var statsY4 = -150;
+    var statsY5 = -150;
+    var statsY6 = -150;
+    var statsY7 = -150;
+    var statsY8 = -150;
+    var statsY9 = -150;
+    var statsY0 = -150;
+
     $('#msg' ).hide();
     $('.separateLine' ).hide();
     var count_load_rank = 0;
@@ -70,6 +82,27 @@ $(document).ready(function(){
     var t2_p4_runes = [];
     var t2_p5_runes = [];
 
+    var t1_p1_stats = [];
+    var t1_p2_stats = [];
+    var t1_p3_stats = [];
+    var t1_p4_stats = [];
+    var t1_p5_stats = [];
+    var t2_p1_stats = [];
+    var t2_p2_stats = [];
+    var t2_p3_stats = [];
+    var t2_p4_stats = [];
+    var t2_p5_stats = [];
+
+    var t1_p1_stats_output = {str:'loading'};
+    var t1_p2_stats_output = {str:'loading'};
+    var t1_p3_stats_output = {str:'loading'};
+    var t1_p4_stats_output = {str:'loading'};
+    var t1_p5_stats_output = {str:'loading'};
+    var t2_p1_stats_output = {str:'loading'};
+    var t2_p2_stats_output = {str:'loading'};
+    var t2_p3_stats_output = {str:'loading'};
+    var t2_p4_stats_output = {str:'loading'};
+    var t2_p5_stats_output = {str:'loading'};
 
     $('#btn_hello' ).click(function(){
         var url = localUrl;
@@ -106,6 +139,7 @@ $(document).ready(function(){
                 if (result.ret == 1) {
                     $('#p_s_feedbackInfo' ).append('Summoner does not exist');
                     spinner.stop();
+                    recover();
                 } else {
                     var name = fixName(inObj.summonerName);
                     name = name.toLowerCase();
@@ -290,6 +324,8 @@ $(document).ready(function(){
         if (name == 'LeBlanc') {name = 'Leblanc';} //Leblanc's icon file name
         if (name == 'Dr. Mundo') {name = 'DrMundo';}
         if (name == 'ChoGath') {name = 'Chogath';}
+        if (name == 'KhaZix') {name = 'Khazix';}
+
         return name;
     }
 
@@ -379,17 +415,22 @@ $(document).ready(function(){
         });
     }
 
-    function getMatchHistory(idObj, table) {
+    function getMatchHistory(idObj, table, stats, output) {
 
         $.ajax({
             type: 'GET',
             url: localUrl + '/summoner/matchHistory' ,
             data: idObj,
             success: function(result) {
-                analysisMatchHistory(result, function(winner_count, loser_count) {
-                    var output = winner_count + "/" + loser_count;
-                    $(table.last10matches ).html(output);
-                })
+                if (result.ret == 1) {
+                    $('#p_s_feedbackInfo' ).append('get match history failed, possibly service is down' + '<br>');
+                } else {
+                    analysisMatchHistory(result, function(winner_count, loser_count) {
+                        var output = winner_count + "/" + loser_count;
+                        $(table.last10matches ).html(output);
+                    })
+                    if (stats) {makeStatsData(result.matches, stats, output);}
+                }
             },
             error: function(jqXHR, status, error){
                 $('#p_s_feedbackInfo' ).append('get match history failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
@@ -651,6 +692,313 @@ $(document).ready(function(){
     }
 
 
+    function recover() {
+        $('#btn_getGame').val('Search');
+        $('#btn_getGame').removeAttr('disabled');
+    }
+
+    //------------------------------------------------- Individual stats ------------------------------------------------------
+
+    function getEachMatchInfo(data) {
+        var stats = {
+            championId : data.championId,
+            winner : data.stats.winner,
+            kill : data.stats.kills,
+            death : data.stats.deaths,
+            assist : data.stats.assists
+        }
+        return stats;
+    }
+
+    function makeStatsData(data, field, output) {
+        $.getJSON('../resources/5.5.2/data/en_US/champion.json', function(result){
+            var championList = result.data;
+            for (var j in data) {
+                for (var i in championList) {
+                    var championId = data[j].participants[0].championId;
+                    var stats = data[j].participants[0].stats;
+                    if (championList[i].key == championId) {
+                        var nameToFix = championList[i].name.toString();
+                        nameToFix = fixChampionName(nameToFix);
+                        var championName = fixName(nameToFix);
+                        var getFromFile = true; // not getting from local file
+                        if (getFromFile == true) {
+                            var championIconPath = "'../resources/5.5.2/img/champion/";
+                            var fileName = championName + ".png'";
+                            var iconUrl = championIconPath + fileName;
+                        } else {
+                            championName = championName.charAt(0)+championName.substr(1 ).toLowerCase();
+                            var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.2.2/img/champion/'+championName+'.png';
+                        }
+                        var htmlCode = "<img src="+iconUrl+" width='30' height='30'/>";
+                        if (stats.winner == true) {var bgColor = '#CEF6D8';}
+                        else {var bgColor = '#F5A9BC';}
+                        if (stats.item0 != 0) {var i0 = '<img src="../resources/5.5.2/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
+                        if (stats.item1 != 0) {var i1 = '<img src="../resources/5.5.2/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
+                        if (stats.item2 != 0) {var i2 = '<img src="../resources/5.5.2/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
+                        if (stats.item3 != 0) {var i3 = '<img src="../resources/5.5.2/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
+                        if (stats.item4 != 0) {var i4 = '<img src="../resources/5.5.2/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
+                        if (stats.item5 != 0) {var i5 = '<img src="../resources/5.5.2/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
+                        field[j] = '<p style="font-size: 70%;border-radius:5px; filter: alpha+(Opacity=80);-moz-opacity:0.8; opacity:2; cellspacing:0px; line-height: 8px; padding: 5px; margin: 5px;height: 40; test-align: center; background-color: '+bgColor+'">' + htmlCode + '&nbsp;' + stats.kills + '/' + stats.deaths + '/' + stats.assists + '&nbsp;'+i0+i1+i2+i3+i4+i5+ '</p>';
+                    }
+                }
+                if (j == data.length-1) {
+                    extractStats(field , output);
+                }
+            }
+        });
+    }
+
+    function extractStats(field, output) {
+        output.str = '';
+        for (var i in field) {
+            output.str = output.str+field[9-i];
+        }
+    }
+
+
+    $('#p_s_t1_p1_name').mouseover(function(e) {
+        if (t1_p1_stats_output.str == 'loading') {statsY0 = 0} else {statsY0 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p1_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY0) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t1_p2_name').mouseover(function(e) {
+        if (t1_p2_stats_output.str == 'loading') {statsY1 = 0} else {statsY1 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p2_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY1) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t1_p3_name').mouseover(function(e) {
+        if (t1_p3_stats_output.str == 'loading') {statsY2 = 0} else {statsY2 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p3_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY2) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t1_p4_name').mouseover(function(e) {
+        if (t1_p4_stats_output.str == 'loading') {statsY3 = 0} else {statsY3 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p4_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY3) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t1_p5_name').mouseover(function(e) {
+        if (t1_p5_stats_output.str == 'loading') {statsY4 = 0} else {statsY4 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p5_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY4) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t2_p1_name').mouseover(function(e) {
+        if (t2_p1_stats_output.str == 'loading') {statsY5 = 0} else {statsY5 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p1_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY5) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t2_p2_name').mouseover(function(e) {
+        if (t2_p2_stats_output.str == 'loading') {statsY6 = 0} else {statsY6 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p2_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY6) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t2_p3_name').mouseover(function(e) {
+        if (t2_p3_stats_output.str == 'loading') {statsY7 = 0} else {statsY7 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p3_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY7) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t2_p4_name').mouseover(function(e) {
+        if (t2_p4_stats_output.str == 'loading') {statsY8 = 0} else {statsY8 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p4_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY8) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+    $('#p_s_t2_p5_name').mouseover(function(e) {
+        if (t2_p5_stats_output.str == 'loading') {statsY9 = 0} else {statsY9 = -150}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p5_stats_output.str  + "</div>";
+
+        $("body").append(statsPage);
+        $("#individualStats").css({
+            "top" :e.pageY + "px",
+            "left" :e.pageX + "px"
+        });
+        $('#individualStats' ).css({
+            "padding": 5+"px",
+            "filter":"alpha"+(Opacity=80),
+            "-moz-opacity":0.5,
+            "opacity": 0.8
+        });
+    }).mousemove(function(e) {
+        $('#individualStats').css({
+            "top" :(e.pageY+statsY9) + "px",
+            "left" :(e.pageX+statsX) + "px"
+        });
+    }).mouseout(function() {
+        $("#individualStats").remove();
+    });
+
+
+    //------------------------------------------------------ Runes ----------------------------------------------------------------------
 
 
     function extractRunes(playerObj, playerRuneStorage) {
@@ -851,10 +1199,6 @@ $(document).ready(function(){
         }
     }
 
-    function recover() {
-        $('#btn_getGame').val('Search');
-        $('#btn_getGame').removeAttr('disabled');
-    }
 
     $('#p_s_t1_p1_runes').mouseover(function(e) {
 
@@ -1100,6 +1444,7 @@ $(document).ready(function(){
     });
 
 
+    //------------------------------------------------------- fill out table -----------------------------------------------------
 
     function getTheRestData(team1, team2){
         $( grid_team1_player1.name ).html( team1[0].summonerName );
@@ -1109,7 +1454,7 @@ $(document).ready(function(){
         getMastery(team1[0].masteries, grid_team1_player1);
         getRank( {summonerId : team1[0].summonerId} , grid_team1_player1 , 'team1');
         getRankStats({summonerId : team1[0].summonerId}, team1[0].championId, grid_team1_player1);
-        getMatchHistory({summonerId: team1[0].summonerId}, grid_team1_player1);
+        getMatchHistory({summonerId: team1[0].summonerId}, grid_team1_player1, t1_p1_stats, t1_p1_stats_output);
         extractRunes(team1[0], t1_p1_runes);
 
         $( grid_team1_player2.name ).html( team1[1].summonerName );
@@ -1119,7 +1464,7 @@ $(document).ready(function(){
         getMastery(team1[1].masteries, grid_team1_player2);
         getRank( {summonerId : team1[1].summonerId} , grid_team1_player2 , 'team1');
         getRankStats({summonerId : team1[1].summonerId}, team1[1].championId, grid_team1_player2);
-        getMatchHistory({summonerId: team1[1].summonerId}, grid_team1_player2);
+        getMatchHistory({summonerId: team1[1].summonerId}, grid_team1_player2, t1_p2_stats, t1_p2_stats_output);
         extractRunes(team1[1], t1_p2_runes);
 
         $( grid_team1_player3.name ).html( team1[2].summonerName );
@@ -1129,7 +1474,7 @@ $(document).ready(function(){
         getMastery(team1[2].masteries, grid_team1_player3);
         getRank( {summonerId : team1[2].summonerId} , grid_team1_player3 , 'team1');
         getRankStats({summonerId : team1[2].summonerId}, team1[2].championId, grid_team1_player3);
-        getMatchHistory({summonerId: team1[2].summonerId}, grid_team1_player3);
+        getMatchHistory({summonerId: team1[2].summonerId}, grid_team1_player3, t1_p3_stats, t1_p3_stats_output);
         extractRunes(team1[2], t1_p3_runes);
 
         $( grid_team1_player4.name ).html( team1[3].summonerName );
@@ -1139,7 +1484,7 @@ $(document).ready(function(){
         getMastery(team1[3].masteries, grid_team1_player4);
         getRank( {summonerId : team1[3].summonerId} , grid_team1_player4 , 'team1');
         getRankStats({summonerId : team1[3].summonerId}, team1[3].championId, grid_team1_player4);
-        getMatchHistory({summonerId: team1[3].summonerId}, grid_team1_player4);
+        getMatchHistory({summonerId: team1[3].summonerId}, grid_team1_player4, t1_p4_stats, t1_p4_stats_output);
         extractRunes(team1[3], t1_p4_runes);
 
         $( grid_team1_player5.name ).html( team1[4].summonerName );
@@ -1149,7 +1494,7 @@ $(document).ready(function(){
         getMastery(team1[4].masteries, grid_team1_player5);
         getRank( {summonerId : team1[4].summonerId} , grid_team1_player5 , 'team1');
         getRankStats({summonerId : team1[4].summonerId}, team1[4].championId, grid_team1_player5);
-        getMatchHistory({summonerId: team1[4].summonerId}, grid_team1_player5);
+        getMatchHistory({summonerId: team1[4].summonerId}, grid_team1_player5, t1_p5_stats, t1_p5_stats_output);
         extractRunes(team1[4], t1_p5_runes);
 
 
@@ -1161,7 +1506,7 @@ $(document).ready(function(){
         getMastery(team2[0].masteries, grid_team2_player1);
         getRank( {summonerId : team2[0].summonerId} , grid_team2_player1 , 'team2');
         getRankStats({summonerId : team2[0].summonerId}, team2[0].championId, grid_team2_player1);
-        getMatchHistory({summonerId: team2[0].summonerId}, grid_team2_player1);
+        getMatchHistory({summonerId: team2[0].summonerId}, grid_team2_player1, t2_p1_stats, t2_p1_stats_output);
         extractRunes(team2[0], t2_p1_runes);
 
         $( grid_team2_player2.name ).html( team2[1].summonerName );
@@ -1171,7 +1516,7 @@ $(document).ready(function(){
         getMastery(team2[1].masteries, grid_team2_player2);
         getRank( {summonerId : team2[1].summonerId} , grid_team2_player2 , 'team2');
         getRankStats({summonerId : team2[1].summonerId}, team2[1].championId, grid_team2_player2);
-        getMatchHistory({summonerId: team2[1].summonerId}, grid_team2_player2);
+        getMatchHistory({summonerId: team2[1].summonerId}, grid_team2_player2, t2_p2_stats, t2_p2_stats_output);
         extractRunes(team2[1], t2_p2_runes);
 
         $( grid_team2_player3.name ).html( team2[2].summonerName );
@@ -1181,7 +1526,7 @@ $(document).ready(function(){
         getMastery(team2[2].masteries, grid_team2_player3);
         getRank( {summonerId : team2[2].summonerId} , grid_team2_player3 , 'team2');
         getRankStats({summonerId : team2[2].summonerId}, team2[2].championId, grid_team2_player3);
-        getMatchHistory({summonerId: team2[2].summonerId}, grid_team2_player3);
+        getMatchHistory({summonerId: team2[2].summonerId}, grid_team2_player3, t2_p3_stats, t2_p3_stats_output);
         extractRunes(team2[2], t2_p3_runes);
 
         $( grid_team2_player4.name ).html( team2[3].summonerName );
@@ -1191,7 +1536,7 @@ $(document).ready(function(){
         getMastery(team2[3].masteries, grid_team2_player4);
         getRank( {summonerId : team2[3].summonerId} , grid_team2_player4 , 'team2');
         getRankStats({summonerId : team2[3].summonerId}, team2[3].championId, grid_team2_player4);
-        getMatchHistory({summonerId: team2[3].summonerId}, grid_team2_player4);
+        getMatchHistory({summonerId: team2[3].summonerId}, grid_team2_player4, t2_p4_stats, t2_p4_stats_output);
         extractRunes(team2[3], t2_p4_runes);
 
         $( grid_team2_player5.name ).html( team2[4].summonerName );
@@ -1201,7 +1546,7 @@ $(document).ready(function(){
         getMastery(team2[4].masteries, grid_team2_player5);
         getRank( {summonerId : team2[4].summonerId} , grid_team2_player5 , 'team2');
         getRankStats({summonerId : team2[4].summonerId}, team2[4].championId, grid_team2_player5);
-        getMatchHistory({summonerId: team2[4].summonerId}, grid_team2_player5);
+        getMatchHistory({summonerId: team2[4].summonerId}, grid_team2_player5, t2_p5_stats, t2_p5_stats_output);
         extractRunes(team2[4], t2_p5_runes);
     }
 
