@@ -239,7 +239,6 @@ app.get('/summoner/matchHistory', function (req, res) {
         else
         {
             logger.trace( 'Got match history.')
-            logger.info('participants: ', result.matches[0].participants[0].stats);
             res.json( result );
         }
     });

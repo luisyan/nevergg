@@ -300,6 +300,14 @@ $(document).ready(function(){
             var nameToFix = champion.name.toString();
             nameToFix = fixChampionName(nameToFix);
 	        var championName = fixName(nameToFix);
+
+            if (championName == 'Wukong') {championName = 'MonkeyKing';} //wukong's icon file name
+            if (championName == 'Fiddlesticks') {championName = 'FiddleSticks';} //fiddle's icon file name
+            if (championName == 'LeBlanc') {championName = 'Leblanc';} //Leblanc's icon file name
+            if (championName == 'Dr. Mundo') {championName = 'DrMundo';}
+            if (championName == 'ChoGath') {championName = 'Chogath';}
+            if (championName == 'KhaZix') {championName = 'Khazix';}
+
             $( table.champion ).html(championName);
             var getFromFile = true; // not getting from local file
             if (getFromFile == true) {
@@ -721,6 +729,14 @@ $(document).ready(function(){
                         var nameToFix = championList[i].name.toString();
                         nameToFix = fixChampionName(nameToFix);
                         var championName = fixName(nameToFix);
+
+                        if (championName == 'Wukong') {championName = 'MonkeyKing';} //wukong's icon file name
+                        if (championName == 'Fiddlesticks') {championName = 'FiddleSticks';} //fiddle's icon file name
+                        if (championName == 'LeBlanc') {championName = 'Leblanc';} //Leblanc's icon file name
+                        if (championName == 'Dr. Mundo') {championName = 'DrMundo';}
+                        if (championName == 'ChoGath') {championName = 'Chogath';}
+                        if (championName == 'KhaZix') {championName = 'Khazix';}
+
                         var getFromFile = true; // not getting from local file
                         if (getFromFile == true) {
                             var championIconPath = "'../resources/5.5.2/img/champion/";
