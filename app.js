@@ -14,8 +14,9 @@ lolAPI.setRateLimit(10, 400);
 
 leagueAPI.init('239e4ebb-d3c7-4deb-a388-c93dd6843673', 'na');
 
+var route = '/api';
 
-app.get('/', function (req, res) {
+app.get(route+'/', function (req, res) {
     var freeChamps = [];
 
     leagueAPI.getChampions(true, function(err, champs) {
@@ -30,7 +31,7 @@ app.get('/', function (req, res) {
     });
 })
 
-app.get('/summoner/id', function (req, res) {
+app.get(route+'/summoner/id', function (req, res) {
     var name = req.param('summonerName');
     logger.trace('getting data of summoner %s...', name);
     leagueAPI.Summoner.getByName(name, 'na', function(err, result) {
@@ -45,7 +46,7 @@ app.get('/summoner/id', function (req, res) {
     });
 })
 
-app.get('/summoner/currentgame', function (req, res) {
+app.get(route+'/summoner/currentgame', function (req, res) {
     var id = req.param('summonerId');
     id = Number(id);
     logger.trace('getting current game...');
@@ -66,7 +67,7 @@ app.get('/summoner/currentgame', function (req, res) {
     });
 })
 
-app.get('/summoner/currentgame_2', function (req, res) {
+app.get(route+'/summoner/currentgame_2', function (req, res) {
     var id = req.param('summonerId');
     id = Number(id);
     logger.trace('getting current game... using 2nd key');
@@ -87,7 +88,7 @@ app.get('/summoner/currentgame_2', function (req, res) {
     });
 })
 
-app.get('/summoner/solo_record', function (req, res) {
+app.get(route+'/summoner/solo_record', function (req, res) {
     var id = req.param('summonerId');
     id = Number(id);
     logger.trace('getting solo rank record of summoner %d', id);
@@ -118,7 +119,7 @@ app.get('/summoner/solo_record', function (req, res) {
     });
 })
 
-app.get('/summoner/solo_record_2', function (req, res) {
+app.get(route+'/summoner/solo_record_2', function (req, res) {
     var id = req.param('summonerId');
     id = Number(id);
     logger.trace('getting solo rank record of summoner %d, using 2nd key', id);
@@ -150,7 +151,7 @@ app.get('/summoner/solo_record_2', function (req, res) {
 })
 
 
-app.get('/team/rank_record', function (req, res) {
+app.get(route+'/team/rank_record', function (req, res) {
     var id = req.param('teamId');
     id = Number(id);
     lolAPI.League.getEntriesByTeamId(id, function(err, result) {
@@ -160,7 +161,7 @@ app.get('/team/rank_record', function (req, res) {
     });
 })
 
-app.get('/match', function (req, res) {
+app.get(route+'/match', function (req, res) {
     var id = req.param('matchId');
     id = Number(id);
     leagueAPI.getMatch(id, true, 'na', function(err, result) {
@@ -170,7 +171,7 @@ app.get('/match', function (req, res) {
     });
 })
 
-app.get('/team/by_summoner_id', function (req, res) {
+app.get(route+'/team/by_summoner_id', function (req, res) {
     var id = req.param('summonerId');
     id = Number(id);
     lolAPI.Team.getBySummonerId(id, function(err, result) {
@@ -180,7 +181,7 @@ app.get('/team/by_summoner_id', function (req, res) {
     });
 })
 
-app.get('/champion/by_id', function (req, res) {
+app.get(route+'/champion/by_id', function (req, res) {
     var id = req.param('championId');
     id = Number(id);
     logger.trace('getting champion info...');
@@ -191,7 +192,7 @@ app.get('/champion/by_id', function (req, res) {
     });
 })
 
-app.get('/mmr', function (req, res) {
+app.get(route+'/mmr', function (req, res) {
     var name = req.param('summonerName');
     logger.trace('getting mmr of %s ...', name);
     mmr(name, function(err, result) {
@@ -201,7 +202,7 @@ app.get('/mmr', function (req, res) {
     });
 })
 
-app.get('/rank/stats', function (req, res) {
+app.get(route+'/rank/stats', function (req, res) {
     var id = req.param('summonerId');
     id = Number(id);
     logger.trace('getting rank stats...');
@@ -218,7 +219,7 @@ app.get('/rank/stats', function (req, res) {
     });
 })
 
-app.get('/summoner/summary', function (req, res) {
+app.get(route+'/summoner/summary', function (req, res) {
     var id = req.param('summonerId');
     id = Number(id);
     leagueAPI.Stats.getPlayerSummary(id, null, 'na', function(err, result) {
@@ -228,11 +229,11 @@ app.get('/summoner/summary', function (req, res) {
 })
 
 var matchHistoryOpt = {rankedQueues: ['RANKED_SOLO_5x5'], beginIndex: 0, endIndex: 10};
-app.get('/summoner/matchHistory', function (req, res) {
+app.get(route+'/summoner/matchHistory', function (req, res) {
     var id = req.param('summonerId');
     id = Number(id);
     logger.trace('getting match history...');
-    lolAPI.MatchHistory.getBySummonerId(id, matchHistoryOpt, function(err, result) {
+    leagueAPI.getMatchHistory(id, matchHistoryOpt, 'na',function(err, result) {
         if (err) {
             res.json({ret:1});
         }

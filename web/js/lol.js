@@ -17,6 +17,8 @@ $(document).ready(function(){
 
     $('#msg' ).hide();
     $('.separateLine' ).hide();
+    $('#btn_getGame' ).hide();
+    $('#btn_checkMMR' ).hide();
     var count_load_rank = 0;
     var count_disable_sumbit = 0;
     var opts = {
@@ -34,13 +36,13 @@ $(document).ready(function(){
         hwaccel: false, //spinner 是否启用硬件加速及高速旋转
         className: 'spinner', // spinner css 样式名称
         zIndex: 2e9, // spinner的z轴 (默认是2000000000)
-        top: '40%', // spinner 相对父容器Top定位 单位 px
+        top: '60%', // spinner 相对父容器Top定位 单位 px
         left: '50%'// spinner 相对父容器Left定位 单位 px
     };
 
     var spinner = new Spinner(opts);
 
-    var localUrl = 'http://localhost:22000';
+    var localUrl = '/api';
 
     function setTable(team, player, obj) {
         if (obj == undefined) {obj = {}};
@@ -104,6 +106,8 @@ $(document).ready(function(){
     var t2_p4_stats_output = {str:'loading'};
     var t2_p5_stats_output = {str:'loading'};
 
+
+
     $('#btn_hello' ).click(function(){
         var url = localUrl;
         $.ajax({
@@ -137,7 +141,8 @@ $(document).ready(function(){
             data: inObj,
             success: function(result) {
                 if (result.ret == 1) {
-                    $('#p_s_feedbackInfo' ).append('Summoner does not exist');
+                    //$('#p_s_feedbackInfo' ).append('Summoner does not exist');
+                    ShowFailure('Summoner does not exist');
                     spinner.stop();
                     recover();
                 } else {
@@ -149,7 +154,7 @@ $(document).ready(function(){
             },
             error: function(jqXHR, status, error){
                 spinner.stop();
-                $('#p_s_feedbackInfo' ).append('get summoner id info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>'+'Try to refresh and check again');
+                ShowFailure('Getting summoner id info failed, try to refresh and check again');
             }
         });
     }
@@ -160,7 +165,12 @@ $(document).ready(function(){
             url: localUrl + '/summoner/currentgame' ,
             data: idObj,
             success: function(result) {
-                if (result.ret == 1) {spinner.stop();$('#p_s_feedbackInfo' ).html(result.result);recover();}
+                if (result.ret == 1) {
+                    spinner.stop();
+                    //$('#p_s_feedbackInfo' ).html(result.result);
+                    ShowFailure(result.result);
+                    recover();
+                }
 
                 else {
                     getSummonersByTeam( result.participants, function (team1, team2) {
@@ -174,7 +184,7 @@ $(document).ready(function(){
             },
             error: function(jqXHR, status, error){
                 spinner.stop();
-                $('#p_s_feedbackInfo' ).append('from 1st key..get summoner info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>'+'Try to refresh and check again');
+                ShowFailure('From 1st key..get summoner info failed, try to refresh and check again');
             }
         });
     }
@@ -204,7 +214,7 @@ $(document).ready(function(){
             },
             error: function(jqXHR, status, error){
                 spinner.stop();
-                $('#p_s_feedbackInfo' ).append('get ranked solo failed, '+ jqXHR +'/'+ status +'/'+ error);
+                ShowFailure('Getting ranked solo info failed (key 1)');
             }
         });
     }
@@ -233,7 +243,7 @@ $(document).ready(function(){
             },
             error: function(jqXHR, status, error){
                 spinner.stop();
-                $('#p_s_feedbackInfo' ).append('get ranked solo failed, '+ jqXHR +'/'+ status +'/'+ error);
+                ShowFailure('Getting ranked solo failed (key 2)');
             }
         });
     }
@@ -259,7 +269,7 @@ $(document).ready(function(){
                 $( '#p_s_showData' ).html(JSON.stringify(result));
             },
             error: function(jqXHR, status, error){
-                $('#p_s_feedbackInfo' ).append('get team rank record failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+                ShowFailure('Getting team rank record failed');
             }
         });
     }
@@ -274,7 +284,7 @@ $(document).ready(function(){
                 $( '#p_s_showData' ).html(JSON.stringify(result));
             },
             error: function(jqXHR, status, error){
-                $('#p_s_feedbackInfo' ).append('get team rank record failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+                ShowFailure('Getting match record failed');
             }
         });
     }
@@ -289,7 +299,7 @@ $(document).ready(function(){
                 $( '#p_s_showData' ).html(JSON.stringify(result));
             },
             error: function(jqXHR, status, error){
-                $('#p_s_feedbackInfo' ).append('get team id info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+                ShowFailure('Getting team by summoner id info failed');
             }
         });
     }
@@ -385,7 +395,7 @@ $(document).ready(function(){
                 check_disable_submit();
             },
             error: function(jqXHR, status, error){
-                $('#p_s_feedbackInfo' ).append('get rank info failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+                ShowFailure('Getting rank stats failed');
             }
         });
     }
@@ -403,7 +413,7 @@ $(document).ready(function(){
                 }
             },
             error: function(jqXHR, status, error){
-                $('#p_s_feedbackInfo' ).append('get mmr failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+                ShowFailure('Get mmr failed');
             }
         });
     }
@@ -418,7 +428,7 @@ $(document).ready(function(){
                 $( '#p_s_showData' ).html(JSON.stringify(result));
             },
             error: function(jqXHR, status, error){
-                $('#p_s_feedbackInfo' ).append('get player summary failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+                ShowFailure('Getting player summary failed');
             }
         });
     }
@@ -431,7 +441,8 @@ $(document).ready(function(){
             data: idObj,
             success: function(result) {
                 if (result.ret == 1) {
-                    $('#p_s_feedbackInfo' ).append('get match history failed, possibly service is down' + '<br>');
+                    //$('#p_s_feedbackInfo' ).append('get match history failed, possibly service is down' + '<br>');
+                    ShowFailure('get match history failed, possibly service is down');
                 } else {
                     analysisMatchHistory(result, function(winner_count, loser_count) {
                         var output = winner_count + "/" + loser_count;
@@ -441,7 +452,7 @@ $(document).ready(function(){
                 }
             },
             error: function(jqXHR, status, error){
-                $('#p_s_feedbackInfo' ).append('get match history failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+                ShowFailure('Getting match history failed');
             }
         });
     }
@@ -520,11 +531,16 @@ $(document).ready(function(){
         callback(winner_count, loser_count);
     }
 
-
+    var $btn;
     var idObj = {};
     $('#btn_getGame' ).click(function() {
         $('#btn_getGame').val( 'searching..' );
         $('#btn_getGame').attr('disabled' , 'disabled' );
+
+        $btn = $(this)
+        $btn.button('loading');
+
+
         clearFiled();
         clearTable();
         $('#rankTable' ).hide();
@@ -557,9 +573,12 @@ $(document).ready(function(){
 
 
 
-    $('#btn_getMMR' ).click(function(){
+    $('#btn_checkMMR' ).click(function(){
+        $('#mmr_loading_words').show();
+        $('#mmr_loading_spin').show();
+        $('#mmr_result').html('');
         var inObj = {
-            summonerName: $('#ipt_MMR' ).val()
+            summonerName: $('#ipt_checkMMR' ).val()
         }
 
         $.ajax({
@@ -567,11 +586,20 @@ $(document).ready(function(){
             url: localUrl + '/mmr',
             data: inObj ,
             success: function(result) {
-                if (result.error == true) {$( '#p_s_showMMR' ).html("Your MMR is undetermined, you may not have played enough rank games recently");}
-                else {$( '#p_s_showMMR' ).html("Your MMR is: " + "<b>"+result.mmr+"</b>");}
+                if (result.error == true) {
+                    //$( '#p_s_showMMR' ).html("Your MMR is undetermined, you may not have played enough rank games recently");
+                    ShowWarn("Your MMR is undetermined, you may not have played enough rank games recently");
+                }
+                else {
+                    var mmr = result.mmr;
+                    var output = mmr.replace(',','')
+                    $('#mmr_loading_words').hide();
+                    $('#mmr_loading_spin').hide();
+                    $('#mmr_result').html("<br><br><p class='am-serif' style='font-size: 25px'>Your MMR is: " + output + "</p><br>");
+                }
             },
             error: function(jqXHR, status, error){
-                $('#p_s_feedbackInfo' ).append('get mmr failed, ret = ' + status + ', status = ' + jqXHR.status + '<br>');
+                ShowFailure('Check mmr failed');
             }
         });
     });
@@ -588,9 +616,9 @@ $(document).ready(function(){
             }
         }
     });
-    $("#ipt_MMR").keydown(function() {
+    $("#ipt_checkMMR").keydown(function() {
         if (event.keyCode == "13") {
-            $('#btn_getMMR').click();
+            $('#btn_checkMMR').click();
         }
     });
 
@@ -703,6 +731,7 @@ $(document).ready(function(){
     function recover() {
         $('#btn_getGame').val('Search');
         $('#btn_getGame').removeAttr('disabled');
+        $btn.button('reset');
     }
 
     //------------------------------------------------- Individual stats ------------------------------------------------------
@@ -713,7 +742,7 @@ $(document).ready(function(){
             winner : data.stats.winner,
             kill : data.stats.kills,
             death : data.stats.deaths,
-            assist : data.stats.assists
+            assist : data.stats.assZists
         }
         return stats;
     }
@@ -755,7 +784,13 @@ $(document).ready(function(){
                         if (stats.item3 != 0) {var i3 = '<img src="../resources/5.5.2/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
                         if (stats.item4 != 0) {var i4 = '<img src="../resources/5.5.2/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
                         if (stats.item5 != 0) {var i5 = '<img src="../resources/5.5.2/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
-                        field[j] = '<p style="font-size: 70%;border-radius:5px; filter: alpha+(Opacity=80);-moz-opacity:0.8; opacity:2; cellspacing:0px; line-height: 8px; padding: 5px; margin: 5px;height: 40; test-align: center; background-color: '+bgColor+'">' + htmlCode + '&nbsp;' + stats.kills + '/' + stats.deaths + '/' + stats.assists + '&nbsp;'+i0+i1+i2+i3+i4+i5+ '</p>';
+
+                        var matchType = data[j].queueType;
+                        var fixedType = matchType.replace(/_/g," ");
+
+                        var fixedFinal = fixedType.substring(0, fixedType.indexOf('x')-1) + fixedType.substring(fixedType.indexOf('x')+2);
+
+                        field[j] = '<p style="font-size: 70%;border-radius:5px; filter: alpha+(Opacity=80);-moz-opacity:0.8; opacity:2; cellspacing:0px; line-height: 8px; padding: 5px; margin: 5px;height: 40; test-align: center; background-color: '+bgColor+'">' + htmlCode + '&nbsp;' + fixedFinal + '&nbsp;' + stats.kills + '/' + stats.deaths + '/' + stats.assists + '&nbsp;'+i0+i1+i2+i3+i4+i5+ '</p>';
                     }
                 }
                 if (j == data.length-1) {

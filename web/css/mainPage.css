@@ -4,56 +4,38 @@ html {
 
 body {
   font-family: Helvetica, Arial;
-  background: #F3F3F3 repeat;
-}
-
-div#statsSearch {
- /*
-  width: 260px;
-  height: 2rem;
-  margin: auto;
-  */
-}
-
-div#checkMMR {
-/*
-  width: 260px;
-  height: 2rem;
-  margin: auto;
-  */
-}
-div#showMMR {
-  /*
-  width: 260px;
-  height: 2rem;
-  margin: auto;
-  */
+  /*background: #F3F3F3 repeat;*/
 }
 
 input#ipt_gameStatsSearch {
-  border: 0px;
-  width: 200px;
-  height: 1rem;
-  /*float: left;*/
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #999999 ;
+  text-align: center;
+  margin: 0 auto;
+  width: 500px;
 }
-input#ipt_MMR {
-  position: relative;left:-2px;
-  border: 0px;
-  width: 200px;
-  height: 1rem;
-  /*float: left;*/
+
+input#ipt_checkMMR {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #999999 ;
+  text-align: center;
+  margin: 0 auto;
+  width: 500px;
 }
 
 input#btn_getGame {
   background: #DCDCDC;
-  border: 0;
-  /*float: left;*/
+  border: 0px;
+  border-bottom: solid;
+
 }
 
-input#btn_getMMR {
+input#btn_checkMMR {
   background: #DCDCDC;
-  border: 0;
-  /*float: left;*/
+  border: 0px;
+  border-bottom: solid;
 }
 
 table
@@ -121,7 +103,8 @@ td#lineBottom {
 }
 
 .tableHeader {
-  position: relative; bottom: 5px
+  position: relative; bottom: 5px;
+  text-align: center;
 }
 
 span#p_s_last10matches {
