@@ -4,16 +4,18 @@
 
 $(document).ready(function(){
     var statsX = 10;
-    var statsY1 = -150;
-    var statsY2 = -150;
-    var statsY3 = -150;
-    var statsY4 = -150;
-    var statsY5 = -150;
-    var statsY6 = -150;
-    var statsY7 = -150;
-    var statsY8 = -150;
-    var statsY9 = -150;
-    var statsY0 = -150;
+    var statsY1 = -120;
+    var statsY2 = -120;
+    var statsY3 = -120;
+    var statsY4 = -120;
+    var statsY5 = -120;
+    var statsY6 = -120;
+    var statsY7 = -120;
+    var statsY8 = -120;
+    var statsY9 = -120;
+    var statsY0 = -120;
+
+    var Y_axis = -190;
 
     $('#msg' ).hide();
     $('.separateLine' ).hide();
@@ -765,24 +767,35 @@ $(document).ready(function(){
                         if (championName == 'ChoGath') {championName = 'Chogath';}
                         if (championName == 'KhaZix') {championName = 'Khazix';}
 
-                        var getFromFile = true; // not getting from local file
+                        var getFromFile = false; // not getting from local file
                         if (getFromFile == true) {
                             var championIconPath = "'../resources/5.5.2/img/champion/";
                             var fileName = championName + ".png'";
                             var iconUrl = championIconPath + fileName;
                         } else {
-                            championName = championName.charAt(0)+championName.substr(1 ).toLowerCase();
-                            var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.2.2/img/champion/'+championName+'.png';
+                            var iconName = championList[i].image.full;
+                            var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.2.2/img/champion/'+iconName;
                         }
                         var htmlCode = "<img src="+iconUrl+" width='30' height='30'/>";
                         if (stats.winner == true) {var bgColor = '#CEF6D8';}
                         else {var bgColor = '#F5A9BC';}
-                        if (stats.item0 != 0) {var i0 = '<img src="../resources/5.5.2/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
-                        if (stats.item1 != 0) {var i1 = '<img src="../resources/5.5.2/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
-                        if (stats.item2 != 0) {var i2 = '<img src="../resources/5.5.2/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
-                        if (stats.item3 != 0) {var i3 = '<img src="../resources/5.5.2/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
-                        if (stats.item4 != 0) {var i4 = '<img src="../resources/5.5.2/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
-                        if (stats.item5 != 0) {var i5 = '<img src="../resources/5.5.2/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
+
+                        if (getFromFile == true) {
+                            if (stats.item0 != 0) {var i0 = '<img src="../resources/5.5.2/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
+                            if (stats.item1 != 0) {var i1 = '<img src="../resources/5.5.2/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
+                            if (stats.item2 != 0) {var i2 = '<img src="../resources/5.5.2/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
+                            if (stats.item3 != 0) {var i3 = '<img src="../resources/5.5.2/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
+                            if (stats.item4 != 0) {var i4 = '<img src="../resources/5.5.2/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
+                            if (stats.item5 != 0) {var i5 = '<img src="../resources/5.5.2/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
+                        } else {
+                            if (stats.item0 != 0) {var i0 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
+                            if (stats.item1 != 0) {var i1 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
+                            if (stats.item2 != 0) {var i2 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
+                            if (stats.item3 != 0) {var i3 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
+                            if (stats.item4 != 0) {var i4 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
+                            if (stats.item5 != 0) {var i5 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
+                        }
+
 
                         var matchType = data[j].queueType;
                         var fixedType = matchType.replace(/_/g," ");
@@ -808,7 +821,7 @@ $(document).ready(function(){
 
 
     $('#p_s_t1_p1_name').mouseover(function(e) {
-        if (t1_p1_stats_output.str == 'loading') {statsY0 = 0} else {statsY0 = -150}
+        if (t1_p1_stats_output.str == 'loading') {statsY0 = 0} else {statsY0 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p1_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
@@ -832,7 +845,7 @@ $(document).ready(function(){
     });
 
     $('#p_s_t1_p2_name').mouseover(function(e) {
-        if (t1_p2_stats_output.str == 'loading') {statsY1 = 0} else {statsY1 = -150}
+        if (t1_p2_stats_output.str == 'loading') {statsY1 = 0} else {statsY1 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p2_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
@@ -856,7 +869,7 @@ $(document).ready(function(){
     });
 
     $('#p_s_t1_p3_name').mouseover(function(e) {
-        if (t1_p3_stats_output.str == 'loading') {statsY2 = 0} else {statsY2 = -150}
+        if (t1_p3_stats_output.str == 'loading') {statsY2 = 0} else {statsY2 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p3_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
@@ -880,7 +893,7 @@ $(document).ready(function(){
     });
 
     $('#p_s_t1_p4_name').mouseover(function(e) {
-        if (t1_p4_stats_output.str == 'loading') {statsY3 = 0} else {statsY3 = -150}
+        if (t1_p4_stats_output.str == 'loading') {statsY3 = 0} else {statsY3 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p4_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
@@ -928,7 +941,7 @@ $(document).ready(function(){
     });
 
     $('#p_s_t2_p1_name').mouseover(function(e) {
-        if (t2_p1_stats_output.str == 'loading') {statsY5 = 0} else {statsY5 = -150}
+        if (t2_p1_stats_output.str == 'loading') {statsY5 = 0} else {statsY5 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p1_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
@@ -952,7 +965,7 @@ $(document).ready(function(){
     });
 
     $('#p_s_t2_p2_name').mouseover(function(e) {
-        if (t2_p2_stats_output.str == 'loading') {statsY6 = 0} else {statsY6 = -150}
+        if (t2_p2_stats_output.str == 'loading') {statsY6 = 0} else {statsY6 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p2_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
@@ -976,7 +989,7 @@ $(document).ready(function(){
     });
 
     $('#p_s_t2_p3_name').mouseover(function(e) {
-        if (t2_p3_stats_output.str == 'loading') {statsY7 = 0} else {statsY7 = -150}
+        if (t2_p3_stats_output.str == 'loading') {statsY7 = 0} else {statsY7 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p3_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
@@ -1000,7 +1013,7 @@ $(document).ready(function(){
     });
 
     $('#p_s_t2_p4_name').mouseover(function(e) {
-        if (t2_p4_stats_output.str == 'loading') {statsY8 = 0} else {statsY8 = -150}
+        if (t2_p4_stats_output.str == 'loading') {statsY8 = 0} else {statsY8 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p4_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
@@ -1024,7 +1037,7 @@ $(document).ready(function(){
     });
 
     $('#p_s_t2_p5_name').mouseover(function(e) {
-        if (t2_p5_stats_output.str == 'loading') {statsY9 = 0} else {statsY9 = -150}
+        if (t2_p5_stats_output.str == 'loading') {statsY9 = 0} else {statsY9 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p5_stats_output.str  + "</div>";
 
         $("body").append(statsPage);
