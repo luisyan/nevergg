@@ -307,26 +307,17 @@ $(document).ready(function(){
     function getChampionById(idObj, table) {
 
         getChampionFromFile(idObj.championId, function(champion) {
-            var nameToFix = champion.name.toString();
-            nameToFix = fixChampionName(nameToFix);
-	        var championName = fixName(nameToFix);
+            var name = champion.name.toString();
+            var iconName = champion.image.full;
 
-            if (championName == 'Wukong') {championName = 'MonkeyKing';} //wukong's icon file name
-            if (championName == 'Fiddlesticks') {championName = 'FiddleSticks';} //fiddle's icon file name
-            if (championName == 'LeBlanc') {championName = 'Leblanc';} //Leblanc's icon file name
-            if (championName == 'Dr. Mundo') {championName = 'DrMundo';}
-            if (championName == 'ChoGath') {championName = 'Chogath';}
-            if (championName == 'KhaZix') {championName = 'Khazix';}
-
-            $( table.champion ).html(championName);
-            var getFromFile = true; // not getting from local file
+            $( table.champion ).html(name);
+            var getFromFile = false; // not getting from local file
             if (getFromFile == true) {
                 var championIconPath = "'../resources/5.5.2/img/champion/";
                 var fileName = championName + ".png'";
                 var iconUrl = championIconPath + fileName;
             } else {
-                championName = championName.charAt(0)+championName.substr(1 ).toLowerCase();
-                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.2.2/img/champion/'+championName+'.png';
+                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.2.2/img/champion/'+iconName;
             }
             var htmlCode = "<img src="+iconUrl+" width='40' height='40'/>";
 
@@ -350,23 +341,31 @@ $(document).ready(function(){
     function drawSpellIcon(spell1Id, spell2Id, table) {
 
         getSpellFromFile(spell1Id, function(spell) {
-            var nameToFix = spell.id.toString();
-            var spellName = fixName(nameToFix);
-            var championIconPath = "'../resources/5.5.2/img/spell/";
-            var fileName = spellName + ".png'";
-            var iconUrl = championIconPath + fileName;
-            var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
-
-            $( table.spell ).append(htmlCode);
-
-            getSpellFromFile(spell2Id, function(spell) {
+            var getFromFile = false;
+            if (getFromFile == true) {
                 var nameToFix = spell.id.toString();
                 var spellName = fixName(nameToFix);
                 var championIconPath = "'../resources/5.5.2/img/spell/";
                 var fileName = spellName + ".png'";
                 var iconUrl = championIconPath + fileName;
-                var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
+            } else {
+                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.5.2/img/spell/' + spell.image.full;
+            }
+            var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
+            $( table.spell ).append(htmlCode);
 
+            getSpellFromFile(spell2Id, function(spell) {
+                var getFromFile = false;
+                if (getFromFile == true) {
+                    var nameToFix = spell.id.toString();
+                    var spellName = fixName(nameToFix);
+                    var championIconPath = "'../resources/5.5.2/img/spell/";
+                    var fileName = spellName + ".png'";
+                    var iconUrl = championIconPath + fileName;
+                } else {
+                    var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.5.2/img/spell/' + spell.image.full;
+                }
+                var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
                 $( table.spell ).append(htmlCode);
 
             });
