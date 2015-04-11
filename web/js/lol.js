@@ -550,7 +550,7 @@ $(document).ready(function(){
 
         $('#p_s_champion_name' ).html('Champion');
         $('#p_s_summoner_name' ).html('Summoner');
-        $('#p_s_summoner_mmr' ).html('MMR');
+        //$('#p_s_summoner_mmr' ).html('MMR');
         $('#p_s_summoner_league' ).html('League');
         $('#p_s_summoner_winLoss' ).html('W/L');
         $('#p_s_champion_kda' ).html('KDA');
@@ -1511,7 +1511,7 @@ $(document).ready(function(){
 
     function getTheRestData(team1, team2){
         $( grid_team1_player1.name ).html( team1[0].summonerName );
-        getMMR( {summonerName : team1[0].summonerName} , grid_team1_player1 );
+        //getMMR( {summonerName : team1[0].summonerName} , grid_team1_player1 );
         getChampionById( {championId : team1[0].championId} , grid_team1_player1 );
         drawSpellIcon(team1[0].spell1Id ,team1[0].spell2Id,  grid_team1_player1 );
         getMastery(team1[0].masteries, grid_team1_player1);
@@ -1521,7 +1521,7 @@ $(document).ready(function(){
         extractRunes(team1[0], t1_p1_runes);
 
         $( grid_team1_player2.name ).html( team1[1].summonerName );
-        getMMR( {summonerName : team1[1].summonerName} , grid_team1_player2 );
+        //getMMR( {summonerName : team1[1].summonerName} , grid_team1_player2 );
         getChampionById( {championId : team1[1].championId} , grid_team1_player2 );
         drawSpellIcon(team1[1].spell1Id ,team1[1].spell2Id,  grid_team1_player2 );
         getMastery(team1[1].masteries, grid_team1_player2);
@@ -1531,7 +1531,7 @@ $(document).ready(function(){
         extractRunes(team1[1], t1_p2_runes);
 
         $( grid_team1_player3.name ).html( team1[2].summonerName );
-        getMMR( {summonerName : team1[2].summonerName} , grid_team1_player3 );
+        //getMMR( {summonerName : team1[2].summonerName} , grid_team1_player3 );
         getChampionById( {championId : team1[2].championId} , grid_team1_player3 );
         drawSpellIcon(team1[2].spell1Id ,team1[2].spell2Id,  grid_team1_player3 );
         getMastery(team1[2].masteries, grid_team1_player3);
@@ -1541,7 +1541,7 @@ $(document).ready(function(){
         extractRunes(team1[2], t1_p3_runes);
 
         $( grid_team1_player4.name ).html( team1[3].summonerName );
-        getMMR( {summonerName : team1[3].summonerName} , grid_team1_player4 );
+        //getMMR( {summonerName : team1[3].summonerName} , grid_team1_player4 );
         getChampionById( {championId : team1[3].championId} , grid_team1_player4 );
         drawSpellIcon(team1[3].spell1Id ,team1[3].spell2Id,  grid_team1_player4 );
         getMastery(team1[3].masteries, grid_team1_player4);
@@ -1551,7 +1551,7 @@ $(document).ready(function(){
         extractRunes(team1[3], t1_p4_runes);
 
         $( grid_team1_player5.name ).html( team1[4].summonerName );
-        getMMR( {summonerName : team1[4].summonerName} , grid_team1_player5 );
+        //getMMR( {summonerName : team1[4].summonerName} , grid_team1_player5 );
         getChampionById( {championId : team1[4].championId} , grid_team1_player5 );
         drawSpellIcon(team1[4].spell1Id ,team1[4].spell2Id,  grid_team1_player5 );
         getMastery(team1[4].masteries, grid_team1_player5);
@@ -1563,7 +1563,7 @@ $(document).ready(function(){
 
 
         $( grid_team2_player1.name ).html( team2[0].summonerName );
-        getMMR( {summonerName : team2[0].summonerName} , grid_team2_player1 );
+        //getMMR( {summonerName : team2[0].summonerName} , grid_team2_player1 );
         getChampionById( {championId : team2[0].championId} , grid_team2_player1 );
         drawSpellIcon(team2[0].spell1Id ,team2[0].spell2Id,  grid_team2_player1 );
         getMastery(team2[0].masteries, grid_team2_player1);
@@ -1573,7 +1573,7 @@ $(document).ready(function(){
         extractRunes(team2[0], t2_p1_runes);
 
         $( grid_team2_player2.name ).html( team2[1].summonerName );
-        getMMR( {summonerName : team2[1].summonerName} , grid_team2_player2 );
+        //getMMR( {summonerName : team2[1].summonerName} , grid_team2_player2 );
         getChampionById( {championId : team2[1].championId} , grid_team2_player2 );
         drawSpellIcon(team2[1].spell1Id ,team2[1].spell2Id,  grid_team2_player2 );
         getMastery(team2[1].masteries, grid_team2_player2);
@@ -1583,7 +1583,7 @@ $(document).ready(function(){
         extractRunes(team2[1], t2_p2_runes);
 
         $( grid_team2_player3.name ).html( team2[2].summonerName );
-        getMMR( {summonerName : team2[2].summonerName} , grid_team2_player3 );
+        //getMMR( {summonerName : team2[2].summonerName} , grid_team2_player3 );
         getChampionById( {championId : team2[2].championId} , grid_team2_player3 );
         drawSpellIcon(team2[2].spell1Id ,team2[2].spell2Id,  grid_team2_player3 );
         getMastery(team2[2].masteries, grid_team2_player3);
@@ -1593,7 +1593,7 @@ $(document).ready(function(){
         extractRunes(team2[2], t2_p3_runes);
 
         $( grid_team2_player4.name ).html( team2[3].summonerName );
-        getMMR( {summonerName : team2[3].summonerName} , grid_team2_player4 );
+        //getMMR( {summonerName : team2[3].summonerName} , grid_team2_player4 );
         getChampionById( {championId : team2[3].championId} , grid_team2_player4 );
         drawSpellIcon(team2[3].spell1Id ,team2[3].spell2Id,  grid_team2_player4 );
         getMastery(team2[3].masteries, grid_team2_player4);
@@ -1603,7 +1603,7 @@ $(document).ready(function(){
         extractRunes(team2[3], t2_p4_runes);
 
         $( grid_team2_player5.name ).html( team2[4].summonerName );
-        getMMR( {summonerName : team2[4].summonerName} , grid_team2_player5 );
+        //getMMR( {summonerName : team2[4].summonerName} , grid_team2_player5 );
         getChampionById( {championId : team2[4].championId} , grid_team2_player5 );
         drawSpellIcon(team2[4].spell1Id ,team2[4].spell2Id,  grid_team2_player5 );
         getMastery(team2[4].masteries, grid_team2_player5);
