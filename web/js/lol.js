@@ -1,8 +1,12 @@
 /**
  * Created by admin on 15-03-05.
  */
+var staticDataVersion = '5.7.2';
+var localDataVersion = '5.7.2';
 
-$(document).ready(function(){
+$(document).ready(function() {
+
+
     var statsX = 10;
     var statsY1 = -120;
     var statsY2 = -120;
@@ -316,11 +320,11 @@ $(document).ready(function(){
             $( table.champion ).html(name);
             var getFromFile = false; // not getting from local file
             if (getFromFile == true) {
-                var championIconPath = "'../resources/5.5.2/img/champion/";
+                var championIconPath = "'../resources/"+localDataVersion+"/img/champion/";
                 var fileName = championName + ".png'";
                 var iconUrl = championIconPath + fileName;
             } else {
-                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.2.2/img/champion/'+iconName;
+                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/champion/'+iconName;
             }
             var htmlCode = "<img src="+iconUrl+" width='40' height='40'/>";
 
@@ -348,11 +352,11 @@ $(document).ready(function(){
             if (getFromFile == true) {
                 var nameToFix = spell.id.toString();
                 var spellName = fixName(nameToFix);
-                var championIconPath = "'../resources/5.5.2/img/spell/";
+                var championIconPath = "'../resources/"+localDataVersion+"/img/spell/";
                 var fileName = spellName + ".png'";
                 var iconUrl = championIconPath + fileName;
             } else {
-                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.5.2/img/spell/' + spell.image.full;
+                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/spell/' + spell.image.full;
             }
             var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
             $( table.spell ).append(htmlCode);
@@ -362,11 +366,11 @@ $(document).ready(function(){
                 if (getFromFile == true) {
                     var nameToFix = spell.id.toString();
                     var spellName = fixName(nameToFix);
-                    var championIconPath = "'../resources/5.5.2/img/spell/";
+                    var championIconPath = "'../resources/"+localDataVersion+"/img/spell/";
                     var fileName = spellName + ".png'";
                     var iconUrl = championIconPath + fileName;
                 } else {
-                    var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.5.2/img/spell/' + spell.image.full;
+                    var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/spell/' + spell.image.full;
                 }
                 var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
                 $( table.spell ).append(htmlCode);
@@ -562,7 +566,7 @@ $(document).ready(function(){
         for (var i=1;i<3;i++) {
             for (var j=1;j<6;j++) {
                 var fieldName = '#p_s_t'+i+'_p'+j+'_runes';
-                $(fieldName ).html('<img style="position: relative; left: 2px" src="http://ddragon.leagueoflegends.com/cdn/5.2.2/img/rune/8001.png" align="middle" width="30" height="30"/>');
+                $(fieldName ).html('<img style="position: relative; left: 2px" src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/rune/8001.png" align="middle" width="30" height="30"/>');
             }
         }
         var inObj = {
@@ -637,7 +641,7 @@ $(document).ready(function(){
 
     function getChampionFromFile(championId, callback) {
         var champion = {};
-        $.getJSON('../resources/5.5.2/data/en_US/champion.json', function(result){
+        $.getJSON('../resources/'+localDataVersion+'/data/en_US/champion.json', function(result){
             var championList = result.data;
             for (var i in championList) {
                 if (championList[i].key == championId) {
@@ -651,7 +655,7 @@ $(document).ready(function(){
 
     function getSpellFromFile(spellId, callback) {
         var spell = {};
-        $.getJSON('../resources/5.5.2/data/en_US/summoner.json', function(result){
+        $.getJSON('../resources/'+localDataVersion+'/data/en_US/summoner.json', function(result){
             var spellList = result.data;
             for (var i in spellList) {
                 if (spellList[i].key == spellId) {
@@ -750,7 +754,7 @@ $(document).ready(function(){
     }
 
     function makeStatsData(data, field, output) {
-        $.getJSON('../resources/5.5.2/data/en_US/champion.json', function(result){
+        $.getJSON('../resources/'+localDataVersion+'/data/en_US/champion.json', function(result){
             var championList = result.data;
             for (var j in data) {
                 for (var i in championList) {
@@ -770,31 +774,31 @@ $(document).ready(function(){
 
                         var getFromFile = false; // not getting from local file
                         if (getFromFile == true) {
-                            var championIconPath = "'../resources/5.5.2/img/champion/";
+                            var championIconPath = "'../resources/"+localDataVersion+"/img/champion/";
                             var fileName = championName + ".png'";
                             var iconUrl = championIconPath + fileName;
                         } else {
                             var iconName = championList[i].image.full;
-                            var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/5.2.2/img/champion/'+iconName;
+                            var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/champion/'+iconName;
                         }
                         var htmlCode = "<img src="+iconUrl+" width='30' height='30'/>";
                         if (stats.winner == true) {var bgColor = '#CEF6D8';}
                         else {var bgColor = '#F5A9BC';}
 
                         if (getFromFile == true) {
-                            if (stats.item0 != 0) {var i0 = '<img src="../resources/5.5.2/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
-                            if (stats.item1 != 0) {var i1 = '<img src="../resources/5.5.2/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
-                            if (stats.item2 != 0) {var i2 = '<img src="../resources/5.5.2/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
-                            if (stats.item3 != 0) {var i3 = '<img src="../resources/5.5.2/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
-                            if (stats.item4 != 0) {var i4 = '<img src="../resources/5.5.2/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
-                            if (stats.item5 != 0) {var i5 = '<img src="../resources/5.5.2/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
+                            if (stats.item0 != 0) {var i0 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
+                            if (stats.item1 != 0) {var i1 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
+                            if (stats.item2 != 0) {var i2 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
+                            if (stats.item3 != 0) {var i3 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
+                            if (stats.item4 != 0) {var i4 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
+                            if (stats.item5 != 0) {var i5 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
                         } else {
-                            if (stats.item0 != 0) {var i0 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
-                            if (stats.item1 != 0) {var i1 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
-                            if (stats.item2 != 0) {var i2 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
-                            if (stats.item3 != 0) {var i3 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
-                            if (stats.item4 != 0) {var i4 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
-                            if (stats.item5 != 0) {var i5 = '<img src="http://ddragon.leagueoflegends.com/cdn/5.5.2/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
+                            if (stats.item0 != 0) {var i0 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
+                            if (stats.item1 != 0) {var i1 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
+                            if (stats.item2 != 0) {var i2 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
+                            if (stats.item3 != 0) {var i3 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
+                            if (stats.item4 != 0) {var i4 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
+                            if (stats.item5 != 0) {var i5 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
                         }
 
 
@@ -1068,7 +1072,7 @@ $(document).ready(function(){
 
     function extractRunes(playerObj, playerRuneStorage) {
         var runesObj = playerObj.runes;
-        $.getJSON('../resources/5.5.2/data/en_US/rune.json', function(result){
+        $.getJSON('../resources/'+localDataVersion+'/data/en_US/rune.json', function(result){
             var runesList = result.data;
             for (var i in runesObj) {
                 for (var j in runesList) {
