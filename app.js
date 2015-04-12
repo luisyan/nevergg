@@ -6,13 +6,13 @@ var express = require('express');
 var app = express();
 var logger = require('./logger');
 var leagueAPI = require('leagueapi');
-var lolAPI = require('lolapi')('ad849455-ed5d-48e5-a777-180e25cbdc90', 'na');
+var lolAPI = require('lolapi')('209ebe2d-e2dd-444a-8181-c3c95f15d8c2', 'na');
 var mmr = require('opgg-mmr');
 
-leagueAPI.setRateLimit(10, 500);
-lolAPI.setRateLimit(10, 500);
+leagueAPI.setRateLimit(3000, 180000);
+lolAPI.setRateLimit(3000, 180000);
 
-leagueAPI.init('239e4ebb-d3c7-4deb-a388-c93dd6843673', 'na');
+leagueAPI.init('209ebe2d-e2dd-444a-8181-c3c95f15d8c2', 'na');
 
 var route = '/api';
 

@@ -199,6 +199,7 @@ $(document).ready(function(){
             url: localUrl + '/summoner/solo_record' ,
             data: idObj,
             success: function(result) {
+                count_load_rank++;
                 var tierPath = "../tier/";
                 if (result.ret == 1) {
                     var fileName = "unknown.png";
@@ -257,7 +258,7 @@ $(document).ready(function(){
             getSoloRecord(idObj, table);
         }
         if (team == 'team2') {
-            getSoloRecord_2(idObj, table);
+            getSoloRecord(idObj, table);
         }
     }
 
@@ -324,7 +325,7 @@ $(document).ready(function(){
             var htmlCode = "<img src="+iconUrl+" width='40' height='40'/>";
 
             $( table.championIcon ).html(htmlCode);
-            count_load_rank++;
+
             check_load_rank();
         });
     }
@@ -459,7 +460,7 @@ $(document).ready(function(){
     }
 
     function check_load_rank() {
-        if (count_load_rank == 1) {
+        if (count_load_rank == 10) {
             spinner.stop();
             $('#msg' ).show();
             $('#rankTable' ).show();
