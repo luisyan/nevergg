@@ -6,6 +6,8 @@ var localDataVersion = '5.7.2';
 
 $(document).ready(function() {
 
+    $('#test_field' ).html('I am there');
+    $('#m_4111' ).html('yes');
 
     var statsX = 10;
     var statsY1 = -120;
@@ -25,6 +27,7 @@ $(document).ready(function() {
     $('.separateLine' ).hide();
     $('#btn_getGame' ).hide();
     $('#btn_checkMMR' ).hide();
+    //$('#masteryTree').hide();
     var count_load_rank = 0;
     var count_disable_sumbit = 0;
     var opts = {
@@ -52,6 +55,14 @@ $(document).ready(function() {
 
     function setTable(team, player, obj) {
         if (obj == undefined) {obj = {}};
+        obj.masteryBtn = 'mastery_t'+team+'_p'+player;
+        obj.masteryObj = {};
+        obj.masteryTotal = {
+            offense: 0,
+            defense: 0,
+            utility: 0
+        }
+
         obj.championIcon = '#p_s_t'+team+'_p'+player+'_championIcon';
         obj.spell = '#p_s_t'+team+'_p'+player+'_spell';
         obj.champion = '#p_s_t'+team+'_p'+player+'_champion';
@@ -393,7 +404,7 @@ $(document).ready(function() {
                     $( table.champion ).append(" (0)");
                 } else {
                     calculateKDA(championId, result, function(averageKDA, seasonStats) {
-                        $( table.KDA ).html(averageKDA);
+                        $( table.KDA ).html('<span style="color: #00aa00">'+averageKDA.averageKill+'</span>-<span style="color: #ff0000">'+averageKDA.averageDeath+'</span>-<span style="color: goldenrod">'+averageKDA.averageAssist+'</span>');
                         $( table.champion ).append(seasonStats.toString());
                     })
                 }
@@ -451,7 +462,7 @@ $(document).ready(function() {
                     ShowFailure('get match history failed, possibly service is down');
                 } else {
                     analysisMatchHistory(result, function(winner_count, loser_count) {
-                        var output = winner_count + "/" + loser_count;
+                        var output = winner_count + "-" + loser_count;
                         $(table.last10matches ).html(output);
                     })
                     if (stats) {makeStatsData(result.matches, stats, output);}
@@ -491,7 +502,7 @@ $(document).ready(function() {
         var totalKill = 0;
         var totalDeath = 0;
         var totalAssist = 0;
-        var averageKDA = '';
+        var averageKDA = {};
 
         for (var i in data) {
             if (championId == data[i].id) {
@@ -500,7 +511,9 @@ $(document).ready(function() {
             }
         }
         if (exist == false) {
-            var averageKDA = 'unknown';
+            averageKDA.averageKill = 0;
+            averageKDA.averageDeath = 0;
+            averageKDA.averageAssist = 0;
             var seasonStats = ' (0)';
             callback(averageKDA, seasonStats);
             return;
@@ -510,7 +523,10 @@ $(document).ready(function() {
         totalKill = Number(thisChampion.stats.totalChampionKills);
         totalDeath = Number(thisChampion.stats.totalDeathsPerSession);
         totalAssist = Number(thisChampion.stats.totalAssists);
-        averageKDA = (totalKill/gamePlayed).toFixed(1) + "/" + (totalDeath/gamePlayed).toFixed(1) + "/" + (totalAssist/gamePlayed).toFixed(1);
+
+        averageKDA.averageKill = (totalKill/gamePlayed).toFixed(1);
+        averageKDA.averageDeath = (totalDeath/gamePlayed).toFixed(1);
+        averageKDA.averageAssist = (totalAssist/gamePlayed).toFixed(1);
 
         var seasonWon = Number(thisChampion.stats.totalSessionsWon);
         var seasonLoss = Number(thisChampion.stats.totalSessionsLost);
@@ -560,7 +576,7 @@ $(document).ready(function() {
         $('#p_s_summoner_winLoss' ).html('W/L');
         $('#p_s_champion_kda' ).html('KDA');
         $('#p_s_runes' ).html('Runes');
-        $('#p_s_last10matches' ).html('Last-10-games');
+        $('#p_s_last10matches' ).html('Last 10');
         $('#p_s_mastery' ).html('Mastery');
 
         for (var i=1;i<3;i++) {
@@ -674,12 +690,208 @@ $(document).ready(function() {
         return removeDot;
     }
 
+    // --------------------------------------------- Mastery Tree -----------------------------------------------------------------------
+
     function getMastery(playerMasteryList, table) {
-        var mastery = classifyMastery(playerMasteryList);
-        $( table.mastery ).html(mastery);
+        var mastery = classifyMastery(playerMasteryList, table);
+        table.masteryObj = playerMasteryList;
+        var htmlCode = '<button id="'+table.masteryBtn+'" style="font-size: 13.5px; padding-left: 10px; padding-right: 10px; padding-top: 3px; padding-bottom: 0px" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '+"'#masteryTreeWindow'"+', closeViaDimmer: 0, width: 827, height: 479}">'+mastery+'</button>';
+        $( table.mastery ).html(htmlCode);
     }
 
-    function classifyMastery(playerMasteryList) {
+
+    function clearMasteryTree() {
+        $('#masteryTree' ).find('.mastery-available' ).removeClass('mastery-available');
+    }
+
+    function addZeros() {
+        $('.mastery' ).not('.mastery-available' ).find('span' ).text('0');
+    }
+
+
+    $("#p_s_t1_p1_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team1_player1;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t1_p2_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team1_player2;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t1_p3_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team1_player3;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t1_p4_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team1_player4;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t1_p5_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team1_player5;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t2_p1_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team2_player1;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t2_p2_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team2_player2;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t2_p3_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team2_player3;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t2_p4_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team2_player4;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+    $("#p_s_t2_p5_mastery").mouseover(function (){
+        clearMasteryTree();
+        var playerObj = grid_team2_player5;
+        var playerMasteryList = playerObj.masteryObj;
+        for (var i in playerMasteryList) {
+            var id = playerMasteryList[i].masteryId;
+            var multiplier = playerMasteryList[i].rank;
+            var spanName = '#m_'+id;
+            $(spanName ).text(multiplier);
+            var div_name = '#mastery-'+id;
+            $(div_name ).addClass('mastery-available');
+            addZeros();
+            $('#offense_total' ).text(playerObj.masteryTotal.offense);
+            $('#defense_total' ).text(playerObj.masteryTotal.defense);
+            $('#util_total' ).text(playerObj.masteryTotal.utility);
+        }
+    });
+
+
+
+    function classifyMastery(playerMasteryList, table) {
         var offense = 0;
         var defense = 0;
         var util = 0;
@@ -690,6 +902,9 @@ $(document).ready(function() {
             if (masteryIdNumber > 4200 && masteryIdNumber < 4300) {defense = defense + Number(playerMasteryList[i].rank);}
             if (masteryIdNumber > 4300) {util = util + Number(playerMasteryList[i].rank);}
         }
+        table.masteryTotal.offense = offense;
+        table.masteryTotal.defense = defense;
+        table.masteryTotal.utility = util;
         var output = offense+'/'+defense+'/'+util;
         return output;
     }
