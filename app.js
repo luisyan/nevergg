@@ -245,6 +245,19 @@ app.get(route+'/summoner/matchHistory', function (req, res) {
     });
 })
 
+app.get(route+'/featuredGames', function (req, res) {
+    leagueAPI.getFeaturedGames('na', function(err, result) {
+        if (err) {
+            res.json({ret:1});
+        }
+        else {
+            logger.trace('Got featured games');
+            logger.info(JSON.stringify(result));
+            res.json(result);
+        }
+    })
+});
+
 
 
 var server = app.listen(28000);

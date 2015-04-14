@@ -6,9 +6,6 @@ var localDataVersion = '5.7.2';
 
 $(document).ready(function() {
 
-    $('#test_field' ).html('I am there');
-    $('#m_4111' ).html('yes');
-
     var statsX = 10;
     var statsY1 = -120;
     var statsY2 = -120;
@@ -27,7 +24,7 @@ $(document).ready(function() {
     $('.separateLine' ).hide();
     $('#btn_getGame' ).hide();
     $('#btn_checkMMR' ).hide();
-    //$('#masteryTree').hide();
+    //$('#btn_getFeaturedGames').hide(); // quickly get a player name for test purpose
     var count_load_rank = 0;
     var count_disable_sumbit = 0;
     var opts = {
@@ -51,7 +48,7 @@ $(document).ready(function() {
 
     var spinner = new Spinner(opts);
 
-    var localUrl = '/api';
+    var urlPrefix = '/api';
 
     function setTable(team, player, obj) {
         if (obj == undefined) {obj = {}};
@@ -69,6 +66,7 @@ $(document).ready(function() {
         obj.name = '#p_s_t'+team+'_p'+player+'_name';
         obj.mmr = '#p_s_t'+team+'_p'+player+'_mmr';
         obj.league = '#p_s_t'+team+'_p'+player+'_league';
+        obj.promo = '#p_s_t'+team+'_p'+player+'_promo';
         obj.winLoss = '#p_s_t'+team+'_p'+player+'_winLoss';
         obj.KDA = '#p_s_t'+team+'_p'+player+'_KDA';
         obj.runes = '#p_s_t'+team+'_p'+player+'_runes';
@@ -125,8 +123,28 @@ $(document).ready(function() {
 
 
 
+    function getFeaturedGames() {
+        $.ajax({
+            type: 'GET',
+            url: urlPrefix + '/featuredGames' ,
+            success: function(result) {
+                ShowSuccess('Got featured games');
+                var game = result.gameList[0];
+                var players = game.participants;
+                var firstPlayer = players[0].summonerName;
+                $('#ipt_gameStatsSearch' ).val(firstPlayer);
+            },
+            error: function(jqXHR, status, error){
+                ShowFailure('Getting featured games failed');
+            }
+        });
+    }
+
+
+    $('#btn_getFeaturedGames' ).click(getFeaturedGames);
+
     $('#btn_hello' ).click(function(){
-        var url = localUrl;
+        var url = urlPrefix;
         $.ajax({
             type: 'GET',
             url: url ,
@@ -154,7 +172,7 @@ $(document).ready(function() {
     function getSummonerInfo(inObj) {
         $.ajax({
             type: 'GET',
-            url: localUrl + '/summoner/id',
+            url: urlPrefix + '/summoner/id',
             data: inObj,
             success: function(result) {
                 if (result.ret == 1) {
@@ -179,7 +197,7 @@ $(document).ready(function() {
     function getSummonerCurrentGame(idObj) {
         $.ajax({
             type: 'GET',
-            url: localUrl + '/summoner/currentgame' ,
+            url: urlPrefix + '/summoner/currentgame' ,
             data: idObj,
             success: function(result) {
                 if (result.ret == 1) {
@@ -211,7 +229,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: localUrl + '/summoner/solo_record' ,
+            url: urlPrefix + '/summoner/solo_record' ,
             data: idObj,
             success: function(result) {
                 count_load_rank++;
@@ -220,6 +238,19 @@ $(document).ready(function() {
                     var fileName = "unknown.png";
                 } else {
                     var fileName = result.tier + "_" + result.entries[0].division+".png";
+
+                    if (result.entries[0].miniSeries) {
+                        //$(table.promo ).html('<a style="position: relative; bottom: -1px" class="am-icon-level-up"></a>'+' : ');
+                        //$(table.promo ).append(JSON.stringify(result.entries[0].miniSeries));
+
+                        var progress = result.entries[0].miniSeries.progress;
+                        var numMatch = progress.length;
+                        for (var i=0; i < numMatch; i++) {
+                            if (progress.charAt(i) == 'W') $(table.promo ).append('<img class="promotionIcon" src="icon/passIcon.png"/>');
+                            else if (progress.charAt(i) == 'L') $(table.promo ).append('<img class="promotionIcon" src="icon/failIcon.png"/>');
+                            else if (progress.charAt(i) == 'N') $(table.promo ).append('<img class="promotionIcon" src="icon/undetermined.png"/>');
+                        }
+                    }
                 }
                 var tierFile = tierPath+fileName;
                 if (result.ret != 1) {
@@ -241,7 +272,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: localUrl + '/summoner/solo_record_2' ,
+            url: urlPrefix + '/summoner/solo_record_2' ,
             data: idObj,
             success: function(result) {
                 var tierPath = "../tier/";
@@ -281,7 +312,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: localUrl + '/team/rank_record' ,
+            url: urlPrefix + '/team/rank_record' ,
             data: idObj,
             success: function(result) {
                 $( '#p_s_showData' ).html(JSON.stringify(result));
@@ -296,7 +327,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: localUrl + '/match' ,
+            url: urlPrefix + '/match' ,
             data: idObj,
             success: function(result) {
                 $( '#p_s_showData' ).html(JSON.stringify(result));
@@ -311,7 +342,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: localUrl + '/team/by_summoner_id' ,
+            url: urlPrefix + '/team/by_summoner_id' ,
             data: idObj,
             success: function(result) {
                 $( '#p_s_showData' ).html(JSON.stringify(result));
@@ -396,7 +427,7 @@ $(document).ready(function() {
     function getRankStats(idObj, championId, table) {
         $.ajax({
             type: 'GET',
-            url: localUrl + '/rank/stats' ,
+            url: urlPrefix + '/rank/stats' ,
             data: idObj,
             success: function(result) {
                 if (result.ret == 1) {
@@ -420,7 +451,7 @@ $(document).ready(function() {
     function getMMR(nameObj,table) {
         $.ajax({
             type: 'GET',
-            url: localUrl + '/mmr' ,
+            url: urlPrefix + '/mmr' ,
             data: nameObj,
             success: function(result) {
                 if (result.error != true) {
@@ -439,7 +470,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: localUrl + '/summoner/summary' ,
+            url: urlPrefix + '/summoner/summary' ,
             data: idObj,
             success: function(result) {
                 $( '#p_s_showData' ).html(JSON.stringify(result));
@@ -454,7 +485,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: localUrl + '/summoner/matchHistory' ,
+            url: urlPrefix + '/summoner/matchHistory' ,
             data: idObj,
             success: function(result) {
                 if (result.ret == 1) {
@@ -605,7 +636,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: localUrl + '/mmr',
+            url: urlPrefix + '/mmr',
             data: inObj ,
             success: function(result) {
                 if (result.error == true) {
@@ -653,6 +684,7 @@ $(document).ready(function() {
         $('#p_s_outputData' ).html('');
         $('#msg' ).hide();
         $('.separateLine' ).hide();
+        $('.promoIconArea' ).html('');
     }
 
     function getChampionFromFile(championId, callback) {
@@ -695,7 +727,7 @@ $(document).ready(function() {
     function getMastery(playerMasteryList, table) {
         var mastery = classifyMastery(playerMasteryList, table);
         table.masteryObj = playerMasteryList;
-        var htmlCode = '<button id="'+table.masteryBtn+'" style="font-size: 13.5px; padding-left: 10px; padding-right: 10px; padding-top: 3px; padding-bottom: 0px" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '+"'#masteryTreeWindow'"+', closeViaDimmer: 0, width: 827, height: 479}">'+mastery+'</button>';
+        var htmlCode = '<button id="'+table.masteryBtn+'" style="font-size: 13.5px; padding-left: 10px; padding-right: 10px; padding-top: 2px; padding-bottom: 0px" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '+"'#masteryTreeWindow'"+', closeViaDimmer: 0, width: 827, height: 479}">'+mastery+'</button>';
         $( table.mastery ).html(htmlCode);
     }
 
@@ -1833,6 +1865,7 @@ $(document).ready(function() {
         getMatchHistory({summonerId: team2[4].summonerId}, grid_team2_player5, t2_p5_stats, t2_p5_stats_output);
         extractRunes(team2[4], t2_p5_runes);
     }
+
 
 
 

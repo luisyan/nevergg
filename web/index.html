@@ -25,6 +25,8 @@
 <body>
 
 
+
+
 <div style="position: absolute; top: 300px;left: 50%;" class="am-modal am-modal-alert" tabindex="-1" id="popHelp">
 	<div class="am-modal-dialog">
 		<div class="am-modal-bd">
@@ -63,6 +65,9 @@
 <div style="position: relative;top: 100px; left: 5px" id="myTabContent" class="tab-content">
 	<div class="tab-pane fade in active" id="tab_statsSearch">
 
+		<!-- get featured games for test purpose -->
+		<!--<button style="position: absolute; top: 300px; left: 0px;" id="btn_getFeaturedGames" class="am-btn am-btn-primary">Get Featured Games</button>-->
+
 		<span style="position: absolute; top: 220px; left: 50%;" id="p_s_spinner" align="center"></span>
 
 		<div style="margin: 0 auto; width: 500px;">
@@ -100,7 +105,7 @@
 						<td><span id="p_s_t1_p1_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t1_p1_name"></span></td>
 						<td><span id="p_s_t1_p1_mmr"></span></td>
-						<td class="league"><span id="p_s_t1_p1_league"></span></td>
+						<td class="league"><span id="p_s_t1_p1_league"></span><p id="p_s_t1_p1_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t1_p1_winLoss"></span></td>
 						<td><span id="p_s_t1_p1_KDA"></span></td>
 						<td><span id="p_s_t1_p1_runes"></span></td>
@@ -114,7 +119,7 @@
 					<td><span id="p_s_t1_p2_champion"></span></td>
 					<td><span class="am-kai" id="p_s_t1_p2_name"></span></td>
 					<td><span id="p_s_t1_p2_mmr"></span></td>
-					<td class="league"><span id="p_s_t1_p2_league"></span></td>
+					<td class="league"><span id="p_s_t1_p2_league"></span><p id="p_s_t1_p2_promo" class="promoIconArea"></p></td>
 					<td><span id="p_s_t1_p2_winLoss"></span></td>
 					<td><span id="p_s_t1_p2_KDA"></span></td>
 					<td><span id="p_s_t1_p2_runes"></span></td>
@@ -129,7 +134,7 @@
 						<td><span id="p_s_t1_p3_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t1_p3_name"></span></td>
 						<td><span id="p_s_t1_p3_mmr"></span></td>
-						<td class="league"><span id="p_s_t1_p3_league"></span></td>
+						<td class="league"><span id="p_s_t1_p3_league"></span><p id="p_s_t1_p3_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t1_p3_winLoss"></span></td>
 						<td><span id="p_s_t1_p3_KDA"></span></td>
 						<td><span id="p_s_t1_p3_runes"></span></td>
@@ -144,7 +149,7 @@
 						<td><span id="p_s_t1_p4_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t1_p4_name"></span></td>
 						<td><span id="p_s_t1_p4_mmr"></span></td>
-						<td class="league"><span id="p_s_t1_p4_league"></span></td>
+						<td class="league"><span id="p_s_t1_p4_league"></span><p id="p_s_t1_p4_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t1_p4_winLoss"></span></td>
 						<td><span id="p_s_t1_p4_KDA"></span></td>
 						<td><span id="p_s_t1_p4_runes"></span></td>
@@ -159,7 +164,7 @@
 						<td><span id="p_s_t1_p5_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t1_p5_name"></span></td>
 						<td><span id="p_s_t1_p5_mmr"></span></td>
-						<td class="league"><span id="p_s_t1_p5_league"></span></td>
+						<td class="league"><span id="p_s_t1_p5_league"></span><p id="p_s_t1_p5_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t1_p5_winLoss"></span></td>
 						<td><span id="p_s_t1_p5_KDA"></span></td>
 						<td><span id="p_s_t1_p5_runes"></span></td>
@@ -185,7 +190,7 @@
 						<td><span id="p_s_t2_p1_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t2_p1_name"></span></td>
 						<td><span id="p_s_t2_p1_mmr"></span></td>
-						<td class="league"><span id="p_s_t2_p1_league"></span></td>
+						<td class="league"><span id="p_s_t2_p1_league"></span><p id="p_s_t2_p1_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t2_p1_winLoss"></span></td>
 						<td><span id="p_s_t2_p1_KDA"></span></td>
 						<td><span id="p_s_t2_p1_runes"></span></td>
@@ -200,7 +205,7 @@
 						<td><span id="p_s_t2_p2_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t2_p2_name"></span></td>
 						<td><span id="p_s_t2_p2_mmr"></span></td>
-						<td class="league"><span id="p_s_t2_p2_league"></span></td>
+						<td class="league"><span id="p_s_t2_p2_league"></span><p id="p_s_t2_p2_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t2_p2_winLoss"></span></td>
 						<td><span id="p_s_t2_p2_KDA"></span></td>
 						<td><span id="p_s_t2_p2_runes"></span></td>
@@ -215,7 +220,7 @@
 						<td><span id="p_s_t2_p3_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t2_p3_name"></span></td>
 						<td><span id="p_s_t2_p3_mmr"></span></td>
-						<td class="league"><span id="p_s_t2_p3_league"></span></td>
+						<td class="league"><span id="p_s_t2_p3_league"></span><p id="p_s_t2_p3_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t2_p3_winLoss"></span></td>
 						<td><span id="p_s_t2_p3_KDA"></span></td>
 						<td><span id="p_s_t2_p3_runes"></span></td>
@@ -230,7 +235,7 @@
 						<td><span id="p_s_t2_p4_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t2_p4_name"></span></td>
 						<td><span id="p_s_t2_p4_mmr"></span></td>
-						<td class="league"><span id="p_s_t2_p4_league"></span></td>
+						<td class="league"><span id="p_s_t2_p4_league"></span><p id="p_s_t2_p4_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t2_p4_winLoss"></span></td>
 						<td><span id="p_s_t2_p4_KDA"></span></td>
 						<td><span id="p_s_t2_p4_runes"></span></td>
@@ -245,7 +250,7 @@
 						<td><span id="p_s_t2_p5_champion"></span></td>
 						<td><span class="am-kai" id="p_s_t2_p5_name"></span></td>
 						<td><span id="p_s_t2_p5_mmr"></span></td>
-						<td class="league"><span id="p_s_t2_p5_league"></span></td>
+						<td class="league"><span id="p_s_t2_p5_league"></span><p id="p_s_t2_p5_promo" class="promoIconArea"></p></td>
 						<td><span id="p_s_t2_p5_winLoss"></span></td>
 						<td><span id="p_s_t2_p5_KDA"></span></td>
 						<td><span id="p_s_t2_p5_runes"></span></td>

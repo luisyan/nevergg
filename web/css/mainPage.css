@@ -114,3 +114,17 @@ span#p_s_last10matches {
 .tenGames {
   position: relative; left: 15px
 }
+
+.promotionIcon {
+  width: 10px;
+  height: 10px;
+}
+
+.promoIconArea {
+  width: 120px;
+  heigth: 15px;
+  position: absolute;
+  left: 41px;
+  bottom: -2px;
+  font-size: 13px;
+}
