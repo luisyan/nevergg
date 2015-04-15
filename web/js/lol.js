@@ -176,7 +176,6 @@ $(document).ready(function() {
             data: inObj,
             success: function(result) {
                 if (result.ret == 1) {
-                    //$('#p_s_feedbackInfo' ).append('Summoner does not exist');
                     ShowFailure('Summoner does not exist');
                     spinner.stop();
                     recover();
@@ -254,7 +253,7 @@ $(document).ready(function() {
                 }
                 var tierFile = tierPath+fileName;
                 if (result.ret != 1) {
-                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> <span style='font-size: 13px'>"+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")</span>");
                     $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
                 } else {
                     $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+"UNRANKED");
@@ -283,7 +282,7 @@ $(document).ready(function() {
                 }
                 var tierFile = tierPath+fileName;
                 if (result.ret != 1) {
-                    $( table.league ).html("<img src="+tierFile+" align='middle' width='35' height='35'/> "+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")");
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='35' height='35'/><span style='font-size: 5px'>"+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")</span>");
                     $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
                 } else {
                     $( table.league ).html("<img src="+tierFile+" align='middle' width='35' height='35'/> "+"UNRANKED");
@@ -296,6 +295,8 @@ $(document).ready(function() {
             }
         });
     }
+
+
 
 
 
@@ -488,6 +489,22 @@ $(document).ready(function() {
             url: urlPrefix + '/summoner/matchHistory' ,
             data: idObj,
             success: function(result) {
+                var tierPath = "../tier/";
+                var highestTier = result.matches[0].participants[0].highestAchievedSeasonTier;
+                if (highestTier == 'UNRANKED') {
+                    var fileName = "unknown.png";
+                } else {
+                    var fileName = highestTier + "_I.png";
+                }
+                var tierFile = tierPath+fileName;
+                $(table.league ).popover({
+                    content: '<span style="font-size: 11px; padding-bottom: 0px">Previous:  <img src="'+tierFile+'" width="29px" height="29px"/></span>',
+                    trigger: 'hover',
+                    placement: 'top',
+                    animation: true,
+                    html: true
+                });
+
                 if (result.ret == 1) {
                     //$('#p_s_feedbackInfo' ).append('get match history failed, possibly service is down' + '<br>');
                     ShowFailure('get match history failed, possibly service is down');
@@ -495,6 +512,7 @@ $(document).ready(function() {
                     analysisMatchHistory(result, function(winner_count, loser_count) {
                         var output = winner_count + "-" + loser_count;
                         $(table.last10matches ).html(output);
+
                     })
                     if (stats) {makeStatsData(result.matches, stats, output);}
                 }
@@ -504,6 +522,8 @@ $(document).ready(function() {
             }
         });
     }
+
+
 
     function check_load_rank() {
         if (count_load_rank == 10) {
@@ -727,7 +747,7 @@ $(document).ready(function() {
     function getMastery(playerMasteryList, table) {
         var mastery = classifyMastery(playerMasteryList, table);
         table.masteryObj = playerMasteryList;
-        var htmlCode = '<button id="'+table.masteryBtn+'" style="font-size: 13.5px; padding-left: 10px; padding-right: 10px; padding-top: 2px; padding-bottom: 0px" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '+"'#masteryTreeWindow'"+', closeViaDimmer: 0, width: 827, height: 479}">'+mastery+'</button>';
+        var htmlCode = '<button id="'+table.masteryBtn+'" style="font-size: 13.5px; padding-left: 10px; padding-right: 10px; padding-top: 2px; padding-bottom: 0px" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '+"'#masteryTreeWindow'"+', closeViaDimmer: 1, width: 827, height: 479}">'+mastery+'</button>';
         $( table.mastery ).html(htmlCode);
     }
 

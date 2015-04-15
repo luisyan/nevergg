@@ -108,7 +108,7 @@ app.get(route+'/summoner/solo_record', function (req, res) {
                         soloRecord = result[id][i]
                     }
                 }
-                logger.trace( 'Got solo rank record. using 2nd key' );
+                logger.trace( 'Got solo rank record. using 1st key' );
                 res.json( soloRecord );
             }
             else {
@@ -118,6 +118,7 @@ app.get(route+'/summoner/solo_record', function (req, res) {
         }
     });
 })
+
 
 app.get(route+'/summoner/solo_record_2', function (req, res) {
     var id = req.param('summonerId');
@@ -160,6 +161,9 @@ app.get(route+'/team/rank_record', function (req, res) {
         res.json(result);
     });
 })
+
+
+
 
 app.get(route+'/match', function (req, res) {
     var id = req.param('matchId');
@@ -239,11 +243,12 @@ app.get(route+'/summoner/matchHistory', function (req, res) {
         }
         else
         {
-            logger.trace( 'Got match history.')
+            logger.trace( 'Got match history.');
             res.json( result );
         }
     });
 })
+
 
 app.get(route+'/featuredGames', function (req, res) {
     leagueAPI.getFeaturedGames('na', function(err, result) {
