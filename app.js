@@ -9,8 +9,8 @@ var leagueAPI = require('leagueapi');
 var lolAPI = require('lolapi')('209ebe2d-e2dd-444a-8181-c3c95f15d8c2', 'na');
 var mmr = require('opgg-mmr');
 
-leagueAPI.setRateLimit(3000, 180000);
-lolAPI.setRateLimit(3000, 180000);
+leagueAPI.setRateLimit(2800, 150000);
+lolAPI.setRateLimit(2800, 150000);
 
 leagueAPI.init('209ebe2d-e2dd-444a-8181-c3c95f15d8c2', 'na');
 

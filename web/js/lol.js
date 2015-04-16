@@ -20,6 +20,7 @@ $(document).ready(function() {
 
     var Y_axis = -190;
 
+    $('#amaze_spinner' ).hide();
     $('#msg' ).hide();
     $('.separateLine' ).hide();
     $('#btn_getGame' ).hide();
@@ -177,7 +178,8 @@ $(document).ready(function() {
             success: function(result) {
                 if (result.ret == 1) {
                     ShowFailure('Summoner does not exist');
-                    spinner.stop();
+                    $.AMUI.progress.done();
+                    $('#amaze_spinner' ).hide();
                     recover();
                 } else {
                     var name = fixName(inObj.summonerName);
@@ -187,7 +189,8 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, status, error){
-                spinner.stop();
+                $('#amaze_spinner' ).hide();
+                $.AMUI.progress.done();
                 ShowFailure('Getting summoner id info failed, try to refresh and check again');
             }
         });
@@ -200,7 +203,8 @@ $(document).ready(function() {
             data: idObj,
             success: function(result) {
                 if (result.ret == 1) {
-                    spinner.stop();
+                    $.AMUI.progress.done();
+                    $('#amaze_spinner' ).hide();
                     //$('#p_s_feedbackInfo' ).html(result.result);
                     ShowFailure(result.result);
                     recover();
@@ -217,7 +221,7 @@ $(document).ready(function() {
 
             },
             error: function(jqXHR, status, error){
-                spinner.stop();
+                $('#amaze_spinner' ).hide();
                 ShowFailure('From 1st key..get summoner info failed, try to refresh and check again');
             }
         });
@@ -263,7 +267,7 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, status, error){
-                spinner.stop();
+                $('#amaze_spinner' ).hide();
                 ShowFailure('Getting ranked solo info failed (key 1)');
             }
         });
@@ -292,7 +296,7 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, status, error){
-                spinner.stop();
+                $('#amaze_spinner' ).hide();
                 ShowFailure('Getting ranked solo failed (key 2)');
             }
         });
@@ -530,7 +534,8 @@ $(document).ready(function() {
 
     function check_load_rank() {
         if (count_load_rank == 10) {
-            spinner.stop();
+            $.AMUI.progress.done();
+            $('#amaze_spinner' ).hide();
             $('#msg' ).show();
             $('#rankTable' ).show();
             $('.separateLine' ).show();
@@ -618,6 +623,30 @@ $(document).ready(function() {
     var $btn;
     var idObj = {};
     $('#btn_getGame' ).click(function() {
+        //NProgress.configure({ showSpinner: true });
+
+        var opt =   {
+            minimum: 0.08,
+            easing: 'ease',
+            positionUsing: '',
+            speed: 200,
+            trickle: true,
+            trickleRate: 0.02,
+            trickleSpeed: 800,
+            showSpinner: false,
+            barSelector: '[role="nprogress-bar"]',
+            spinnerSelector: '[role="nprogress-spinner"]',
+            parent: 'body',
+            template: '<div style="background-color: limegreen; height: 2px; position: absolute;top: 22px;" class="nprogress-bar" role="nprogress-bar">' +
+            '<div style="position: absolute;top: -100px;" class="nprogress-peg"></div></div>' +
+            '<div style="position: absolute;left: 50%; top: 300px;" class="nprogress-spinner" role="nprogress-spinner">' +
+            '<div class="nprogress-spinner-icon"></div></div>'
+        }
+
+        $.AMUI.progress.configure(opt);
+        $.AMUI.progress.start();
+
+
         $('#btn_getGame').val( 'searching..' );
         $('#btn_getGame').attr('disabled' , 'disabled' );
 
@@ -628,8 +657,9 @@ $(document).ready(function() {
         clearFiled();
         clearTable();
         $('#rankTable' ).hide();
-        var target = document.getElementById('p_s_spinner');
-        spinner.spin(target);
+        //var target = document.getElementById('p_s_spinner');
+        //spinner.spin(target);
+        $('#amaze_spinner' ).show();
 
         $('#p_s_champion_name' ).html('Champion');
         $('#p_s_summoner_name' ).html('Summoner');
