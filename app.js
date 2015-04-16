@@ -257,7 +257,6 @@ app.get(route+'/featuredGames', function (req, res) {
         }
         else {
             logger.trace('Got featured games');
-            logger.info(JSON.stringify(result));
             res.json(result);
         }
     })

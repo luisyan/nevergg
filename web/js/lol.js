@@ -253,7 +253,9 @@ $(document).ready(function() {
                 }
                 var tierFile = tierPath+fileName;
                 if (result.ret != 1) {
-                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> <span style='font-size: 13px'>"+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")</span>");
+                    var lowerCase = result.tier.toLowerCase();
+                    var fixedTier = result.tier.charAt(0)+lowerCase.substr(1, lowerCase.length-1);
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> <span style='0px; font-size: 14px'>"+fixedTier+ " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")</span>");
                     $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
                 } else {
                     $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+"UNRANKED");
@@ -359,8 +361,9 @@ $(document).ready(function() {
         getChampionFromFile(idObj.championId, function(champion) {
             var name = champion.name.toString();
             var iconName = champion.image.full;
+            var htmlName = '<span class="am-sans-serif">'+name+'</span>'
 
-            $( table.champion ).html(name);
+            $( table.champion ).html(htmlName);
             var getFromFile = false; // not getting from local file
             if (getFromFile == true) {
                 var championIconPath = "'../resources/"+localDataVersion+"/img/champion/";
@@ -437,7 +440,7 @@ $(document).ready(function() {
                 } else {
                     calculateKDA(championId, result, function(averageKDA, seasonStats) {
                         $( table.KDA ).html('<span style="color: #00aa00">'+averageKDA.averageKill+'</span>-<span style="color: #ff0000">'+averageKDA.averageDeath+'</span>-<span style="color: goldenrod">'+averageKDA.averageAssist+'</span>');
-                        $( table.champion ).append(seasonStats.toString());
+                        $( table.champion ).append(seasonStats);
                     })
                 }
                 count_disable_sumbit++;
@@ -587,7 +590,15 @@ $(document).ready(function() {
         if (winRate > 0 && winRate < 1) {winRateOut = winRate.slice(2,4);}
 	    if (winRate == 1) {winRateOut = '100';}
         if (seasonWon == 0) {winRateOut = '0';}
-        var seasonStats = " " + winRateOut + "% ("+wonPlusLoss+")";
+
+        if (winRateOut > 69 ) {
+            winRateOut = '<span style="color: red">'+winRateOut+'%</span>'
+        } else if (winRateOut > 49 && winRateOut < 70) {
+            winRateOut = '<span style="color: darkorange">'+winRateOut+'%</span>'
+        } else if (winRateOut < 50) {
+            winRateOut = '<span style="color: green">'+winRateOut+'%</span>'
+        }
+        var seasonStats = " " + winRateOut + " ("+wonPlusLoss+")";
 
         callback(averageKDA, seasonStats);
     }
