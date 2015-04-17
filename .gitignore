@@ -1,6 +1,60 @@
-web/resources/
-.DS_Store?
+######################
+# OS-generated files
+######################
 .DS_Store
-.idea
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
+######################
+# IDE & Tools files
+######################
+# IntelliJ IDEA, WebStorm, phpStorm
+.idea/
+*.iml
+*.iws
 
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# vi buffers
+*~
+*.swp
+*.swo
+
+# Emacs buffers
+\#*
+.\#*
+
+# TextMate
+*.tmproj
+tmtags
+
+# SASS
+.sass-cache
+.sass-cache/*
+
+# Build & testing tools
+.vagrant
+node_modules
+runMyServer
+web/resources
+
+######################
+# Logs and databases
+######################
+*.log
+*.sqlite
+
+######################
+# Projects checked out to this root
+######################

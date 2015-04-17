@@ -1,0 +1,19 @@
+{
+  "name": "NeverGG",
+  "description": "Website to check in game status",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "Yan Liu <luis.yan@outlook.com>",
+  "homepage": "https://www.nevergg.info",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:yanliu5/myProject.git"
+  },
+  "devDependencies": {
+    "express": "^4.12.3",
+    "leagueapi": "^0.4.9",
+    "lolapi": "^0.2.3",
+    "opgg-mmr": "^1.0.1",
+    "tracer": "^0.7.4"
+  }
+}
