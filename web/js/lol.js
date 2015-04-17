@@ -5,23 +5,16 @@ var staticDataVersion = '5.7.2';
 var localDataVersion = '5.7.2';
 
 $(document).ready(function() {
+    //initTable();
+
+    var masteryList_AllPlayer = [[],[],[]];
 
     var statsX = 10;
-    var statsY1 = -120;
-    var statsY2 = -120;
-    var statsY3 = -120;
-    var statsY4 = -120;
-    var statsY5 = -120;
-    var statsY6 = -120;
-    var statsY7 = -120;
-    var statsY8 = -120;
-    var statsY9 = -120;
-    var statsY0 = -120;
-
+    var statsY = -120;
     var Y_axis = -190;
 
-    $('#amaze_spinner' ).hide();
-    $('#msg' ).hide();
+    $('#loading_spinner' ).hide();
+    $('#msg').hide();
     $('.separateLine' ).hide();
     $('#btn_getGame' ).hide();
     $('#btn_checkMMR' ).hide();
@@ -53,14 +46,8 @@ $(document).ready(function() {
 
     function setTable(team, player, obj) {
         if (obj == undefined) {obj = {}};
-        obj.masteryBtn = 'mastery_t'+team+'_p'+player;
-        obj.masteryObj = {};
-        obj.masteryTotal = {
-            offense: 0,
-            defense: 0,
-            utility: 0
-        }
-
+        obj.team = team;
+        obj.player = player;
         obj.championIcon = '#p_s_t'+team+'_p'+player+'_championIcon';
         obj.spell = '#p_s_t'+team+'_p'+player+'_spell';
         obj.champion = '#p_s_t'+team+'_p'+player+'_champion';
@@ -89,16 +76,14 @@ $(document).ready(function() {
     var grid_team2_player4 = setTable(2,4);
     var grid_team2_player5 = setTable(2,5);
 
-    var t1_p1_runes = [];
-    var t1_p2_runes = [];
-    var t1_p3_runes = [];
-    var t1_p4_runes = [];
-    var t1_p5_runes = [];
-    var t2_p1_runes = [];
-    var t2_p2_runes = [];
-    var t2_p3_runes = [];
-    var t2_p4_runes = [];
-    var t2_p5_runes = [];
+
+    var runesCache = [[],[],[]];
+
+    for (var i=1;i<3;i++) {
+        for (var j=1;j<6;j++) {
+            runesCache[i][j]=[];
+        }
+    }
 
     var t1_p1_stats = [];
     var t1_p2_stats = [];
@@ -111,16 +96,41 @@ $(document).ready(function() {
     var t2_p4_stats = [];
     var t2_p5_stats = [];
 
-    var t1_p1_stats_output = {str:'loading'};
-    var t1_p2_stats_output = {str:'loading'};
-    var t1_p3_stats_output = {str:'loading'};
-    var t1_p4_stats_output = {str:'loading'};
-    var t1_p5_stats_output = {str:'loading'};
-    var t2_p1_stats_output = {str:'loading'};
-    var t2_p2_stats_output = {str:'loading'};
-    var t2_p3_stats_output = {str:'loading'};
-    var t2_p4_stats_output = {str:'loading'};
-    var t2_p5_stats_output = {str:'loading'};
+    var stats_output = [[],[],[]];
+
+    for (var i=1;i<3;i++) {
+        for (var j=1;j<6;j++) {
+            stats_output[i][j]={str:'loading'};
+        }
+    }
+
+    var playerCache = [
+        grid_team1_player1,
+        grid_team1_player2,
+        grid_team1_player3,
+        grid_team1_player4,
+        grid_team1_player5,
+        grid_team2_player1,
+        grid_team2_player2,
+        grid_team2_player3,
+        grid_team2_player4,
+        grid_team2_player5
+    ]
+
+
+
+    //function initTable() {
+    //    $('#table_team1' ).append('<tr><th class="tableHeader" colspan="3"><span id="p_s_champion_name"></span></th><th class="tableHeader"><span id="p_s_summoner_name"></span></th><th class="tableHeader"><span id="p_s_summoner_mmr"></span></th><th class="tableHeader"><span id="p_s_summoner_league"></span></th><th class="tableHeader"><span id="p_s_summoner_winLoss"></span></th><th class="tableHeader"><span id="p_s_champion_kda"></span></th><th class="tableHeader"><span id="p_s_runes"></span></th><th class="tableHeader"><span id="p_s_mastery"></span></th><th class="tableHeader"><span id="p_s_last10matches"></span></th></tr><tr><td class="separateLine" id="lineTop" colspan="11"></td></tr>')
+    //    for (var i=1;i<6;i++) {
+    //        $('#table_team1' ).append('<tr><td><span id="p_s_t1_p'+i+'_championIcon"></span></td><td><span id="p_s_t1_p'+i+'_spell"></span></td><td><span id="p_s_t1_p'+i+'_champion"></span></td><td><span class="span_playerName" id="p_s_t1_p'+i+'_name"></span></td><td><span id="p_s_t1_p'+i+'_mmr"></span></td><td class="league"><span id="p_s_t1_p'+i+'_league"></span><p id="p_s_t1_p'+i+'_promo" class="promoIconArea"></p></td><td><span id="p_s_t1_p'+i+'_winLoss"></span></td><td><span id="p_s_t1_p'+i+'_KDA"></span></td><td><span id="p_s_t1_p'+i+'_runes"></span></td><td class="td_mastery"><span id="p_s_t1_p'+i+'_mastery"></span></td><td class="tenGames"><span id="p_s_t1_p'+i+'_last10matches"></span></td><td></td><td></td></tr>')
+    //    }
+    //
+    //    for (var j=1;j<6;j++) {
+    //        $('#table_team2' ).append('<tr><td><span id="p_s_t2_p'+j+'_championIcon"></span></td><td><span id="p_s_t2_p'+j+'_spell"></span></td><td><span id="p_s_t2_p'+j+'_champion"></span></td><td><span class="span_playerName" id="p_s_t2_p'+j+'_name"></span></td><td><span id="p_s_t2_p'+j+'_mmr"></span></td><td class="league"><span id="p_s_t2_p'+j+'_league"></span><p id="p_s_t2_p'+j+'_promo" class="promoIconArea"></p></td><td><span id="p_s_t2_p'+j+'_winLoss"></span></td><td><span id="p_s_t2_p'+j+'_KDA"></span></td><td><span id="p_s_t2_p'+j+'_runes"></span></td><td class="td_mastery"><span id="p_s_t2_p'+j+'_mastery"></span></td><td class="tenGames"><span id="p_s_t2_p'+j+'_last10matches"></span></td><td></td><td></td></tr>')
+    //    }
+    //    $('#table_team2' ).append('<tr><td class="separateLine" id="lineBottom" colspan="11"></td></tr>')
+    //}
+
 
 
 
@@ -179,7 +189,7 @@ $(document).ready(function() {
                 if (result.ret == 1) {
                     ShowFailure('Summoner does not exist');
                     $.AMUI.progress.done();
-                    $('#amaze_spinner' ).hide();
+                    $('#loading_spinner' ).hide();
                     recover();
                 } else {
                     var name = fixName(inObj.summonerName);
@@ -189,7 +199,7 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, status, error){
-                $('#amaze_spinner' ).hide();
+                $('#loading_spinner' ).hide();
                 $.AMUI.progress.done();
                 ShowFailure('Getting summoner id info failed, try to refresh and check again');
             }
@@ -204,7 +214,7 @@ $(document).ready(function() {
             success: function(result) {
                 if (result.ret == 1) {
                     $.AMUI.progress.done();
-                    $('#amaze_spinner' ).hide();
+                    $('#loading_spinner' ).hide();
                     //$('#p_s_feedbackInfo' ).html(result.result);
                     ShowFailure(result.result);
                     recover();
@@ -221,7 +231,7 @@ $(document).ready(function() {
 
             },
             error: function(jqXHR, status, error){
-                $('#amaze_spinner' ).hide();
+                $('#loading_spinner' ).hide();
                 ShowFailure('From 1st key..get summoner info failed, try to refresh and check again');
             }
         });
@@ -267,7 +277,7 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, status, error){
-                $('#amaze_spinner' ).hide();
+                $('#loading_spinner' ).hide();
                 ShowFailure('Getting ranked solo info failed (key 1)');
             }
         });
@@ -296,7 +306,7 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, status, error){
-                $('#amaze_spinner' ).hide();
+                $('#loading_spinner' ).hide();
                 ShowFailure('Getting ranked solo failed (key 2)');
             }
         });
@@ -521,6 +531,8 @@ $(document).ready(function() {
                         $(table.last10matches ).html(output);
 
                     })
+                    $(table.name ).attr('team',table.team);
+                    $(table.name ).attr('player',table.player);
                     if (stats) {makeStatsData(result.matches, stats, output);}
                 }
             },
@@ -535,7 +547,7 @@ $(document).ready(function() {
     function check_load_rank() {
         if (count_load_rank == 10) {
             $.AMUI.progress.done();
-            $('#amaze_spinner' ).hide();
+            $('#loading_spinner' ).hide();
             $('#msg' ).show();
             $('#rankTable' ).show();
             $('.separateLine' ).show();
@@ -637,7 +649,7 @@ $(document).ready(function() {
             barSelector: '[role="nprogress-bar"]',
             spinnerSelector: '[role="nprogress-spinner"]',
             parent: 'body',
-            template: '<div style="background-color: limegreen; height: 2px; position: absolute;top: 22px;" class="nprogress-bar" role="nprogress-bar">' +
+            template: '<div style="background-color: limegreen;height: 3px;position: absolute;top: 22px;" class="nprogress-bar" role="nprogress-bar">' +
             '<div style="position: absolute;top: -100px;" class="nprogress-peg"></div></div>' +
             '<div style="position: absolute;left: 50%; top: 300px;" class="nprogress-spinner" role="nprogress-spinner">' +
             '<div class="nprogress-spinner-icon"></div></div>'
@@ -659,7 +671,7 @@ $(document).ready(function() {
         $('#rankTable' ).hide();
         //var target = document.getElementById('p_s_spinner');
         //spinner.spin(target);
-        $('#amaze_spinner' ).show();
+        $('#loading_spinner' ).show();
 
         $('#p_s_champion_name' ).html('Champion');
         $('#p_s_summoner_name' ).html('Summoner');
@@ -787,11 +799,19 @@ $(document).ready(function() {
 
     function getMastery(playerMasteryList, table) {
         var mastery = classifyMastery(playerMasteryList, table);
-        table.masteryObj = playerMasteryList;
-        var htmlCode = '<button id="'+table.masteryBtn+'" style="font-size: 13.5px; padding-left: 10px; padding-right: 10px; padding-top: 2px; padding-bottom: 0px" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '+"'#masteryTreeWindow'"+', closeViaDimmer: 1, width: 827, height: 479}">'+mastery+'</button>';
+        masteryList_AllPlayer[table.team][table.player] = playerMasteryList;
+        var htmlCode = '<button style="font-size: 13.5px; padding-left: 10px; padding-right: 10px; padding-top: 2px; padding-bottom: 0px" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '+"'#masteryTreeWindow'"+', closeViaDimmer: 1, width: 827, height: 479}">'+mastery.btnMark+'</button>';
         $( table.mastery ).html(htmlCode);
+        $(table.mastery ).attr('team',table.team);
+        $(table.mastery ).attr('player',table.player);
+        $(table.mastery ).attr('offense',mastery.offense);
+        $(table.mastery ).attr('defense',mastery.defense);
+        $(table.mastery ).attr('utility',mastery.utility);
     }
 
+    $('#p_s_t1_p4_mastery' ).find('button').on('click',function(){
+        console.log('yes yes yes');
+    })
 
     function clearMasteryTree() {
         $('#masteryTree' ).find('.mastery-available' ).removeClass('mastery-available');
@@ -802,10 +822,11 @@ $(document).ready(function() {
     }
 
 
-    $("#p_s_t1_p1_mastery").mouseover(function (){
+    $('.td_mastery > span' ).on('click', function() {
         clearMasteryTree();
-        var playerObj = grid_team1_player1;
-        var playerMasteryList = playerObj.masteryObj;
+        var team = $(this ).attr('team');
+        var player = $(this ).attr('player');
+        var playerMasteryList = masteryList_AllPlayer[team][player];
         for (var i in playerMasteryList) {
             var id = playerMasteryList[i].masteryId;
             var multiplier = playerMasteryList[i].rank;
@@ -814,180 +835,18 @@ $(document).ready(function() {
             var div_name = '#mastery-'+id;
             $(div_name ).addClass('mastery-available');
             addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t1_p2_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team1_player2;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t1_p3_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team1_player3;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t1_p4_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team1_player4;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t1_p5_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team1_player5;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t2_p1_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team2_player1;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t2_p2_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team2_player2;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t2_p3_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team2_player3;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t2_p4_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team2_player4;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
-        }
-    });
-
-    $("#p_s_t2_p5_mastery").mouseover(function (){
-        clearMasteryTree();
-        var playerObj = grid_team2_player5;
-        var playerMasteryList = playerObj.masteryObj;
-        for (var i in playerMasteryList) {
-            var id = playerMasteryList[i].masteryId;
-            var multiplier = playerMasteryList[i].rank;
-            var spanName = '#m_'+id;
-            $(spanName ).text(multiplier);
-            var div_name = '#mastery-'+id;
-            $(div_name ).addClass('mastery-available');
-            addZeros();
-            $('#offense_total' ).text(playerObj.masteryTotal.offense);
-            $('#defense_total' ).text(playerObj.masteryTotal.defense);
-            $('#util_total' ).text(playerObj.masteryTotal.utility);
+            $('#offense_total' ).text($(this ).attr('offense'));
+            $('#defense_total' ).text($(this ).attr('defense'));
+            $('#util_total' ).text($(this ).attr('utility'));
         }
     });
 
 
-
-    function classifyMastery(playerMasteryList, table) {
+    function classifyMastery(playerMasteryList) {
         var offense = 0;
         var defense = 0;
         var util = 0;
+        var masteryTotal = {};
         for (var i in playerMasteryList) {
             var masteryId = playerMasteryList[i].masteryId;
             var masteryIdNumber = Number(masteryId);
@@ -995,11 +854,11 @@ $(document).ready(function() {
             if (masteryIdNumber > 4200 && masteryIdNumber < 4300) {defense = defense + Number(playerMasteryList[i].rank);}
             if (masteryIdNumber > 4300) {util = util + Number(playerMasteryList[i].rank);}
         }
-        table.masteryTotal.offense = offense;
-        table.masteryTotal.defense = defense;
-        table.masteryTotal.utility = util;
-        var output = offense+'/'+defense+'/'+util;
-        return output;
+        masteryTotal.offense = offense;
+        masteryTotal.defense = defense;
+        masteryTotal.utility = util;
+        masteryTotal.btnMark = offense+'/'+defense+'/'+util;
+        return masteryTotal;
     }
 
 
@@ -1016,16 +875,11 @@ $(document).ready(function() {
         clearRows( grid_team2_player4);
         clearRows( grid_team2_player5);
 
-        t1_p1_runes = [];
-        t1_p2_runes = [];
-        t1_p3_runes = [];
-        t1_p4_runes = [];
-        t1_p5_runes = [];
-        t2_p1_runes = [];
-        t2_p2_runes = [];
-        t2_p3_runes = [];
-        t2_p4_runes = [];
-        t2_p5_runes = [];
+        for (var i=1;i<3;i++) {
+            for (var j=1;j<6;j++) {
+                runesCache[i][j]=[];
+            }
+        }
     }
 
     function clearRows(obj) {
@@ -1061,7 +915,7 @@ $(document).ready(function() {
         return stats;
     }
 
-    function makeStatsData(data, field, output) {
+    function makeStatsData(data, field, out) {
         $.getJSON('../resources/'+localDataVersion+'/data/en_US/champion.json', function(result){
             var championList = result.data;
             for (var j in data) {
@@ -1120,7 +974,7 @@ $(document).ready(function() {
                     }
                 }
                 if (j == data.length-1) {
-                    extractStats(field , output);
+                    extractStats(field , out);
                 }
             }
         });
@@ -1131,12 +985,20 @@ $(document).ready(function() {
         for (var i in field) {
             output.str = output.str+field[9-i];
         }
+        var team = $(this ).attr('team');
+        var player = $(this ).attr('player');
     }
 
 
-    $('#p_s_t1_p1_name').mouseover(function(e) {
-        if (t1_p1_stats_output.str == 'loading') {statsY0 = 0} else {statsY0 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p1_stats_output.str  + "</div>";
+    $('.span_playerName').mouseover(function(e) {
+
+        var team = $(this ).attr('team');
+        var player = $(this ).attr('player');
+        console.log(team+' '+player);
+        console.log(stats_output[team][player]);
+
+        if (stats_output[team][player].str == 'loading') {statsY0 = 0} else {statsY0 = Y_axis}
+        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + stats_output[team][player].str  + "</div>";
 
         $("body").append(statsPage);
         $("#individualStats").css({
@@ -1151,234 +1013,26 @@ $(document).ready(function() {
         });
     }).mousemove(function(e) {
         $('#individualStats').css({
-            "top" :(e.pageY+statsY0) + "px",
+            "top" :(e.pageY+statsY) + "px",
             "left" :(e.pageX+statsX) + "px"
         });
     }).mouseout(function() {
         $("#individualStats").remove();
     });
 
-    $('#p_s_t1_p2_name').mouseover(function(e) {
-        if (t1_p2_stats_output.str == 'loading') {statsY1 = 0} else {statsY1 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p2_stats_output.str  + "</div>";
 
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY1) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
-
-    $('#p_s_t1_p3_name').mouseover(function(e) {
-        if (t1_p3_stats_output.str == 'loading') {statsY2 = 0} else {statsY2 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p3_stats_output.str  + "</div>";
-
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY2) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
-
-    $('#p_s_t1_p4_name').mouseover(function(e) {
-        if (t1_p4_stats_output.str == 'loading') {statsY3 = 0} else {statsY3 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p4_stats_output.str  + "</div>";
-
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY3) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
-
-    $('#p_s_t1_p5_name').mouseover(function(e) {
-        if (t1_p5_stats_output.str == 'loading') {statsY4 = 0} else {statsY4 = -150}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t1_p5_stats_output.str  + "</div>";
-
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY4) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
-
-    $('#p_s_t2_p1_name').mouseover(function(e) {
-        if (t2_p1_stats_output.str == 'loading') {statsY5 = 0} else {statsY5 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p1_stats_output.str  + "</div>";
-
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY5) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
-
-    $('#p_s_t2_p2_name').mouseover(function(e) {
-        if (t2_p2_stats_output.str == 'loading') {statsY6 = 0} else {statsY6 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p2_stats_output.str  + "</div>";
-
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY6) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
-
-    $('#p_s_t2_p3_name').mouseover(function(e) {
-        if (t2_p3_stats_output.str == 'loading') {statsY7 = 0} else {statsY7 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p3_stats_output.str  + "</div>";
-
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY7) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
-
-    $('#p_s_t2_p4_name').mouseover(function(e) {
-        if (t2_p4_stats_output.str == 'loading') {statsY8 = 0} else {statsY8 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p4_stats_output.str  + "</div>";
-
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY8) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
-
-    $('#p_s_t2_p5_name').mouseover(function(e) {
-        if (t2_p5_stats_output.str == 'loading') {statsY9 = 0} else {statsY9 = Y_axis}
-        var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + t2_p5_stats_output.str  + "</div>";
-
-        $("body").append(statsPage);
-        $("#individualStats").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#individualStats' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#individualStats').css({
-            "top" :(e.pageY+statsY9) + "px",
-            "left" :(e.pageX+statsX) + "px"
-        });
-    }).mouseout(function() {
-        $("#individualStats").remove();
-    });
 
 
     //------------------------------------------------------ Runes ----------------------------------------------------------------------
 
 
     function extractRunes(playerObj, playerRuneStorage) {
+        for (var i in playerCache) {
+            var player = playerCache[i];
+            var span = player.runes;
+            $(span ).attr('team', player.team);
+            $(span ).attr('player', player.player);
+        }
         var runesObj = playerObj.runes;
         $.getJSON('../resources/'+localDataVersion+'/data/en_US/rune.json', function(result){
             var runesList = result.data;
@@ -1577,228 +1231,11 @@ $(document).ready(function() {
     }
 
 
-    $('#p_s_t1_p1_runes').mouseover(function(e) {
+    $('.td_runes').mouseover(function(e) {
+        var team = $(this ).find('span' ).attr('team');
+        var player = $(this ).find('span' ).attr('player');
 
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t1_p1_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-    $('#p_s_t1_p2_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t1_p2_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-    $('#p_s_t1_p3_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t1_p3_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-    $('#p_s_t1_p4_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t1_p4_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-    $('#p_s_t1_p5_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t1_p5_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-
-
-
-    $('#p_s_t2_p1_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t2_p1_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-    $('#p_s_t2_p2_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t2_p2_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-    $('#p_s_t2_p3_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t2_p3_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-    $('#p_s_t2_p4_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t2_p4_runes)  + "</div>";
-
-        $("body").append(toolTip);
-        $("#runesInfo").css({
-            "top" :e.pageY + "px",
-            "left" :e.pageX + "px"
-        });
-        $('#runesInfo' ).css({
-            "padding": 5+"px",
-            "filter":"alpha"+(Opacity=80),
-            "-moz-opacity":0.5,
-            "opacity": 0.8
-        });
-    }).mousemove(function(e) {
-        $('#runesInfo').css({
-            "top" :(e.pageY-30) + "px",
-            "left" :(e.pageX+10) + "px"
-        });
-    }).mouseout(function() {
-        $("#runesInfo").remove();
-    });
-
-    $('#p_s_t2_p5_runes').mouseover(function(e) {
-
-        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(t2_p5_runes)  + "</div>";
+        var toolTip = "<div id='runesInfo' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + fixRuneOutput(runesCache[team][player])  + "</div>";
 
         $("body").append(toolTip);
         $("#runesInfo").css({
@@ -1831,8 +1268,8 @@ $(document).ready(function() {
         getMastery(team1[0].masteries, grid_team1_player1);
         getRank( {summonerId : team1[0].summonerId} , grid_team1_player1 , 'team1');
         getRankStats({summonerId : team1[0].summonerId}, team1[0].championId, grid_team1_player1);
-        getMatchHistory({summonerId: team1[0].summonerId}, grid_team1_player1, t1_p1_stats, t1_p1_stats_output);
-        extractRunes(team1[0], t1_p1_runes);
+        getMatchHistory({summonerId: team1[0].summonerId}, grid_team1_player1, t1_p1_stats, stats_output[1][1]);
+        extractRunes(team1[0], runesCache[1][1]);
 
         $( grid_team1_player2.name ).html( team1[1].summonerName );
         //getMMR( {summonerName : team1[1].summonerName} , grid_team1_player2 );
@@ -1841,8 +1278,8 @@ $(document).ready(function() {
         getMastery(team1[1].masteries, grid_team1_player2);
         getRank( {summonerId : team1[1].summonerId} , grid_team1_player2 , 'team1');
         getRankStats({summonerId : team1[1].summonerId}, team1[1].championId, grid_team1_player2);
-        getMatchHistory({summonerId: team1[1].summonerId}, grid_team1_player2, t1_p2_stats, t1_p2_stats_output);
-        extractRunes(team1[1], t1_p2_runes);
+        getMatchHistory({summonerId: team1[1].summonerId}, grid_team1_player2, t1_p2_stats, stats_output[1][2]);
+        extractRunes(team1[1], runesCache[1][2]);
 
         $( grid_team1_player3.name ).html( team1[2].summonerName );
         //getMMR( {summonerName : team1[2].summonerName} , grid_team1_player3 );
@@ -1851,8 +1288,8 @@ $(document).ready(function() {
         getMastery(team1[2].masteries, grid_team1_player3);
         getRank( {summonerId : team1[2].summonerId} , grid_team1_player3 , 'team1');
         getRankStats({summonerId : team1[2].summonerId}, team1[2].championId, grid_team1_player3);
-        getMatchHistory({summonerId: team1[2].summonerId}, grid_team1_player3, t1_p3_stats, t1_p3_stats_output);
-        extractRunes(team1[2], t1_p3_runes);
+        getMatchHistory({summonerId: team1[2].summonerId}, grid_team1_player3, t1_p3_stats, stats_output[1][3]);
+        extractRunes(team1[2], runesCache[1][3]);
 
         $( grid_team1_player4.name ).html( team1[3].summonerName );
         //getMMR( {summonerName : team1[3].summonerName} , grid_team1_player4 );
@@ -1861,8 +1298,8 @@ $(document).ready(function() {
         getMastery(team1[3].masteries, grid_team1_player4);
         getRank( {summonerId : team1[3].summonerId} , grid_team1_player4 , 'team1');
         getRankStats({summonerId : team1[3].summonerId}, team1[3].championId, grid_team1_player4);
-        getMatchHistory({summonerId: team1[3].summonerId}, grid_team1_player4, t1_p4_stats, t1_p4_stats_output);
-        extractRunes(team1[3], t1_p4_runes);
+        getMatchHistory({summonerId: team1[3].summonerId}, grid_team1_player4, t1_p4_stats, stats_output[1][4]);
+        extractRunes(team1[3], runesCache[1][4]);
 
         $( grid_team1_player5.name ).html( team1[4].summonerName );
         //getMMR( {summonerName : team1[4].summonerName} , grid_team1_player5 );
@@ -1871,8 +1308,8 @@ $(document).ready(function() {
         getMastery(team1[4].masteries, grid_team1_player5);
         getRank( {summonerId : team1[4].summonerId} , grid_team1_player5 , 'team1');
         getRankStats({summonerId : team1[4].summonerId}, team1[4].championId, grid_team1_player5);
-        getMatchHistory({summonerId: team1[4].summonerId}, grid_team1_player5, t1_p5_stats, t1_p5_stats_output);
-        extractRunes(team1[4], t1_p5_runes);
+        getMatchHistory({summonerId: team1[4].summonerId}, grid_team1_player5, t1_p5_stats, stats_output[1][5]);
+        extractRunes(team1[4], runesCache[1][5]);
 
 
 
@@ -1883,8 +1320,8 @@ $(document).ready(function() {
         getMastery(team2[0].masteries, grid_team2_player1);
         getRank( {summonerId : team2[0].summonerId} , grid_team2_player1 , 'team2');
         getRankStats({summonerId : team2[0].summonerId}, team2[0].championId, grid_team2_player1);
-        getMatchHistory({summonerId: team2[0].summonerId}, grid_team2_player1, t2_p1_stats, t2_p1_stats_output);
-        extractRunes(team2[0], t2_p1_runes);
+        getMatchHistory({summonerId: team2[0].summonerId}, grid_team2_player1, t2_p1_stats, stats_output[2][1]);
+        extractRunes(team2[0], runesCache[2][1]);
 
         $( grid_team2_player2.name ).html( team2[1].summonerName );
         //getMMR( {summonerName : team2[1].summonerName} , grid_team2_player2 );
@@ -1893,8 +1330,8 @@ $(document).ready(function() {
         getMastery(team2[1].masteries, grid_team2_player2);
         getRank( {summonerId : team2[1].summonerId} , grid_team2_player2 , 'team2');
         getRankStats({summonerId : team2[1].summonerId}, team2[1].championId, grid_team2_player2);
-        getMatchHistory({summonerId: team2[1].summonerId}, grid_team2_player2, t2_p2_stats, t2_p2_stats_output);
-        extractRunes(team2[1], t2_p2_runes);
+        getMatchHistory({summonerId: team2[1].summonerId}, grid_team2_player2, t2_p2_stats, stats_output[2][2]);
+        extractRunes(team2[1], runesCache[2][2]);
 
         $( grid_team2_player3.name ).html( team2[2].summonerName );
         //getMMR( {summonerName : team2[2].summonerName} , grid_team2_player3 );
@@ -1903,8 +1340,8 @@ $(document).ready(function() {
         getMastery(team2[2].masteries, grid_team2_player3);
         getRank( {summonerId : team2[2].summonerId} , grid_team2_player3 , 'team2');
         getRankStats({summonerId : team2[2].summonerId}, team2[2].championId, grid_team2_player3);
-        getMatchHistory({summonerId: team2[2].summonerId}, grid_team2_player3, t2_p3_stats, t2_p3_stats_output);
-        extractRunes(team2[2], t2_p3_runes);
+        getMatchHistory({summonerId: team2[2].summonerId}, grid_team2_player3, t2_p3_stats, stats_output[2][3]);
+        extractRunes(team2[2], runesCache[2][3]);
 
         $( grid_team2_player4.name ).html( team2[3].summonerName );
         //getMMR( {summonerName : team2[3].summonerName} , grid_team2_player4 );
@@ -1913,8 +1350,8 @@ $(document).ready(function() {
         getMastery(team2[3].masteries, grid_team2_player4);
         getRank( {summonerId : team2[3].summonerId} , grid_team2_player4 , 'team2');
         getRankStats({summonerId : team2[3].summonerId}, team2[3].championId, grid_team2_player4);
-        getMatchHistory({summonerId: team2[3].summonerId}, grid_team2_player4, t2_p4_stats, t2_p4_stats_output);
-        extractRunes(team2[3], t2_p4_runes);
+        getMatchHistory({summonerId: team2[3].summonerId}, grid_team2_player4, t2_p4_stats, stats_output[2][4]);
+        extractRunes(team2[3], runesCache[2][4]);
 
         $( grid_team2_player5.name ).html( team2[4].summonerName );
         //getMMR( {summonerName : team2[4].summonerName} , grid_team2_player5 );
@@ -1923,8 +1360,8 @@ $(document).ready(function() {
         getMastery(team2[4].masteries, grid_team2_player5);
         getRank( {summonerId : team2[4].summonerId} , grid_team2_player5 , 'team2');
         getRankStats({summonerId : team2[4].summonerId}, team2[4].championId, grid_team2_player5);
-        getMatchHistory({summonerId: team2[4].summonerId}, grid_team2_player5, t2_p5_stats, t2_p5_stats_output);
-        extractRunes(team2[4], t2_p5_runes);
+        getMatchHistory({summonerId: team2[4].summonerId}, grid_team2_player5, t2_p5_stats, stats_output[2][5]);
+        extractRunes(team2[4], runesCache[2][5]);
     }
 
 
