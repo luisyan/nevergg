@@ -40,7 +40,7 @@ app.get(route+'/summoner/id', function (req, res) {
             res.json({ret:1});
         }
         else {
-            logger.trace('Got summoner data...', result);
+            logger.trace('Got summoner data...');
             res.json(result);
         }
     });

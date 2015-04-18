@@ -8,7 +8,7 @@ function ShowTip(tip, type) {
         $tip = $('<span id="tip" style="width: 100%; text-align: center; font-weight:bold;position:absolute;top:0px;left: 50%;z-index:9999"></span>');
         $('body').append($tip);
     }
-    $tip.stop(true).attr('class', 'alert alert-' + type).text(tip).css('margin-left', -$tip.outerWidth() / 2).fadeIn(500).delay(3000).fadeOut(1000);
+    $tip.stop(true).attr('class', 'alert alert-' + type).text(tip).css('margin-left', -$tip.outerWidth() / 2).fadeIn(500).delay(1500).fadeOut(1000);
 }
 
 function ShowMsg(msg) {
