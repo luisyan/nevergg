@@ -21,7 +21,7 @@ body {
 }
 	.fullqa
 	{
-	
+
 	}
 	.describebtn
 	{
@@ -197,7 +197,7 @@ body {
         font-size: 11px;
         line-height: 13px;
       }
-	
+
 	.rg-box-modal.rg-display-champion_modal
 	{
 		width: 400px;
@@ -289,7 +289,7 @@ body {
 			height: 373px;
       outline: 0;
 		}
-		
+
 
 .masterytree
 {
@@ -324,7 +324,7 @@ body {
 	left: 0;
 	height: 52px;
 	width: 52px;
-	background-image: url(http://ddragonqa.riotgames.com/cdn/img/global/mastersprite.png);
+	/*background-image: url(http://ddragonqa.riotgames.com/cdn/img/global/mastersprite.png);*/
 	background-position: -126px 0;
 }
 .rg-mastery-trunk .mastery-available .frame {
@@ -338,7 +338,7 @@ body {
 	top: 39px;
 	right: 2px;
 	width: 31px;
-	background-image: url(http://ddragonqa.riotgames.com/cdn/img/global/mastersprite.png);
+	/*background-image: url(http://ddragonqa.riotgames.com/cdn/img/global/mastersprite.png);*/
 	background-position: -126px -58px;
 	color: #afafaf;
 	text-align: center;
@@ -452,7 +452,7 @@ body {
         background-color: #FCFCFC;
       }
 .mastery .prereq {
-	background-image: url(http://ddragonqa.riotgames.com/cdn/img/global/mastersprite.png);
+	/*background-image: url(http://ddragonqa.riotgames.com/cdn/img/global/mastersprite.png);*/
 	position: absolute;
 	width: 18px;
 	left: 15px;

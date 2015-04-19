@@ -13,10 +13,6 @@ $(document).ready(function() {
         setTimeout(startSearch, 100);
     }
 
-
-
-
-
     //initTable();
 
     var masteryList_AllPlayer = [[],[],[]];
@@ -204,9 +200,9 @@ $(document).ready(function() {
                     $('#loading_spinner' ).hide();
                     recover();
                 } else {
-                    var name = fixName(inObj.summonerName);
-                    name = name.toLowerCase();
-                    idObj.summonerId = result[name].id;
+                    console.log(result);
+                    idObj.summonerId = result.id;
+                    console.log(idObj);
                     getSummonerCurrentGame(idObj);
                 }
             },
@@ -227,20 +223,14 @@ $(document).ready(function() {
                 if (result.ret == 1) {
                     $.AMUI.progress.done();
                     $('#loading_spinner' ).hide();
-                    //$('#p_s_feedbackInfo' ).html(result.result);
                     ShowFailure(result.result);
                     recover();
                 }
-
                 else {
                     getSummonersByTeam( result.participants, function (team1, team2) {
-
                         getTheRestData(team1 ,  team2);
-
                     });
                 }
-
-
             },
             error: function(jqXHR, status, error){
                 $('#loading_spinner' ).hide();
@@ -382,6 +372,41 @@ $(document).ready(function() {
         });
     }
 
+    function getChampionFromDB(idObj, table) {
+
+        $.ajax({
+            type: 'GET',
+            url: urlPrefix + '/db/champion' ,
+            data: idObj,
+            success: function(result) {
+                var name = result.name;
+                var iconName = result.iconName;
+                var htmlName = '<span class="am-sans-serif">'+name+'</span>'
+
+                $( table.champion ).html(htmlName);
+                var getFromFile = false; // not getting from local file
+                if (getFromFile == true) {
+                    var championIconPath = "'../resources/"+localDataVersion+"/img/champion/";
+                    var fileName = championName + ".png'";
+                    var iconUrl = championIconPath + fileName;
+                } else {
+                    var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/champion/'+iconName;
+                }
+                var htmlCode = "<img src="+iconUrl+" width='40' height='40'/>";
+
+                $( table.championIcon ).html(htmlCode);
+
+                check_load_rank();
+            },
+            error: function(jqXHR, status, error){
+                ShowFailure('Getting champion from db failed');
+            }
+        });
+
+
+    }
+
+
     function getChampionById(idObj, table) {
 
         getChampionFromFile(idObj.championId, function(champion) {
@@ -419,30 +444,26 @@ $(document).ready(function() {
 
     function drawSpellIcon(spell1Id, spell2Id, table) {
 
-        getSpellFromFile(spell1Id, function(spell) {
+        getSpellFromDB(spell1Id, function(spell) {
             var getFromFile = false;
             if (getFromFile == true) {
-                var nameToFix = spell.id.toString();
-                var spellName = fixName(nameToFix);
                 var championIconPath = "'../resources/"+localDataVersion+"/img/spell/";
-                var fileName = spellName + ".png'";
+                var fileName = spell.image;
                 var iconUrl = championIconPath + fileName;
             } else {
-                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/spell/' + spell.image.full;
+                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/spell/' + spell.image;
             }
             var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
             $( table.spell ).append(htmlCode);
 
-            getSpellFromFile(spell2Id, function(spell) {
+            getSpellFromDB(spell2Id, function(spell) {
                 var getFromFile = false;
                 if (getFromFile == true) {
-                    var nameToFix = spell.id.toString();
-                    var spellName = fixName(nameToFix);
                     var championIconPath = "'../resources/"+localDataVersion+"/img/spell/";
-                    var fileName = spellName + ".png'";
+                    var fileName = spell.image;
                     var iconUrl = championIconPath + fileName;
                 } else {
-                    var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/spell/' + spell.image.full;
+                    var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/spell/' + spell.image;
                 }
                 var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
                 $( table.spell ).append(htmlCode);
@@ -545,7 +566,7 @@ $(document).ready(function() {
                     })
                     $(table.name ).attr('team',table.team);
                     $(table.name ).attr('player',table.player);
-                    if (stats) {makeStatsData(result.matches, stats, output);}
+                    if (stats) {makeStatsDataFromDB(result.matches, stats, output);}
                 }
             },
             error: function(jqXHR, status, error){
@@ -816,6 +837,23 @@ $(document).ready(function() {
         });
     }
 
+    function getSpellFromDB(spellId, callback) {
+        var inObj = {
+            spellId: spellId
+        }
+        $.ajax({
+            type: 'GET',
+            url: urlPrefix + '/db/spell',
+            data: inObj ,
+            success: function(result) {
+                callback(result);
+            },
+            error: function(jqXHR, status, error){
+                ShowFailure('Getting summoner spell from db failed');
+            }
+        });
+    }
+
     function fixName(name){
         var removeSpace = name.replace(/\s+/g,"");
         var removeUpperDot= removeSpace.replace("'","");
@@ -932,18 +970,7 @@ $(document).ready(function() {
 
     //------------------------------------------------- Individual stats ------------------------------------------------------
 
-    function getEachMatchInfo(data) {
-        var stats = {
-            championId : data.championId,
-            winner : data.stats.winner,
-            kill : data.stats.kills,
-            death : data.stats.deaths,
-            assist : data.stats.assZists
-        }
-        return stats;
-    }
-
-    function makeStatsData(data, field, out) {
+    function makeStatsDataFromFile(data, field, out) {
         $.getJSON('../resources/'+localDataVersion+'/data/en_US/champion.json', function(result){
             var championList = result.data;
             for (var j in data) {
@@ -1008,6 +1035,69 @@ $(document).ready(function() {
         });
     }
 
+
+    function makeStatsDataFromDB(data, field, out) {
+        $.ajax({
+            type: 'GET',
+            url: urlPrefix + '/db/champion/all/icon' ,
+            success: function(result) {
+                var championList = result;
+                for (var j in data) {
+                    for (var i in championList) {
+                        var championId = data[j].participants[0].championId;
+                        var stats = data[j].participants[0].stats;
+                        if (championList[i].key == championId) {
+
+                            var getFromFile = false; // not getting from local file
+                            if (getFromFile == true) {
+                                var championIconPath = "'../resources/"+localDataVersion+"/img/champion/";
+                                var fileName = championList[i].image.full;
+                                var iconUrl = championIconPath + fileName;
+                            } else {
+                                var iconName = championList[i].image.full;
+                                var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/champion/'+iconName;
+                            }
+                            var htmlCode = "<img src="+iconUrl+" width='30' height='30'/>";
+                            if (stats.winner == true) {var bgColor = '#CEF6D8';}
+                            else {var bgColor = '#F5A9BC';}
+
+                            if (getFromFile == true) {
+                                if (stats.item0 != 0) {var i0 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
+                                if (stats.item1 != 0) {var i1 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
+                                if (stats.item2 != 0) {var i2 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
+                                if (stats.item3 != 0) {var i3 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
+                                if (stats.item4 != 0) {var i4 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
+                                if (stats.item5 != 0) {var i5 = '<img src="../resources/'+localDataVersion+'/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
+                            } else {
+                                if (stats.item0 != 0) {var i0 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item0+'.png" align="middle" width="20" height="20">';} else {i0 = ''}
+                                if (stats.item1 != 0) {var i1 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item1+'.png" align="middle" width="20" height="20">';} else {i1 = ''}
+                                if (stats.item2 != 0) {var i2 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item2+'.png" align="middle" width="20" height="20">';} else {i2 = ''}
+                                if (stats.item3 != 0) {var i3 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item3+'.png" align="middle" width="20" height="20">';} else {i3 = ''}
+                                if (stats.item4 != 0) {var i4 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item4+'.png" align="middle" width="20" height="20">';} else {i4 = ''}
+                                if (stats.item5 != 0) {var i5 = '<img src="http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/item/'+stats.item5+'.png" align="middle" width="20" height="20">';} else {i5 = ''}
+                            }
+
+
+                            var matchType = data[j].queueType;
+                            var fixedType = matchType.replace(/_/g," ");
+
+                            var fixedFinal = fixedType.substring(0, fixedType.indexOf('x')-1) + fixedType.substring(fixedType.indexOf('x')+2);
+                            fixedFinal = ''; //remove game type for now since all games are RANKED SOLO
+
+                            field[j] = '<p style="font-size: 70%;border-radius:5px; filter: alpha+(Opacity=80);-moz-opacity:0.8; opacity:2; cellspacing:0px; line-height: 8px; padding: 5px; margin: 5px;height: 40; test-align: center; background-color: '+bgColor+'">' + htmlCode + '&nbsp;' + fixedFinal + '&nbsp;' + stats.kills + '/' + stats.deaths + '/' + stats.assists + '&nbsp;'+i0+i1+i2+i3+i4+i5+ '</p>';
+                        }
+                    }
+                    if (j == data.length-1) {
+                        extractStats(field , out);
+                    }
+                }
+            },
+            error: function(jqXHR, status, error){
+                ShowFailure('Getting champion from db for stats failed');
+            }
+        });
+    }
+
     function extractStats(field, output) {
         output.str = '';
         for (var i in field) {
@@ -1022,8 +1112,6 @@ $(document).ready(function() {
 
         var team = $(this ).attr('team');
         var player = $(this ).attr('player');
-        console.log(team+' '+player);
-        console.log(stats_output[team][player]);
 
         if (stats_output[team][player].str == 'loading') {statsY0 = 0} else {statsY0 = Y_axis}
         var statsPage = "<div id='individualStats' width='5rem' height='3rem' style='position:absolute;border:solid #aaa 1px;background-color:#F9F9F9'>" + stats_output[team][player].str  + "</div>";
@@ -1054,7 +1142,7 @@ $(document).ready(function() {
     //------------------------------------------------------ Runes ----------------------------------------------------------------------
 
 
-    function extractRunes(playerObj, playerRuneStorage) {
+    function extractRunes_fromJsonFiles(playerObj, playerRuneStorage) {
         for (var i in playerCache) {
             var player = playerCache[i];
             var span = player.runes;
@@ -1075,6 +1163,37 @@ $(document).ready(function() {
             }
             integrateRunes(playerRuneStorage);
         });
+    }
+
+
+    function extractRunes(playerObj, playerRuneStorage) {
+        for (var i in playerCache) {
+            var player = playerCache[i];
+            var span = player.runes;
+            $(span ).attr('team', player.team);
+            $(span ).attr('player', player.player);
+        }
+        var runesObj = playerObj.runes;
+        var r_count=0;
+        for (var m in runesObj) {
+            $.ajax({
+                type: 'GET',
+                url: urlPrefix + '/db/rune' ,
+                data: {runeId: runesObj[m].runeId},
+                success: function(result) {
+                    r_count++;
+                    var count = runesObj[m].count;
+                    var outputStr = analysisRunes(count, result);
+                    playerRuneStorage.push(outputStr+"<br>");
+                    if (r_count == runesObj.length) {
+                        integrateRunes(playerRuneStorage);
+                    }
+                },
+                error: function(jqXHR, status, error){
+                    ShowFailure('Getting rune from db failed');
+                }
+            });
+        }
     }
 
     function analysisRunes(count, runeObj) {
@@ -1291,7 +1410,7 @@ $(document).ready(function() {
     function getTheRestData(team1, team2){
         $( grid_team1_player1.name ).html( team1[0].summonerName );
         //getMMR( {summonerName : team1[0].summonerName} , grid_team1_player1 );
-        getChampionById( {championId : team1[0].championId} , grid_team1_player1 );
+        getChampionFromDB( {championId : team1[0].championId} , grid_team1_player1 );
         drawSpellIcon(team1[0].spell1Id ,team1[0].spell2Id,  grid_team1_player1 );
         getMastery(team1[0].masteries, grid_team1_player1);
         getRank( {summonerId : team1[0].summonerId} , grid_team1_player1 , 'team1');
@@ -1301,7 +1420,7 @@ $(document).ready(function() {
 
         $( grid_team1_player2.name ).html( team1[1].summonerName );
         //getMMR( {summonerName : team1[1].summonerName} , grid_team1_player2 );
-        getChampionById( {championId : team1[1].championId} , grid_team1_player2 );
+        getChampionFromDB( {championId : team1[1].championId} , grid_team1_player2 );
         drawSpellIcon(team1[1].spell1Id ,team1[1].spell2Id,  grid_team1_player2 );
         getMastery(team1[1].masteries, grid_team1_player2);
         getRank( {summonerId : team1[1].summonerId} , grid_team1_player2 , 'team1');
@@ -1311,7 +1430,7 @@ $(document).ready(function() {
 
         $( grid_team1_player3.name ).html( team1[2].summonerName );
         //getMMR( {summonerName : team1[2].summonerName} , grid_team1_player3 );
-        getChampionById( {championId : team1[2].championId} , grid_team1_player3 );
+        getChampionFromDB( {championId : team1[2].championId} , grid_team1_player3 );
         drawSpellIcon(team1[2].spell1Id ,team1[2].spell2Id,  grid_team1_player3 );
         getMastery(team1[2].masteries, grid_team1_player3);
         getRank( {summonerId : team1[2].summonerId} , grid_team1_player3 , 'team1');
@@ -1321,7 +1440,7 @@ $(document).ready(function() {
 
         $( grid_team1_player4.name ).html( team1[3].summonerName );
         //getMMR( {summonerName : team1[3].summonerName} , grid_team1_player4 );
-        getChampionById( {championId : team1[3].championId} , grid_team1_player4 );
+        getChampionFromDB( {championId : team1[3].championId} , grid_team1_player4 );
         drawSpellIcon(team1[3].spell1Id ,team1[3].spell2Id,  grid_team1_player4 );
         getMastery(team1[3].masteries, grid_team1_player4);
         getRank( {summonerId : team1[3].summonerId} , grid_team1_player4 , 'team1');
@@ -1331,7 +1450,7 @@ $(document).ready(function() {
 
         $( grid_team1_player5.name ).html( team1[4].summonerName );
         //getMMR( {summonerName : team1[4].summonerName} , grid_team1_player5 );
-        getChampionById( {championId : team1[4].championId} , grid_team1_player5 );
+        getChampionFromDB( {championId : team1[4].championId} , grid_team1_player5 );
         drawSpellIcon(team1[4].spell1Id ,team1[4].spell2Id,  grid_team1_player5 );
         getMastery(team1[4].masteries, grid_team1_player5);
         getRank( {summonerId : team1[4].summonerId} , grid_team1_player5 , 'team1');
@@ -1343,7 +1462,7 @@ $(document).ready(function() {
 
         $( grid_team2_player1.name ).html( team2[0].summonerName );
         //getMMR( {summonerName : team2[0].summonerName} , grid_team2_player1 );
-        getChampionById( {championId : team2[0].championId} , grid_team2_player1 );
+        getChampionFromDB( {championId : team2[0].championId} , grid_team2_player1 );
         drawSpellIcon(team2[0].spell1Id ,team2[0].spell2Id,  grid_team2_player1 );
         getMastery(team2[0].masteries, grid_team2_player1);
         getRank( {summonerId : team2[0].summonerId} , grid_team2_player1 , 'team2');
@@ -1353,7 +1472,7 @@ $(document).ready(function() {
 
         $( grid_team2_player2.name ).html( team2[1].summonerName );
         //getMMR( {summonerName : team2[1].summonerName} , grid_team2_player2 );
-        getChampionById( {championId : team2[1].championId} , grid_team2_player2 );
+        getChampionFromDB( {championId : team2[1].championId} , grid_team2_player2 );
         drawSpellIcon(team2[1].spell1Id ,team2[1].spell2Id,  grid_team2_player2 );
         getMastery(team2[1].masteries, grid_team2_player2);
         getRank( {summonerId : team2[1].summonerId} , grid_team2_player2 , 'team2');
@@ -1363,7 +1482,7 @@ $(document).ready(function() {
 
         $( grid_team2_player3.name ).html( team2[2].summonerName );
         //getMMR( {summonerName : team2[2].summonerName} , grid_team2_player3 );
-        getChampionById( {championId : team2[2].championId} , grid_team2_player3 );
+        getChampionFromDB( {championId : team2[2].championId} , grid_team2_player3 );
         drawSpellIcon(team2[2].spell1Id ,team2[2].spell2Id,  grid_team2_player3 );
         getMastery(team2[2].masteries, grid_team2_player3);
         getRank( {summonerId : team2[2].summonerId} , grid_team2_player3 , 'team2');
@@ -1373,7 +1492,7 @@ $(document).ready(function() {
 
         $( grid_team2_player4.name ).html( team2[3].summonerName );
         //getMMR( {summonerName : team2[3].summonerName} , grid_team2_player4 );
-        getChampionById( {championId : team2[3].championId} , grid_team2_player4 );
+        getChampionFromDB( {championId : team2[3].championId} , grid_team2_player4 );
         drawSpellIcon(team2[3].spell1Id ,team2[3].spell2Id,  grid_team2_player4 );
         getMastery(team2[3].masteries, grid_team2_player4);
         getRank( {summonerId : team2[3].summonerId} , grid_team2_player4 , 'team2');
@@ -1383,7 +1502,7 @@ $(document).ready(function() {
 
         $( grid_team2_player5.name ).html( team2[4].summonerName );
         //getMMR( {summonerName : team2[4].summonerName} , grid_team2_player5 );
-        getChampionById( {championId : team2[4].championId} , grid_team2_player5 );
+        getChampionFromDB( {championId : team2[4].championId} , grid_team2_player5 );
         drawSpellIcon(team2[4].spell1Id ,team2[4].spell2Id,  grid_team2_player5 );
         getMastery(team2[4].masteries, grid_team2_player5);
         getRank( {summonerId : team2[4].summonerId} , grid_team2_player5 , 'team2');
