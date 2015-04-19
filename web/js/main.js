@@ -875,9 +875,6 @@ $(document).ready(function() {
         $(table.mastery ).attr('utility',mastery.utility);
     }
 
-    $('#p_s_t1_p4_mastery' ).find('button').on('click',function(){
-        console.log('yes yes yes');
-    })
 
     function clearMasteryTree() {
         $('#masteryTree' ).find('.mastery-available' ).removeClass('mastery-available');

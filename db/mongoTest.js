@@ -16,18 +16,49 @@ MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to server");
 
-    var collection = db.collection('rune');
 
-    file.readFile('../web/resources/5.7.2/data/en_US/rune.json', function(data) {
+    //champion
+    var collection = db.collection('champion');
+    file.readFile('../web/resources/5.7.2/data/en_US/champion.json', function(data) {
         collection.insertOne(data, function(err, result) {
             if (err) logger.trace(err);
-            logger.trace(result);
         });
     });
-
-    //collection.findOne({key: "119"}, {fields: {'image': 1, 'id': 1}}, function(err, doc) {
-    //    logger.trace('champion data: ', doc)
-    //})
+    //championFull
+    collection = db.collection('championFull');
+    file.readFile('../web/resources/5.7.2/data/en_US/championFull.json', function(data) {
+        collection.insertOne(data, function(err, result) {
+            if (err) logger.trace(err);
+        });
+    });
+    //mastery
+    collection = db.collection('mastery');
+    file.readFile('../web/resources/5.7.2/data/en_US/mastery.json', function(data) {
+        collection.insertOne(data, function(err, result) {
+            if (err) logger.trace(err);
+        });
+    });
+    //summoner spell
+    collection = db.collection('summoner');
+    file.readFile('../web/resources/5.7.2/data/en_US/summoner.json', function(data) {
+        collection.insertOne(data, function(err, result) {
+            if (err) logger.trace(err);
+        });
+    });
+    //item
+    collection = db.collection('item');
+    file.readFile('../web/resources/5.7.2/data/en_US/item.json', function(data) {
+        collection.insertOne(data, function(err, result) {
+            if (err) logger.trace(err);
+        });
+    });
+    //rune
+    collection = db.collection('rune');
+    file.readFile_rune('../web/resources/5.7.2/data/en_US/rune.json', function(data) {
+        collection.insertOne(data, function(err, result) {
+            if (err) logger.trace(err);
+        });
+    });
 
 
 
