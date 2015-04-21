@@ -24,6 +24,7 @@ MongoClient.connect(url, function(err, db) {
             if (err) logger.trace(err);
         });
     });
+    /*
     //championFull
     collection = db.collection('championFull');
     file.readFile('../web/resources/5.7.2/data/en_US/championFull.json', function(data) {
@@ -52,6 +53,8 @@ MongoClient.connect(url, function(err, db) {
             if (err) logger.trace(err);
         });
     });
+
+
     //rune
     collection = db.collection('rune');
     file.readFile_rune('../web/resources/5.7.2/data/en_US/rune.json', function(data) {
@@ -59,6 +62,8 @@ MongoClient.connect(url, function(err, db) {
             if (err) logger.trace(err);
         });
     });
+
+    */
 
 
 
