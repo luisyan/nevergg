@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>never gg!</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+	<meta charset="utf-8">
+	<title>Never GG</title>
 	<script src="js/jquery-2.1.3.js"></script>
 	<script src="spin.js"></script>
 	<script src="js/showTip.js"></script>
-	<script src="js/amazeui.js"></script>
+
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/amazeui.js"></script>
 	<script src="js/main.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/qatoolapp.css">
 	<link rel="stylesheet" type="text/css" href="css/masteryTree.css">
@@ -15,15 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/mainPage.css" />
 
-	<script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		ga('create', 'UA-62087114-1', 'auto');
-		ga('send', 'pageview');
-	</script>
+	<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-62087114-1', 'auto');ga('send', 'pageview');</script>
 </head>
 <body>
 
@@ -31,11 +26,8 @@
 	<div class="am-modal-dialog">
 		<div class="am-modal-bd">
 			Ashe 50% (6) = 6 games, 50% win rate using Ashe
-			<br>KDA = current champion's KDA
-			<br>W/L = overall W/L of this summoner
-			<br>Move cursor over rune icon to see details
-			<br>Move cursor over summoner name to see match history
-			<br>Click on mastery to see mastery tree
+			<br>KDA = This champion's KDA
+			<br>W/L = Overall W/L of this player
 		</div>
 		<div class="am-modal-footer">
 			<span class="am-modal-btn">OK</span>
@@ -67,12 +59,29 @@
 
 		<i id="loading_spinner" style="position: absolute; left: 49%; top: 200px" class="fa fa-spinner fa-spin fa-2x"></i>
 		<!-- get featured games for test purpose -->
-		<button style="position: absolute; top: 300px; left: 0px;" id="btn_getFeaturedGames" class="am-btn am-btn-primary">Get Featured Games</button>
+		<!--<button style="position: absolute; top: 300px; left: 0px;" id="btn_getFeaturedGames" class="am-btn am-btn-primary">Get Featured Games</button>-->
 
 		<span style="position: absolute; top: 220px; left: 50%;" id="p_s_spinner" align="center"></span>
 
 		<div id="loadingBar" style="margin: 0 auto; width: 500px;">
 			<input id="ipt_gameStatsSearch" type="text" placeholder="Enter player name in game">
+			<span id="region-select-main">
+			<div id="dropdown-main-region" class="am-dropdown">
+				<button style="border: none; padding: 0px; padding-bottom: 2px;background-color: transparent; color: darkgrey" class="am-btn am-btn-default am-btn-sm am-dropdown-toggle">NA</button>
+				<ul class="am-dropdown-content">
+					<li region="na"><a href="#">NA</a></li>
+					<li region="euw"><a href="#">EUW</a></li>
+					<li region="eune"><a href="#">EUNE</a></li>
+					<li region="br"><a href="#">BR</a></li>
+					<li region="kr"><a href="#">KR</a></li>
+					<li region="lan"><a href="#">LAN</a></li>
+					<li region="las"><a href="#">LAS</a></li>
+					<li region="oce"><a href="#">OCE</a></li>
+					<li region="ru"><a href="#">RU</a></li>
+					<li region="tr"><a href="#">TR</a></li>
+				</ul>
+			</div>
+			</span>
 
 			<span class="input-group-btn">
 				<button id="btn_getGame" class="button" type="button">
@@ -82,7 +91,7 @@
 		</div>
 		<br>
 		<br>
-		<div id="table" align="center" >
+		<div id="table" align="center">
 			<img class="separateLine" src="backgroundPic/midBar3.png" style="opacity: 1; position: absolute;top: 53.7%;left: 38.5%; width: 350px; height: 10px"/>
 			<table id="rankTable">
 				<div id="table_team1">
@@ -176,11 +185,11 @@
 					</tr>
 				</div>
 
-				<tr>
+				<tr empty-tr>
 					<td colspan="11"></td>
 				</tr>
 
-				<tr>
+				<tr empty-tr>
 					<td colspan="11"></td>
 				</tr>
 

@@ -66,6 +66,26 @@ body {
     margin-top: 50px;
 }
 
+div.region-select {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 506px;
+  margin-top: -22px;
+  position: relative;
+  z-index: 1;
+  /*opacity: 0;*/
+  -webkit-transition: margin-top 1s;
+     -moz-transition: margin-top 1s;
+          transition: margin-top 1s;
+}
+
+.region-btn {
+  width: 50.9px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #00aa88;
+}
+
 .search-field {
     width: 100%;
     height: 45px;
@@ -87,4 +107,21 @@ body {
     -webkit-box-shadow: 0 0 0 3px rgba(173, 208, 163, .8);
        -moz-box-shadow: 0 0 0 3px rgba(173, 208, 163, .8);
             box-shadow: 0 0 0 3px rgba(173, 208, 163, .8);
+}
+
+.search-field {
+  position: relative;
+  z-index: 2;
+}
+
+.search-field:hover ~ .region-select {
+  margin-top: 2px;
+
+}
+.search-field:focus ~ .region-select {
+  margin-top: 2px;
+}
+
+.region-select:hover {
+  margin-top: 2px;
 }

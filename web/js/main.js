@@ -6,19 +6,31 @@ var localDataVersion = '5.7.2';
 
 $(document).ready(function() {
 
+    var REGION = 'na';
+
     var myUrl = window.location.href;
-    if (myUrl.indexOf('#') != -1) {
-        var name = myUrl.substring(myUrl.indexOf('#')+1, myUrl.length);
+    if (myUrl.indexOf('#') != -1 && myUrl.indexOf('&') != -1) {
+        var name = myUrl.substring(myUrl.indexOf('#')+1, myUrl.indexOf('&'));
+        REGION = myUrl.substring(myUrl.indexOf('=')+1, myUrl.length);
+
+        $('#dropdown-main-region > ul > li' ).each(function() {
+            if ($(this ).attr('region') == REGION) {
+                $(this ).attr('class', 'am-active');
+                $(this ).parent().parent().find('button' ).text(REGION.toUpperCase());
+            }
+        })
+
         $('#ipt_gameStatsSearch' ).val(name);
-        setTimeout(startSearch, 100);
+        setTimeout(startSearch, 500);
     }
+
 
     //initTable();
 
     var masteryList_AllPlayer = [[],[],[]];
 
     var statsX = 10;
-    var statsY = -120;
+    var statsY = -210;
     var Y_axis = -190;
 
     $('#loading_spinner' ).hide();
@@ -140,7 +152,19 @@ $(document).ready(function() {
     //}
 
 
+    $('#region-select-main > div > button' ).on('click', function(){
+        $('#dropdown-main-region' ).dropdown({
+            justify: '#region-select-main'
+        })
+    })
 
+    $('#dropdown-main-region > ul > li' ).on('click', function() {
+        $(this ).attr('class', 'am-active');
+        $(this ).siblings().removeAttr('class');
+        REGION = $(this ).attr('region');
+        $(this ).parent().parent().find('button' ).text(REGION.toUpperCase());
+        $('#dropdown-main-region' ).dropdown('close');
+    })
 
     function getFeaturedGames() {
         $.ajax({
@@ -200,9 +224,8 @@ $(document).ready(function() {
                     $('#loading_spinner' ).hide();
                     recover();
                 } else {
-                    console.log(result);
                     idObj.summonerId = result.id;
-                    console.log(idObj);
+                    idObj.region = REGION;
                     getSummonerCurrentGame(idObj);
                 }
             },
@@ -241,6 +264,7 @@ $(document).ready(function() {
 
 
     function getSoloRecord(idObj, table) {
+        idObj.region = REGION;
 
         $.ajax({
             type: 'GET',
@@ -476,6 +500,7 @@ $(document).ready(function() {
 
 
     function getRankStats(idObj, championId, table) {
+        idObj.region = REGION;
         $.ajax({
             type: 'GET',
             url: urlPrefix + '/rank/stats' ,
@@ -533,6 +558,7 @@ $(document).ready(function() {
     }
 
     function getMatchHistory(idObj, table, stats, output) {
+        idObj.region = REGION;
 
         $.ajax({
             type: 'GET',
@@ -540,20 +566,26 @@ $(document).ready(function() {
             data: idObj,
             success: function(result) {
                 var tierPath = "../tier/";
-                var highestTier = result.matches[0].participants[0].highestAchievedSeasonTier;
-                if (highestTier == 'UNRANKED') {
+                if (result.matches == undefined) {
                     var fileName = "unknown.png";
                 } else {
-                    var fileName = highestTier + "_I.png";
+                    var highestTier = result.matches[0].participants[0].highestAchievedSeasonTier;
+                    if (highestTier == 'UNRANKED') {
+                        var fileName = "unknown.png";
+                    } else {
+                        var fileName = highestTier + "_I.png";
+                    }
                 }
                 var tierFile = tierPath+fileName;
                 $(table.league ).popover({
-                    content: '<span style="font-size: 11px; padding-bottom: 0px">Previous:  <img src="'+tierFile+'" width="29px" height="29px"/></span>',
+                    content: '<span class="rank-popover" style="color:#000000; font-size: 11px; padding-bottom: 0px">Previous:  <img src="'+tierFile+'" width="29px" height="29px"/></span>',
                     trigger: 'hover',
                     placement: 'top',
                     animation: true,
                     html: true
                 });
+                $('.rank-popover' ).parent().css('background-color','#ffffff');
+                $('.rank-popover' ).parent().css('border-color','#ffffff')
 
                 if (result.ret == 1) {
                     //$('#p_s_feedbackInfo' ).append('get match history failed, possibly service is down' + '<br>');
@@ -727,7 +759,8 @@ $(document).ready(function() {
             }
         }
         var inObj = {
-            summonerName: $('#ipt_gameStatsSearch' ).val()
+            summonerName: $('#ipt_gameStatsSearch' ).val(),
+            region: REGION
         }
 
         // Retrieve summoner info
@@ -735,7 +768,7 @@ $(document).ready(function() {
         var currentUrl = window.location.href;
         if (currentUrl.indexOf('#') != -1) {
             currentUrl = currentUrl.substring(0, currentUrl.indexOf('#')+1);
-            currentUrl = currentUrl+inObj.summonerName;
+            currentUrl = currentUrl+inObj.summonerName+'&region='+REGION;
         } else {
             currentUrl = currentUrl.substring(0, currentUrl.indexOf('main.html')+10);
             currentUrl = currentUrl+'#'+inObj.summonerName;
@@ -1139,7 +1172,7 @@ $(document).ready(function() {
     //------------------------------------------------------ Runes ----------------------------------------------------------------------
 
 
-    function extractRunes_fromJsonFiles(playerObj, playerRuneStorage) {
+    function extractRunes(playerObj, playerRuneStorage) {
         for (var i in playerCache) {
             var player = playerCache[i];
             var span = player.runes;
@@ -1163,7 +1196,7 @@ $(document).ready(function() {
     }
 
 
-    function extractRunes(playerObj, playerRuneStorage) {
+    function extractRunes_fromdb(playerObj, playerRuneStorage) {
         for (var i in playerCache) {
             var player = playerCache[i];
             var span = player.runes;
@@ -1266,9 +1299,12 @@ $(document).ready(function() {
     }
 
     function integrateRunes(runeArray) {
+        console.log(runeArray);
         for (var i in runeArray) {
             for (var j in runeArray) {
                 if (i != j) {
+                    //console.log('rune['+i+']= '+runeArray[i])
+                    //console.log('rune['+j+']= '+runeArray[j])
                     var point1 = runeArray[i].indexOf(' ');
                     var point2 = runeArray[j].indexOf(' ');
                     var one = runeArray[i].substr(point1);
