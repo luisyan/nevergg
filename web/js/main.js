@@ -36,6 +36,7 @@ $(document).ready(function() {
     $('#loading_spinner' ).hide();
     $('#msg').hide();
     $('.separateLine' ).hide();
+    $('#mid-bar-span' ).hide();
     $('#btn_getGame' ).hide();
     $('#btn_checkMMR' ).hide();
     //$('#btn_getFeaturedGames').hide(); // quickly get a player name for test purpose
@@ -295,10 +296,10 @@ $(document).ready(function() {
                 if (result.ret != 1) {
                     var lowerCase = result.tier.toLowerCase();
                     var fixedTier = result.tier.charAt(0)+lowerCase.substr(1, lowerCase.length-1);
-                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> <span style='0px; font-size: 14px'>"+fixedTier+ " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")</span>");
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> <span style='0px; font-size: 14px'><span league-tier-responsive>"+fixedTier+ "</span> " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")</span>");
                     $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
                 } else {
-                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> "+"UNRANKED");
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/><span league-tier-responsive> "+"UNRANKED</span>");
                     $( table.winLoss ).html("0/0");
                 }
             },
@@ -405,7 +406,7 @@ $(document).ready(function() {
             success: function(result) {
                 var name = result.name;
                 var iconName = result.iconName;
-                var htmlName = '<span class="am-sans-serif">'+name+'</span>'
+                var htmlName = '<span class="am-sans-serif" champion-name-responsive>'+name+'</span>'
 
                 $( table.champion ).html(htmlName);
                 var getFromFile = false; // not getting from local file
@@ -416,7 +417,7 @@ $(document).ready(function() {
                 } else {
                     var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/champion/'+iconName;
                 }
-                var htmlCode = "<img src="+iconUrl+" width='40' height='40'/>";
+                var htmlCode = '<img src='+iconUrl+' width="40" height="40" champion-icon-responsive/>';
 
                 $( table.championIcon ).html(htmlCode);
 
@@ -477,7 +478,7 @@ $(document).ready(function() {
             } else {
                 var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/spell/' + spell.image;
             }
-            var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
+            var htmlCode = "<img src="+iconUrl+" width='20' height='20' spell-responsive/>";
             $( table.spell ).append(htmlCode);
 
             getSpellFromDB(spell2Id, function(spell) {
@@ -489,7 +490,7 @@ $(document).ready(function() {
                 } else {
                     var iconUrl = 'http://ddragon.leagueoflegends.com/cdn/'+staticDataVersion+'/img/spell/' + spell.image;
                 }
-                var htmlCode = "<img src="+iconUrl+" width='20' height='20'/>";
+                var htmlCode = "<img src="+iconUrl+" width='20' height='20' spell-responsive spell-right/>";
                 $( table.spell ).append(htmlCode);
 
             });
@@ -616,6 +617,7 @@ $(document).ready(function() {
             $('#msg' ).show();
             $('#rankTable' ).show();
             $('.separateLine' ).show();
+            $('#mid-bar-span').show();
         }
         else {
             setTimeout(function(){
@@ -839,6 +841,7 @@ $(document).ready(function() {
         $('#p_s_outputData' ).html('');
         $('#msg' ).hide();
         $('.separateLine' ).hide();
+        $('#mid-bar-span').hide();
         $('.promoIconArea' ).html('');
     }
 

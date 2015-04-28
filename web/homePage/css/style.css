@@ -68,9 +68,10 @@ body {
 
 div.region-select {
   margin: 0 auto;
+  margin-left: 1px;
   width: 100%;
   max-width: 506px;
-  margin-top: -22px;
+  margin-top: -26px;
   position: relative;
   z-index: 1;
   /*opacity: 0;*/
@@ -80,7 +81,10 @@ div.region-select {
 }
 
 .region-btn {
-  width: 50.9px;
+  width: 10.1%;
+  min-width: 28px;
+  padding-left: 0%;
+  padding-right: 0%;
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: #00aa88;
@@ -115,13 +119,17 @@ div.region-select {
 }
 
 .search-field:hover ~ .region-select {
-  margin-top: 2px;
+  margin-top: 1px;
 
 }
 .search-field:focus ~ .region-select {
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .region-select:hover {
   margin-top: 2px;
+}
+
+.region-btn-group {
+  width: 100.5%
 }

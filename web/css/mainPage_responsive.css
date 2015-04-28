@@ -139,8 +139,8 @@ span#region-select-main {
   opacity: 0;
   z-index: -1;
   -webkit-transition: z-index 0.5s, opacity 0.6s ease-out;
-     -moz-transition: z-index 0.5s, opacity 0.6s ease-out;
-          transition: z-index 0.5s, opacity 0.6s ease-out;
+  -moz-transition: z-index 0.5s, opacity 0.6s ease-out;
+  transition: z-index 0.5s, opacity 0.6s ease-out;
 }
 #ipt_gameStatsSearch:hover ~ #region-select-main {
   opacity: 1;
@@ -161,3 +161,103 @@ span#region-select-main {
   height: 30px;
 }
 
+@media screen and (max-device-width:900px) {
+  span[champion-name-responsive] {
+    display: none;
+  }
+
+  img[champion-icon-responsive] {
+    min-width: 30px;
+    min-height: 30px;
+  }
+
+  span[league-tier-responsive] {
+    display: none;
+  }
+
+  .league {
+    min-width: 110px;
+  }
+
+  .champion-name {
+    min-width: 70px;
+    /*font-size: 10px;*/
+    /*max-width: 72px;*/
+    /*margin-right: 20px;*/
+  }
+
+  /*.span_playerName {*/
+  /*min-width: 80px*/
+  /*}*/
+
+  .champion-icon {
+    min-width:35px
+  }
+
+  .summoner-spell {
+    min-width: 27px;
+  }
+
+  .player-name-responsive {
+    min-width: 90px;
+    /*max-width: 150px;*/
+    /*word-wrap: break-word;*/
+    /*min-height: 100px;*/
+  }
+
+
+
+  .tenGames {
+    min-width: 40px;
+  }
+
+  img#mid-bar {
+    display: none;
+  }
+
+  div[top-bar] {
+    min-width: 720px;
+  }
+
+  div[search-area] {
+    /*-webkit-transform: translate(100px,0px);*/
+    /*-moz-transform: translate(100px,0px);*/
+    /*-ms-transform: translate(100px,0px);*/
+    /*-o-transform: translate(100px,0px);*/
+    /*transform: translate(100px,0px);*/
+  }
+
+  #myTab {
+    min-width: 715px;
+  }
+
+  #masteryTreeWindow {
+    -webkit-transform: scale(0.75, 0.75);
+    -moz-transform: scale(0.75, 0.75);
+    -ms-transform: scale(0.75, 0.75);
+    -o-transform: scale(0.75, 0.75);
+    transform: scale(0.75, 0.75);
+  }
+
+  img[spell-responsive] {
+    max-width: 15px;
+    max-height: 15px;
+    /*-webkit-transform: translate(-5px,0px);*/
+    /*-moz-transform: translate(-5px,0px);*/
+    /*-ms-transform: translate(-5px,0px);*/
+    /*-o-transform: translate(-5px,0px);*/
+    /*transform: translate(-5px,0px);*/
+  }
+
+  /*img[spell-right] {*/
+  /*margin-right: -12px;*/
+  /*}*/
+
+  .promoIconArea {
+    -webkit-transform: translate(0px, 5px);
+    -moz-transform: translate(0px, 5px);
+    -ms-transform: translate(0px, 5px);
+    -o-transform: translate(0px, 5px);
+    transform: translate(0px, 5px);
+  }
+}
