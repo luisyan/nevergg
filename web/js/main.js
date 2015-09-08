@@ -1,7 +1,7 @@
 /**
  * Created by admin on 15-03-05.
  */
-var staticDataVersion = '5.13.1';
+var staticDataVersion = '5.17.1';
 var localDataVersion = '5.13.1';
 
 $(document).ready(function() {
