@@ -286,7 +286,7 @@ MongoClient.connect( url , function (err , db) {
         } );
     } )
 
-    var matchHistoryOpt = {rankedQueues : ['RANKED_SOLO_5x5'] , beginIndex : 0 , endIndex : 10};
+    var matchHistoryOpt = {rankedQueues : ['RANKED_SOLO_5x5'] , beginIndex : '0' , endIndex : '10'};
     app.get( route + '/summoner/matchHistory' , function (req , res) {
         var id = req.param( 'summonerId' );
         var region = req.param('region');
@@ -297,11 +297,25 @@ MongoClient.connect( url , function (err , db) {
                 res.json( {ret : 1} );
             }
             else {
-                logger.trace( 'Got match history.' );
-                res.json( result );
+                logger.trace( 'Got match history.');
+                res.json(result);
+
             }
         } );
     } )
+
+    app.get( route + '/summoner/matchHistoryDetails' , function (req , res) {
+        var matchId = req.param('matchId');
+            lolAPI.Match.get(matchId, function(err, result){
+                if (err) logger.trace('err getting single match');
+                logger.trace('got individual match details', matchId);
+                res.json(result);
+
+            })
+
+    })
+
+
 
     app.get( route + '/featuredGames' , function (req , res) {
         leagueAPI.getFeaturedGames( REGION , function (err , result) {

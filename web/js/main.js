@@ -1,8 +1,8 @@
 /**
  * Created by admin on 15-03-05.
  */
-var staticDataVersion = '5.17.1';
-var localDataVersion = '5.13.1';
+var staticDataVersion = '5.20.1';
+var localDataVersion = '5.19.1';
 
 $(document).ready(function() {
 
@@ -81,6 +81,7 @@ $(document).ready(function() {
         obj.runes = '#p_s_t'+team+'_p'+player+'_runes';
         obj.mastery = '#p_s_t'+team+'_p'+player+'_mastery';
         obj.last10matches = '#p_s_t'+team+'_p'+player+'_last10matches';
+        obj.matches_box = [];
 
         return obj;
     }
@@ -272,7 +273,6 @@ $(document).ready(function() {
             url: urlPrefix + '/summoner/solo_record' ,
             data: idObj,
             success: function(result) {
-                count_load_rank++;
                 var tierPath = "../tier/";
                 if (result.ret == 1) {
                     var fileName = "unknown.png";
@@ -311,30 +311,47 @@ $(document).ready(function() {
     }
 
     function getSoloRecord_2(idObj, table) {
+        idObj.region = REGION;
 
         $.ajax({
             type: 'GET',
             url: urlPrefix + '/summoner/solo_record_2' ,
             data: idObj,
             success: function(result) {
+                count_load_rank++;
                 var tierPath = "../tier/";
                 if (result.ret == 1) {
                     var fileName = "unknown.png";
                 } else {
                     var fileName = result.tier + "_" + result.entries[0].division+".png";
+
+                    if (result.entries[0].miniSeries) {
+                        //$(table.promo ).html('<a style="position: relative; bottom: -1px" class="am-icon-level-up"></a>'+' : ');
+                        //$(table.promo ).append(JSON.stringify(result.entries[0].miniSeries));
+
+                        var progress = result.entries[0].miniSeries.progress;
+                        var numMatch = progress.length;
+                        for (var i=0; i < numMatch; i++) {
+                            if (progress.charAt(i) == 'W') $(table.promo ).append('<img class="promotionIcon" src="icon/passIcon.png"/>');
+                            else if (progress.charAt(i) == 'L') $(table.promo ).append('<img class="promotionIcon" src="icon/failIcon.png"/>');
+                            else if (progress.charAt(i) == 'N') $(table.promo ).append('<img class="promotionIcon" src="icon/undetermined.png"/>');
+                        }
+                    }
                 }
                 var tierFile = tierPath+fileName;
                 if (result.ret != 1) {
-                    $( table.league ).html("<img src="+tierFile+" align='middle' width='35' height='35'/><span style='font-size: 5px'>"+result.tier + " " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")</span>");
+                    var lowerCase = result.tier.toLowerCase();
+                    var fixedTier = result.tier.charAt(0)+lowerCase.substr(1, lowerCase.length-1);
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/> <span style='0px; font-size: 14px'><span league-tier-responsive>"+fixedTier+ "</span> " + result.entries[0].division+" ("+result.entries[0].leaguePoints+")</span>");
                     $( table.winLoss ).html(result.entries[0].wins + "/" + result.entries[0].losses);
                 } else {
-                    $( table.league ).html("<img src="+tierFile+" align='middle' width='35' height='35'/> "+"UNRANKED");
+                    $( table.league ).html("<img src="+tierFile+" align='middle' width='33' height='33'/><span league-tier-responsive> "+"UNRANKED</span>");
                     $( table.winLoss ).html("0/0");
                 }
             },
             error: function(jqXHR, status, error){
                 $('#loading_spinner' ).hide();
-                ShowFailure('Getting ranked solo failed (key 2)');
+                ShowFailure('Getting ranked solo info failed (key 2)');
             }
         });
     }
@@ -404,6 +421,7 @@ $(document).ready(function() {
             url: urlPrefix + '/db/champion' ,
             data: idObj,
             success: function(result) {
+                count_load_rank++;
                 var name = result.name;
                 var iconName = result.iconName;
                 var htmlName = '<span class="am-sans-serif" champion-name-responsive>'+name+'</span>'
@@ -566,11 +584,38 @@ $(document).ready(function() {
             url: urlPrefix + '/summoner/matchHistory' ,
             data: idObj,
             success: function(result) {
+                getAllMatches(result.matches, idObj, table, stats, output);
+            },
+            error: function(jqXHR, status, error){
+                ShowFailure('Getting entire match history failed');
+            }
+        });
+    }
+
+    function getAllMatches(matches, idObj, table, stats, output) {
+        for (var i in matches) {
+            $.ajax({
+                type: 'GET',
+                url: urlPrefix + '/summoner/matchHistoryDetails' ,
+                data: {matchId: matches[i].matchId},
+                success: function(result) {
+                    table.matches_box.push(result);
+                    if (table.matches_box.length == 10) getMatchHistoryDetails(table.matches_box, idObj, table, stats, output);
+                },
+                error: function(jqXHR, status, error){
+                    ShowFailure('Getting single match details failed');
+                }
+            });
+        }
+    }
+
+
+    function getMatchHistoryDetails(matches, idObj, table, stats, output) {
                 var tierPath = "../tier/";
-                if (result.matches == undefined) {
+                if (matches == undefined) {
                     var fileName = "unknown.png";
                 } else {
-                    var highestTier = result.matches[0].participants[0].highestAchievedSeasonTier;
+                    var highestTier = matches[0].participants[0].highestAchievedSeasonTier;
                     if (highestTier == 'UNRANKED') {
                         var fileName = "unknown.png";
                     } else {
@@ -588,24 +633,15 @@ $(document).ready(function() {
                 $('.rank-popover' ).parent().css('background-color','#ffffff');
                 $('.rank-popover' ).parent().css('border-color','#ffffff')
 
-                if (result.ret == 1) {
-                    //$('#p_s_feedbackInfo' ).append('get match history failed, possibly service is down' + '<br>');
-                    ShowFailure('get match history failed, possibly service is down');
-                } else {
-                    analysisMatchHistory(result, function(winner_count, loser_count) {
+                    analysisMatchHistory(matches, function(winner_count, loser_count) {
                         var output = winner_count + "-" + loser_count;
                         $(table.last10matches ).html(output);
 
                     })
                     $(table.name ).attr('team',table.team);
                     $(table.name ).attr('player',table.player);
-                    if (stats) {makeStatsDataFromDB(result.matches, stats, output);}
-                }
-            },
-            error: function(jqXHR, status, error){
-                ShowFailure('Getting match history failed');
-            }
-        });
+                    if (stats) {makeStatsDataFromDB(matches, stats, output);}
+
     }
 
 
@@ -690,8 +726,8 @@ $(document).ready(function() {
     function analysisMatchHistory(data, callback) {
         var winner_count = 0;
         var loser_count = 0;
-        for (var i in data.matches) {
-            if (data.matches[i].participants[0].stats.winner) {
+        for (var i in data) {
+            if (data[i].participants[0].stats.winner) {
                 winner_count++;
             }
             else {loser_count++;};

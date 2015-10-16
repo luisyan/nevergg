@@ -19,7 +19,7 @@ MongoClient.connect(url, function(err, db) {
 
     //champion
     var collection = db.collection('champion');
-    file.readFile('../web/resources/5.13.1/data/en_US/champion.json', function(data) {
+    file.readFile('../web/resources/5.20.1/data/en_US/champion.json', function(data) {
         collection.insertOne(data, function(err, result) {
             if (err) logger.trace(err);
         });
