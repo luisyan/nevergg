@@ -11,7 +11,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: transparent url("../../img/bg/A6000000.png");
+  background: transparent url("../resources/img/bg/A6000000.png");
   background: none rgba(0, 0, 0, 0.65);
   _filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#A6000000, endColorstr=#A6000000); }
 
@@ -81,7 +81,7 @@
 .rg-box-modal {
   width: 400px;
   padding: 7px;
-  background: transparent url("../../img/bg/F5141416.png");
+  background: transparent url("../resources/img/bg/F5141416.png");
   background: none rgba(20, 20, 22, 0.96);
   _filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F5141416, endColorstr=#F5141416);
   border: 1.15px solid #686868;

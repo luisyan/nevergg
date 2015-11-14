@@ -1,7 +1,7 @@
 /**
  * Created by admin on 15-03-05.
  */
-var staticDataVersion = '5.20.1';
+var staticDataVersion = '5.22.3';
 var localDataVersion = '5.19.1';
 
 $(document).ready(function() {
@@ -985,9 +985,9 @@ $(document).ready(function() {
         for (var i in playerMasteryList) {
             var masteryId = playerMasteryList[i].masteryId;
             var masteryIdNumber = Number(masteryId);
-            if (masteryIdNumber > 4100 && masteryIdNumber < 4200) {offense = offense + Number(playerMasteryList[i].rank);}
-            if (masteryIdNumber > 4200 && masteryIdNumber < 4300) {defense = defense + Number(playerMasteryList[i].rank);}
-            if (masteryIdNumber > 4300) {util = util + Number(playerMasteryList[i].rank);}
+            if (masteryIdNumber > 6100 && masteryIdNumber < 6200) {offense = offense + Number(playerMasteryList[i].rank);}
+            if (masteryIdNumber > 6300) {defense = defense + Number(playerMasteryList[i].rank);}
+            if (masteryIdNumber > 6200 && masteryIdNumber < 6300) {util = util + Number(playerMasteryList[i].rank);}
         }
         masteryTotal.offense = offense;
         masteryTotal.defense = defense;
