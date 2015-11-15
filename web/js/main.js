@@ -600,7 +600,10 @@ $(document).ready(function() {
                 data: {matchId: matches[i].matchId},
                 success: function(result) {
                     table.matches_box.push(result);
-                    if (table.matches_box.length == 10) getMatchHistoryDetails(table.matches_box, idObj, table, stats, output);
+                    if (table.matches_box.length == 10) {
+                        getMatchHistoryDetails(table.matches_box, idObj, table, stats, output);
+                    }
+
                 },
                 error: function(jqXHR, status, error){
                     ShowFailure('Getting single match details failed');
@@ -615,7 +618,11 @@ $(document).ready(function() {
                 if (matches == undefined) {
                     var fileName = "unknown.png";
                 } else {
-                    var highestTier = matches[0].participants[0].highestAchievedSeasonTier;
+                    for (var i in matches[0].participantIdentities) {
+                        if (matches[0].participantIdentities[i].player.summonerId == idObj.summonerId) {
+                            var highestTier = matches[0].participants[i].highestAchievedSeasonTier;
+                        }
+                    }
                     if (highestTier == 'UNRANKED') {
                         var fileName = "unknown.png";
                     } else {
@@ -633,14 +640,14 @@ $(document).ready(function() {
                 $('.rank-popover' ).parent().css('background-color','#ffffff');
                 $('.rank-popover' ).parent().css('border-color','#ffffff')
 
-                    analysisMatchHistory(matches, function(winner_count, loser_count) {
+                    analysisMatchHistory(idObj , matches, function(winner_count, loser_count) {
                         var output = winner_count + "-" + loser_count;
                         $(table.last10matches ).html(output);
 
                     })
                     $(table.name ).attr('team',table.team);
                     $(table.name ).attr('player',table.player);
-                    if (stats) {makeStatsDataFromDB(matches, stats, output);}
+                    if (stats) {makeStatsDataFromDB(matches, idObj, stats, output);}
 
     }
 
@@ -723,14 +730,18 @@ $(document).ready(function() {
         callback(averageKDA, seasonStats);
     }
 
-    function analysisMatchHistory(data, callback) {
+    function analysisMatchHistory(idObj, data, callback) {
         var winner_count = 0;
         var loser_count = 0;
         for (var i in data) {
-            if (data[i].participants[0].stats.winner) {
-                winner_count++;
+            for (var x in data[i].participantIdentities) {
+                if (idObj.summonerId == data[i].participantIdentities[x].player.summonerId) {
+                    if (data[i].participants[x].stats.winner) {
+                        winner_count++;
+                    }
+                    else {loser_count++;};
+                }
             }
-            else {loser_count++;};
         }
         callback(winner_count, loser_count);
     }
@@ -1105,16 +1116,25 @@ $(document).ready(function() {
     }
 
 
-    function makeStatsDataFromDB(data, field, out) {
+    function makeStatsDataFromDB(data, idObj, field, out) {
         $.ajax({
             type: 'GET',
             url: urlPrefix + '/db/champion/all/icon' ,
             success: function(result) {
                 var championList = result;
+                data.reverse();
                 for (var j in data) {
+                    var thisPlayerId = idObj.summonerId;
+                    var participantId = 0;
+                    for (var x in data[j].participantIdentities) {
+                        if (data[j].participantIdentities[x].player.summonerId == thisPlayerId) {
+                            participantId = x;
+                        }
+                    }
+
                     for (var i in championList) {
-                        var championId = data[j].participants[0].championId;
-                        var stats = data[j].participants[0].stats;
+                        var championId = data[j].participants[participantId].championId;
+                        var stats = data[j].participants[participantId].stats;
                         if (championList[i].key == championId) {
 
                             var getFromFile = false; // not getting from local file
