@@ -286,7 +286,7 @@ MongoClient.connect( url , function (err , db) {
         } );
     } )
 
-    var matchHistoryOpt = {seasons: 'PRESEASON2016',rankedQueues : ['RANKED_SOLO_5x5'] , beginIndex : '0' , endIndex : '10'};
+    var matchHistoryOpt = {seasons: 'PRESEASON2016',rankedQueues : ['RANKED_SOLO_5x5','RANKED_PREMADE_5x5'] , beginIndex : '0' , endIndex : '10'};
     app.get( route + '/summoner/matchHistory' , function (req , res) {
         var id = req.param( 'summonerId' );
         var region = req.param('region');
