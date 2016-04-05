@@ -11,6 +11,7 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/amazeui.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/angular.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/qatoolapp.css">
 	<link rel="stylesheet" type="text/css" href="css/masteryTree.css">
 	<link rel="stylesheet" type="text/css" href="css/amazeui.css"/>
@@ -31,7 +32,11 @@
 	ga( 'create' , 'UA-62087114-1' , 'auto' );
 	ga( 'send' , 'pageview' );</script>
 </head>
-<body>
+
+
+
+
+<body ng-app="nevergg" ng-controller="wholePage">
 
 <div style="position: absolute; top: 300px;left: 50%;" class="am-modal am-modal-alert" tabindex="-1" id="popHelp">
 	<div class="am-modal-dialog">
@@ -121,15 +126,15 @@
 			<table id="rankTable">
 				<div id="table_team1">
 					<tr>
-						<th class="tableHeader" colspan="3"><span id="p_s_champion_name"></span></th>
-						<th class="tableHeader"><span id="p_s_summoner_name"></span></th>
-						<th class="tableHeader"><span id="p_s_summoner_mmr"></span></th>
-						<th class="tableHeader"><span id="p_s_summoner_league"></span></th>
-						<th class="tableHeader"><span id="p_s_summoner_winLoss"></span></th>
-						<th class="tableHeader"><span id="p_s_champion_kda"></span></th>
-						<th class="tableHeader"><span id="p_s_runes"></span></th>
-						<th class="tableHeader"><span id="p_s_mastery"></span></th>
-						<th class="tableHeader"><span id="p_s_last10matches"></span></th>
+						<th class="tableHeader" colspan="3">{{tableHeader.championName}}</th>
+						<th class="tableHeader">{{tableHeader.summonerName}}</th>
+						<th class="tableHeader"></th>
+						<th class="tableHeader">{{tableHeader.league}}</th>
+						<th class="tableHeader">{{tableHeader.winLoss}}</th>
+						<th class="tableHeader">{{tableHeader.kda}}</th>
+						<th class="tableHeader">{{tableHeader.runes}}</th>
+						<th class="tableHeader">{{tableHeader.mastery}}</th>
+						<th class="tableHeader">{{tableHeader.last10matches}}</th>
 					</tr>
 					<tr>
 						<td class="separateLine" id="lineTop" colspan="11"></td>
