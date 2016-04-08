@@ -18,8 +18,8 @@ MongoClient.connect(url, function(err, db) {
 
 
     //champion
-    var collection = db.collection('summoner');
-    file.readFile('../web/resources/6.2.1/data/en_US/summoner.json', function(data) {
+    var collection = db.collection('champion');
+    file.readFile('../web/resources/6.6.1/data/en_US/champion.json', function(data) {
         collection.insertOne(data, function(err, result) {
             if (err) logger.trace(err);
         });
@@ -27,28 +27,28 @@ MongoClient.connect(url, function(err, db) {
     /*
     //championFull
     collection = db.collection('championFull');
-    file.readFile('../web/resources/5.7.2/data/en_US/championFull.json', function(data) {
+    file.readFile('../web/resources/6.6.1/data/en_US/championFull.json', function(data) {
         collection.insertOne(data, function(err, result) {
             if (err) logger.trace(err);
         });
     });
     //mastery
     collection = db.collection('mastery');
-    file.readFile('../web/resources/5.7.2/data/en_US/mastery.json', function(data) {
+    file.readFile('../web/resources/6.6.1/data/en_US/mastery.json', function(data) {
         collection.insertOne(data, function(err, result) {
             if (err) logger.trace(err);
         });
     });
     //summoner spell
     collection = db.collection('summoner');
-    file.readFile('../web/resources/5.7.2/data/en_US/summoner.json', function(data) {
+    file.readFile('../web/resources/6.6.1/data/en_US/summoner.json', function(data) {
         collection.insertOne(data, function(err, result) {
             if (err) logger.trace(err);
         });
     });
     //item
     collection = db.collection('item');
-    file.readFile('../web/resources/5.7.2/data/en_US/item.json', function(data) {
+    file.readFile('../web/resources/6.6.1/data/en_US/item.json', function(data) {
         collection.insertOne(data, function(err, result) {
             if (err) logger.trace(err);
         });
@@ -57,7 +57,7 @@ MongoClient.connect(url, function(err, db) {
 
     //rune
     collection = db.collection('rune');
-    file.readFile_rune('../web/resources/5.7.2/data/en_US/rune.json', function(data) {
+    file.readFile_rune('../web/resources/6.6.1/data/en_US/rune.json', function(data) {
         collection.insertOne(data, function(err, result) {
             if (err) logger.trace(err);
         });

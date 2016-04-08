@@ -1,7 +1,7 @@
 /**
  * Created by admin on 15-03-05.
  */
-var staticDataVersion = '6.6.1';
+var staticDataVersion = '6.7.1';
 var localDataVersion = '6.6.1';
 
 $(document).ready(function() {
@@ -9,27 +9,25 @@ $(document).ready(function() {
     var app = angular.module('nevergg',[]);
     app.controller('wholePage', function ($scope, $http) {
 
-        $('#p_s_champion_name' ).html('Champion');
-        $('#p_s_summoner_name' ).html('Summoner');
-        //$('#p_s_summoner_mmr' ).html('MMR');
-        $('#p_s_summoner_league' ).html('League');
-        $('#p_s_summoner_winLoss' ).html('W/L');
-        $('#p_s_champion_kda' ).html('KDA');
-        $('#p_s_runes' ).html('Runes');
-        $('#p_s_last10matches' ).html('Last 10');
-        $('#p_s_mastery' ).html('Mastery');
-        
-        
-        $scope.tableHeader = {
-            championName: 'Champion',
-            summonerName: 'Summoner',
-            league: 'League',
-            winLoss: 'W/L',
-            kda: 'KDA',
-            runes: 'Runes',
-            last10matches: 'Last 10',
-            mastery: 'Mastery'
-        };
+        // $('#p_s_champion_name' ).html('Champion');
+        // $('#p_s_summoner_name' ).html('Summoner');
+        // //$('#p_s_summoner_mmr' ).html('MMR');
+        // $('#p_s_summoner_league' ).html('League');
+        // $('#p_s_summoner_winLoss' ).html('W/L');
+        // $('#p_s_champion_kda' ).html('KDA');
+        // $('#p_s_runes' ).html('Runes');
+        // $('#p_s_last10matches' ).html('Last 10');
+        // $('#p_s_mastery' ).html('Mastery');
+        // $scope.tableHeader = {
+        //     championName: 'Champion',
+        //     summonerName: 'Summoner',
+        //     league: 'League',
+        //     winLoss: 'W/L',
+        //     kda: 'KDA',
+        //     runes: 'Runes',
+        //     last10matches: 'Last 10',
+        //     mastery: 'Mastery'
+        // };
 
 
         var REGION = 'na';
@@ -604,6 +602,7 @@ $(document).ready(function() {
         }
 
         function getAllMatches(matches, idObj, table, stats, output) {
+            console.log('getting all matches');
             for (var i in matches) {
                 $.ajax({
                     type: 'GET',
@@ -612,6 +611,7 @@ $(document).ready(function() {
                     success: function(result) {
                         table.matches_box.push(result);
                         if (table.matches_box.length == 10) {
+                            console.log('got all 10 matches');
                             getMatchHistoryDetails(table.matches_box, idObj, table, stats, output);
                         }
 
@@ -625,6 +625,7 @@ $(document).ready(function() {
 
 
         function getMatchHistoryDetails(matches, idObj, table, stats, output) {
+            console.log('getting match history details');
             var tierPath = "../tier/";
             if (matches == undefined) {
                 var fileName = "unknown.png";
@@ -654,7 +655,9 @@ $(document).ready(function() {
             analysisMatchHistory(idObj , matches, function(winner_count, loser_count) {
                 var output = winner_count + "-" + loser_count;
                 $(table.last10matches ).html(output);
-
+                console.log('last10match is out')
+                table.matches_box = [];
+                console.log('cleared match memory');
             })
             $(table.name ).attr('team',table.team);
             $(table.name ).attr('player',table.player);
@@ -672,6 +675,17 @@ $(document).ready(function() {
                 $('#rankTable' ).show();
                 $('.separateLine' ).show();
                 $('#mid-bar-span').show();
+
+                $scope.tableHeader = {
+                    championName: 'Champion',
+                    summonerName: 'Summoner',
+                    league: 'League',
+                    winLoss: 'W/L',
+                    kda: 'KDA',
+                    runes: 'Runes',
+                    last10matches: 'Last 10',
+                    mastery: 'Mastery'
+                };
             }
             else {
                 setTimeout(function(){
@@ -1359,12 +1373,10 @@ $(document).ready(function() {
         }
 
         function integrateRunes(runeArray) {
-            console.log(runeArray);
+            // console.log(runeArray);
             for (var i in runeArray) {
                 for (var j in runeArray) {
                     if (i != j) {
-                        //console.log('rune['+i+']= '+runeArray[i])
-                        //console.log('rune['+j+']= '+runeArray[j])
                         var point1 = runeArray[i].indexOf(' ');
                         var point2 = runeArray[j].indexOf(' ');
                         var one = runeArray[i].substr(point1);
@@ -1605,10 +1617,10 @@ $(document).ready(function() {
         }
 
 
-        
-        
+
+
     })
-    
+
 });
 
 function getSummonersByTeam(participants, next) {

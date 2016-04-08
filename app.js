@@ -46,14 +46,14 @@ MongoClient.connect( url , function (err , db) {
         var region = req.param('region');
         var fixedName = fixName( name );
         var collection = db.collection( 'playerData' );
-        collection.findOne( {'fixedName' : fixedName, 'region': region} , function (err , result) {
+        collection.find( {'fixedName' : fixedName, 'region': region}).toArray(function (err , result) {
             logger.trace( 'getting data of summoner %s from db...' , name );
             if ( err ) {
                 logger.error( 'error getting summoner data from db' )
             }
-            if ( result == null ) {
+            if ( result[0] == null ) {
                 logger.trace( 'It did not find summoner %s in db, going to query from lol API...' , name );
-                lolAPI.Summoner.getByName( name , {region : region} , function (err , result) {
+                leagueAPI.Summoner.getByName( name , {region : region} , function (err , result) {
                     if ( err ) {
                         logger.trace( 'error getting summoner by id' );
                         res.json( {ret : 1} );
@@ -76,8 +76,8 @@ MongoClient.connect( url , function (err , db) {
                 } );
             }
             else {
-                logger.trace( 'Got summoner data from db...' , result );
-                res.json( result );
+                logger.trace( 'Got summoner data from db...' , result[0] );
+                res.json( result[0] );
             }
         } )
 
@@ -262,7 +262,7 @@ MongoClient.connect( url , function (err , db) {
         var region = req.param('region');
         id = Number( id );
         logger.trace( 'getting rank stats...' );
-        leagueAPI.Stats.getRanked( id , null, region, function (err , result) {
+        leagueAPI.Stats.getRanked( id, 2016, region, function (err , result) {
             if ( err ) {
                 logger.trace( 'Summoner %d has no rank stats' , id );
                 res.json( {ret : 1} );
@@ -277,7 +277,7 @@ MongoClient.connect( url , function (err , db) {
     app.get( route + '/summoner/summary' , function (req , res) {
         var id = req.param( 'summonerId' );
         id = Number( id );
-        leagueAPI.Stats.getPlayerSummary( id , null , REGION , function (err , result) {
+        leagueAPI.Stats.getPlayerSummary( id , 2016 , REGION , function (err , result) {
             if ( err ) {
                 outPutErr( res , 500 , err )
             }
@@ -286,7 +286,7 @@ MongoClient.connect( url , function (err , db) {
         } );
     } )
 
-    var matchHistoryOpt = {seasons: 'SEASON2016',rankedQueues : ['TEAM_BUILDER_DRAFT_RANKED_5x5'] , beginIndex : '0' , endIndex : '10'};
+    var matchHistoryOpt = {seasons: '2016',rankedQueues : ['TEAM_BUILDER_DRAFT_RANKED_5x5'] , beginIndex : '0' , endIndex : '10'};
     app.get( route + '/summoner/matchHistory' , function (req , res) {
         var id = req.param( 'summonerId' );
         var region = req.param('region');
@@ -306,8 +306,8 @@ MongoClient.connect( url , function (err , db) {
 
     app.get( route + '/summoner/matchHistoryDetails' , function (req , res) {
         var matchId = req.param('matchId');
-            lolAPI.Match.get(matchId, function(err, result){
-                if (err) logger.trace('err getting single match');
+            leagueAPI.getMatch(matchId, function(err, result){
+                if (err) logger.trace('err getting single match', result);
                 logger.trace('got individual match details', matchId);
                 res.json(result);
 
@@ -348,12 +348,13 @@ MongoClient.connect( url , function (err , db) {
         logger.trace( 'getting champion data from db...' );
         var collection = db.collection( 'champion' );
         var id = req.param( 'championId' );
-        collection.findOne( {key : id.toString()} , {fields : {'image' : 1 , 'id' : 1}} , function (err , doc) {
+        collection.find( {key : id.toString()} , {fields : {'image' : 1 , 'id' : 1}}).toArray(function (err , doc) {
             if ( err ) {
                 logger.trace( 'Error getting champion from db' );
                 res.json( {ret : 1} );
             }
             else {
+                doc = doc[0];
                 var championData = {
                     name : doc.id , iconName : doc.image.full
                 }
@@ -367,12 +368,13 @@ MongoClient.connect( url , function (err , db) {
         logger.trace( 'getting rune data from db...' );
         var collection = db.collection( 'rune' );
         var id = req.param( 'runeId' );
-        collection.findOne( {'key' : id} , {fields : {'description' : 1 , 'stats' : 1}} , function (err , doc) {
+        collection.find( {'key' : id} , {fields : {'description' : 1 , 'stats' : 1}}).toArray(function (err , doc) {
             if ( err ) {
                 logger.trace( 'Error getting rune from db' );
                 res.json( {ret : 1} );
             }
             else {
+                doc = doc[0];
                 var runeData = {
                     description : doc.description , stats : doc.stats
                 }
@@ -385,12 +387,13 @@ MongoClient.connect( url , function (err , db) {
         logger.trace( 'getting summoner spell from db...' );
         var collection = db.collection( 'summoner' );
         var id = req.param( 'spellId' );
-        collection.findOne( {'key' : id.toString()} , {fields : {'image.full' : 1}} , function (err , doc) {
+        collection.find( {'key' : id.toString()} , {fields : {'image.full' : 1}}).toArray(function (err , doc) {
             if ( err ) {
                 logger.trace( 'Error getting summoner spell from db' );
                 res.json( {ret : 1} );
             }
             else {
+                doc = doc[0];
                 var spellData = {
                     image : doc.image.full
                 }
