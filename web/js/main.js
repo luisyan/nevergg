@@ -1,8 +1,8 @@
 /**
  * Created by admin on 15-03-05.
  */
-var staticDataVersion = '6.7.1';
-var localDataVersion = '6.6.1';
+var staticDataVersion = '6.10.1';
+var localDataVersion = '6.10.1';
 
 $(document).ready(function() {
 
