@@ -10,8 +10,8 @@ var mmr = require( 'opgg-mmr' );
 var MongoClient = require( 'mongodb' ).MongoClient;
 var leagueAPI = require( 'leagueapi' );
 
-var lolAPI = require( 'lolapi' )( '209ebe2d-e2dd-444a-8181-c3c95f15d8c2' , REGION );
-leagueAPI.init( '209ebe2d-e2dd-444a-8181-c3c95f15d8c2' , REGION );
+var lolAPI = require( 'lolapi' )( '' , REGION ); // deleted key for security reason
+leagueAPI.init( '' , REGION ); // deleted key for security reason
 leagueAPI.setRateLimit( 3000 , 180000 );
 lolAPI.setRateLimit( 3000 , 180000 );
 
